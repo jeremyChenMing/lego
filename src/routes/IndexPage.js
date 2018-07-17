@@ -14,6 +14,7 @@ class IndexPage extends React.Component {
 
   render() {
     const { location } = this.props;
+    console.log(location)
     return (
       <MainLayout location={location}>
         <div >
