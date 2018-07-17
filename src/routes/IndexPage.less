@@ -1,0 +1,122 @@
+
+.normal {
+  font-family: Georgia, sans-serif;
+  margin-top: 3em;
+  text-align: center;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  letter-spacing: -1px;
+}
+
+.welcome {
+  height: 328px;
+  background: url(../assets/yay.jpg) no-repeat center 0;
+  background-size: 388px 328px;
+}
+
+.list {
+  font-size: 1.2em;
+  margin-top: 1.8em;
+  list-style: none;
+  line-height: 1.5em;
+}
+
+.list code {
+  background: #f7f7f7;
+}
+
+.txt{
+  font-size: 30px;
+  text-align: center;
+}
+
+.box{
+  position: relative;
+
+  .drag{
+    position: absolute;
+    left: 0;top: 0;
+  }
+}
+
+.home{
+  height: 100%;
+  overflow: hidden;
+  .header{
+    background-color: #2195F2;
+    height: 60px;
+    line-height: 60px;
+    color: #fff;
+    font-weight: bolder;
+  }
+}
+
+
+.link{
+  display: block;
+  line-height: 42px;
+  font-size: 16px;
+  padding-left: 20px;
+  text-decoration: none;
+}
+.actives{
+  border-right: 4px solid #2195F2;
+  background-color: #fff;
+}
+
+.navs{
+  padding-left: 100px;
+  .nav{
+    display: inline-block;
+    width: 100px;
+    height: 60px;
+    color: #fff;
+    text-align: center;
+    border-bottom: 4px solid transparent;
+    box-sizing: border-box;
+  }
+  .headActive{
+    border-bottom: 4px solid #fff;
+    // background-color: #fff;
+  }  
+}
+
+
+.box{
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transform: translateX(100px);
+}
+// :global{
+//   .over{
+//     animation:mymove 5s infinite;
+//   }
+//   @keyframes mymove {
+//     from { transform: translateX(0px) }
+//     to { transform: translateX(200px) }
+//   }
+// }
+
+.over{
+  animation:mymove 5s infinite;
+}
+@keyframes mymove {
+  from { transform: translateX(0px) }
+  to { transform: translateX(200px) }
+}
+
+
+:global{
+  .box{
+    width: 100px;
+    height: 100px;
+    background: #ffc;
+  }
+};
+
+
+
