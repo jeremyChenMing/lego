@@ -1,8 +1,6 @@
 
 .mark{
-  height: 252px;
   width: 232px;
-  background-color: #ffc;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -12,7 +10,46 @@
 
 
 .modelBox{
-
+  background-color: #fff;
+  .imgs{
+    height: 252px;
+    background: url('../assets/produce.png') no-repeat center center;
+    background-size: 100% 100%;
+  }
+  .con{
+    padding: 10px 20px;
+    text-align: left;
+    & > p{
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    & > span{
+      color: #c9c9c9;
+      cursor: pointer;
+    }
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .footBox{
+    display: flex;
+    padding: 10px 20px;
+    .left{
+      text-align: left;
+      line-height: 24px;
+    }
+    .mid{
+      flex: 1;
+      text-align: left;
+      padding-left: 10px;
+      font-weight: bold;
+    }
+    .right{
+      text-align: right;
+      line-height: 24px;
+      font-size: 12px;
+      color: #c9c9c9;
+    }
+  }
 }
 
 

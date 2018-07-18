@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import l from './HotWorks.less';
 import ScrollReveal from 'scrollreveal'
-import { Pagination } from 'antd'
+import { Pagination, Icon, Avatar  } from 'antd'
 
 
 export class Model extends React.Component {
@@ -17,7 +17,21 @@ export class Model extends React.Component {
   render() {
     return (
       <div className={cx(l.modelBox)}>
-        {this.props.keys}
+        <div className={cx(l.imgs)}></div>
+        <div className={cx(l.con)}>
+          <h4>设计大师</h4>
+          <p>拼装 - 汽车</p>
+          <span><Icon type="eye-o" />1555</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span><Icon type="like-o" />2215</span>
+        </div>
+        <div className={cx(l.footBox)}>
+          <div className={cx(l.left)}>
+            <Avatar size="small" icon="user" />
+          </div>
+          <div className={cx(l.mid)}>name</div>
+          <div className={cx(l.right)}>12天前</div>
+        </div>
       </div>
     );
   }
