@@ -11,7 +11,7 @@ class Header extends React.Component {
     super(props);
     this.state = {
       nav: [
-        {name: '作品', path: '/main'},
+        {name: '作品', path: '/main/hot'},
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/users'},
       ]

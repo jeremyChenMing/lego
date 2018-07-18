@@ -6,6 +6,7 @@ import l from './IndexPage.less'
 import MainLayout from '../components/MainLayout/MainLayout'
 import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/router'
 import HotWorks from '../components/HotWorks'
+import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout;
@@ -64,7 +65,7 @@ class IndexPage extends React.Component {
  
   render() {
     const { location } = this.props;
-    console.log(location)
+    console.log(location.pathname === '/main/hot')
     return (
       <MainLayout location={location}>
         <div className={cx(l.head)}>
@@ -94,13 +95,14 @@ class IndexPage extends React.Component {
 
 
             <div className={cx(l.tabLink)}>
-              <a className={cx(l.ac)}>热门作品</a>
-              <a>查看总榜</a>
+              <a href="#/main/hot" className={cx(l[location.pathname === "/main/hot" ? 'ac' : null])}>热门作品</a>
+              <a href="#/main/total" className={cx(l[location.pathname === "/main/total" ? 'ac' : null])}>查看总榜</a>
             </div>
           </div>
         </div>
         <Switch>
-          <Route path='/main'  component={HotWorks} />
+          <Route path='/main/hot'  component={HotWorks} />
+          <Route path='/main/total'  component={TotalWorks} />
         </Switch>
       </MainLayout>
     );
