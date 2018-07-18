@@ -26,8 +26,8 @@ module.exports = {
   },
   "hash": true,
   "theme": {
-      "@primary-color": "#F4682A",
+      "@primary-color": "#FFD100",
       "@font-size-base": "14px",
-      "@link-color": "#419EE7",
+      "@link-color": "rgba(0, 0, 0, .65)",
   }
 }

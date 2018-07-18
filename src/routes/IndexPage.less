@@ -1,122 +1,142 @@
+@import '../less/index.less';
 
-.normal {
-  font-family: Georgia, sans-serif;
-  margin-top: 3em;
-  text-align: center;
-}
-
-.title {
-  font-size: 2.5rem;
-  font-weight: normal;
-  letter-spacing: -1px;
-}
-
-.welcome {
-  height: 328px;
-  background: url(../assets/yay.jpg) no-repeat center 0;
-  background-size: 388px 328px;
-}
-
-.list {
-  font-size: 1.2em;
-  margin-top: 1.8em;
-  list-style: none;
-  line-height: 1.5em;
-}
-
-.list code {
-  background: #f7f7f7;
-}
-
-.txt{
-  font-size: 30px;
-  text-align: center;
-}
-
-.box{
-  position: relative;
-
-  .drag{
-    position: absolute;
-    left: 0;top: 0;
-  }
-}
-
-.home{
-  height: 100%;
-  overflow: hidden;
-  .header{
-    background-color: #2195F2;
-    height: 60px;
-    line-height: 60px;
-    color: #fff;
-    font-weight: bolder;
-  }
-}
-
-
-.link{
-  display: block;
-  line-height: 42px;
-  font-size: 16px;
-  padding-left: 20px;
-  text-decoration: none;
-}
-.actives{
-  border-right: 4px solid #2195F2;
+.head{
+  padding-top: 26px;
   background-color: #fff;
+  min-height: 400px;
 }
 
-.navs{
-  padding-left: 100px;
-  .nav{
-    display: inline-block;
-    width: 100px;
-    height: 60px;
+.bgs{
+  background-color: #ccf;
+  height: 480px;
+  line-height: 480px;
+  overflow: hidden;
+  text-align: center;
+  background: url('../assets/lunbo.png') no-repeat center center;
+  & > h3{
     color: #fff;
-    text-align: center;
-    border-bottom: 4px solid transparent;
-    box-sizing: border-box;
   }
-  .headActive{
-    border-bottom: 4px solid #fff;
-    // background-color: #fff;
-  }  
 }
+.hotBox{
+  margin: 10px 0;
+  line-height: 32px;
+  font-weight: bold;
+  .l_hot{
 
-
-.box{
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  transform: translateX(100px);
-}
-// :global{
-//   .over{
-//     animation:mymove 5s infinite;
-//   }
-//   @keyframes mymove {
-//     from { transform: translateX(0px) }
-//     to { transform: translateX(200px) }
-//   }
-// }
-
-.over{
-  animation:mymove 5s infinite;
-}
-@keyframes mymove {
-  from { transform: translateX(0px) }
-  to { transform: translateX(200px) }
-}
-
-
-:global{
-  .box{
-    width: 100px;
-    height: 100px;
-    background: #ffc;
   }
-};
+  .r_hot{
+    text-align: right;
+  }
+}
+.tabLink{
+  text-align: center;
+  & > a{
+    display: inline-block;
+    margin: 0 20px;
+    line-height: 42px;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+  }
+  .ac{
+    border-color: #000;
+    color: #000;
+    font-size: 16px;
+  }
+}
+
+.gutterBox{
+  display: flex;
+  margin-bottom: 20px;
+  .gutter_row{
+    flex: 1;
+    background-color: #ffc;
+  }
+  .mar{
+    margin-right: 20px;
+  }
+}
+
+.cellBox{
+  text-align: center;
+  border-radius: 5px;
+  height: 226px;
+  position: relative;
+  cursor: pointer;
+  .avart{
+    width: 80px;
+    margin-top: 20px;
+  }
+  p{
+    margin-bottom: 8px;
+  }
+  p:nth-child(2){
+    color: #fff;
+    font-size: 14px;
+  }
+  .txt{
+    display: flex;
+    color: rgba(255, 255, 255, .7);
+    font-size: 12px;
+  }
+  .line{
+    padding-top: 1px;
+    & > i{
+      display: inline-block;
+      width: 2px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, .7);
+    }
+  }
+  .l_label{
+    // border-right: 1px solid rgba(255, 255, 255, .7);
+    padding-right: 5px;
+    text-align: right;
+    flex: 1;
+  }
+  .r_label{
+    padding-left: 5px;
+    // border-left: 1px solid rgba(255, 255, 255, .7);
+    text-align: left;
+    flex: 1;
+  }
+  .btn{
+    width: 80%;
+    margin-top: 10px;
+    color: #282828;
+  }
+  .grays{
+    background-color: #D2D0D1;
+    border-color: #D2D0D1;
+  }
+  
+}
+.background-image-2x(@name;@ext:png) {
+  background: url('../assets/@{name}.@{ext}') no-repeat center center;
+}
+.auth1{
+  .background-image-2x('auth1');
+}
+.auth2{
+  .background-image-2x('auth2');
+}
+.auth3{
+  .background-image-2x('auth3');
+}
+.auth4{
+  .background-image-2x('auth4');
+}
+.auth5{
+  .background-image-2x('auth5');
+}
+
+
+
+
+
+
+
+
+
 
 
 

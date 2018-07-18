@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Route, Switch, BrowserRouter } from 'dva/router'
+import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/router'
 import dynamic from 'dva/dynamic'
 
 function RouterConfig ({ history, app }) {
@@ -16,7 +16,9 @@ function RouterConfig ({ history, app }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path='/' exact component={IndexPage} />
+        <Route path='/' exact render={() => <Redirect to="/main"/>}  />
+        <Route path='/main'  component={IndexPage} />
+        <Route path='/shop'  component={IndexPage} />
         <Route path='/users' component={Users} />
       </Switch>
     </Router>

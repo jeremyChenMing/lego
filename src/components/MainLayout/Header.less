@@ -1,0 +1,77 @@
+@import '../../less/index.less';
+
+.headerBox{
+  background-color: @theme-color;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  .header{
+    line-height: 46px;
+    height: 46px;
+  }
+  .left{
+
+  }
+  .right{
+    text-align: right;
+    & > a{
+      display: inline-block;
+      height: 100%;
+      padding: 0 20px;
+    }
+    a:hover{
+      color: #000;
+    };
+  }
+  .avatar{
+    text-align: right;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
+  }
+}
+.menuItems{
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    a{
+      // color: #fff;
+    }
+    
+}
+.menuItems::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  width: 0;
+  height: 2px;
+  border-bottom: 2px solid #000;
+  transition: all ease-in .2s;
+}
+.menuItems:hover::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.menuItems:hover ~ .menuItems::before {
+  left: 0;
+}
+.active::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.active{
+  color: #000;
+}
+

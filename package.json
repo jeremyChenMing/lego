@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "PORT=7000 roadhog server",
+    "start": "PORT=7600 roadhog server",
     "build": "roadhog build",
     "autofixs": "standard --fix",
     "check": "echo 'start checking codes place waiting.....' && standard"
@@ -23,6 +23,7 @@
     "react-collapse": "^4.0.3",
     "react-dom": "^15.4.0",
     "react-motion": "^0.5.2",
+    "scrollreveal": "^3.4.0",
     "react-transition-group": "^2.4.0"
   },
   "devDependencies": {
