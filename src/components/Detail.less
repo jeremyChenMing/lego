@@ -1,0 +1,237 @@
+
+@import '../less/index.less';
+
+.boxes{
+  width: 100%;
+  // height: 200px;
+  margin: 90px auto 50px;
+  position: relative;
+  padding: 0 100px;
+  .proBox{
+    height: 20px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #eaeaea;
+    border-radius: 10px;
+  }
+  .progress{
+    // width: 80%;
+    height: 100%;
+    border-radius: 10px;
+    background: repeating-linear-gradient(-45deg, #ffd100, #ffd100 15px, #ffda33 0, #ffda33 30px);
+  }
+  .pro{
+    padding: 0 60px;
+  }
+  .mar{
+    margin-left: calc(100% - 480px); 
+    margin-left: 146.66px; 
+  }
+  .con{
+    margin-top: -40px;
+    .cell{
+      // width: 120px;
+      text-align: center;
+      display: inline-block;
+      & > i{
+        display: block;
+        font-style: normal;
+      }
+      i{
+        font-style: normal;
+      }
+      .dot{
+        display: inline-block;
+        height: 60px;
+        width: 60px;
+        // background-color: rgba(230, 230, 122, 1);
+        // background-color: @theme-color;
+        background-color: #fff;
+        text-align: center;
+        line-height: 60px;
+        border-radius: 50%;
+      }
+      .complate{
+        background-color: @theme-color;
+      }
+      .h1{
+        font-size: 16px;
+        font-weight: bold;
+        padding-top: 10px;
+      }
+      .num{
+        font-size: 12px;
+        color: #585858;
+      }
+    }   
+    
+  }
+}
+
+
+.headerBox{
+  height: 400px;
+  display: flex;
+  // margin-bottom: 300px;
+  overflow: hidden;
+  .left{
+    flex: 1;
+    & > img{
+      width: 100%;
+    }
+  }
+  .right{
+    padding-left: 20px;
+    .top{
+      height: 190px;
+      width: 250px;
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: #fff;
+      text-align: center;
+      & > img{
+        height: 50px;
+        width: 50px;
+        // margin-top: 20px;
+      }
+      .txt{
+        display: flex;
+        color: #c9c9c9;
+        font-size: 14px;
+        line-height: 32px;
+      }
+      .line{
+        padding-top: 1px;
+        & > i{
+          display: inline-block;
+          width: 2px;
+          height: 10px;
+          background-color: #c9c9c9;
+        }
+      }
+      .l_label{
+        padding-right: 5px;
+        text-align: right;
+        flex: 1;
+      }
+      .r_label{
+        padding-left: 5px;
+        text-align: left;
+        flex: 1;
+      }
+    }
+    .btm{
+      padding: 20px;
+      height: 190px;
+      width: 250px;
+      background-color: #fff;
+      text-align: center;
+      & > h1{
+        font-size: 20px;
+      }
+      .love{
+        padding-bottom: 30px;
+        font-size: 18px;
+        .red{
+          color: red;
+        }
+      }
+    }
+  }
+}
+
+
+.btn{
+  font-size: 14px;
+  color: #000;
+  border-radius: 20px;
+  &:hover{
+    // color: #000;
+  }
+}
+.commentBox{
+  margin-top: 50px;
+  background-color: #fff;
+  min-height: 1200px;
+  .ttxt{
+    padding: 30px 100px 10px;
+    border-bottom: 1px solid rgba(230,230,230,1);
+  }
+  & > p{
+
+  }
+
+  .cons{
+    padding: 30px 100px;
+    text-align: right;
+    color: #000;
+    border-bottom: 1px solid rgba(230,230,230,1);
+  }
+  .total{
+    padding: 20px 100px;
+  }
+  .commentList{
+    padding: 0px 100px;
+    & > li{
+      display: flex;
+      border-bottom: 1px solid rgba(230,230,230,1);
+      img{
+        height: 60px
+      }
+      .avarBox{
+        padding-right: 20px;
+      }
+      .con{
+        flex: 1;
+        & p{
+          line-height: 32px;
+        }
+        .name{
+          font-size: 16px;
+          .time{
+            color: #c9c9c9;
+            padding-left: 40px;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .contain{
+      background-color: #f4f4f4;
+      min-height: 100px;
+      position: relative;
+      margin-top: 10px;
+      padding: 10px 20px;
+      &::before{
+        content: '';
+        display: block;
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        left: 30px;
+        top: -24px;
+        border-top: 12px solid transparent;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-bottom: 12px solid #f4f4f4;
+      }
+    }
+    .ll{
+
+    }
+
+    .iconList{
+      text-align: right;
+      padding: 15px 0;
+      .ii{
+        cursor: pointer;
+        font-size: 16px;
+        margin-left: 30px;
+      }
+    }
+  }
+}
+
+
+

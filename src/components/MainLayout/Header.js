@@ -14,23 +14,39 @@ class Header extends React.Component {
         {name: '作品', path: '/main/hot'},
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/users'},
-      ]
+      ],
+      active: 0,
     }
   }
-
+  componentDidMount() {
+    const { location: {pathname} } = this.props;
+    if (pathname.indexOf('main')) {
+      this.setState({
+        active: 0
+      })
+    }else if (pathname.indexOf('shop')) {
+      this.setState({
+        active: 1
+      })
+    }else if (pathname.indexOf('us')) {
+      this.setState({
+        active: 2
+      })
+    }
+  }
   render() {
     const { location } = this.props;
-    const { nav } = this.state;
+    const { nav, active } = this.state;
     return (
       <div className={cx(l.headerBox)}>
         <Row className={cx(l.header, 'main_container')}>
           <Col span={4} className={cx(l.left)}>
-            brickFUN
+            <img src="/img/brickFUN.png" alt=""/>
           </Col>
           <Col span={17} className={cx(l.right)}>
             {
               nav.map( (item,index) => {
-                return <Link className={cx(l.menuItems, l[('/#' + location.pathname).indexOf(item.path) !== -1 ? 'active' : null])} key={index} to={item.path}>{item.name}</Link> 
+                return <Link className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index} to={item.path}>{item.name}</Link> 
               })
             }
           </Col>

@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import { connect } from 'dva'
 import cx from 'classnames';
 import l from './IndexPage.less'

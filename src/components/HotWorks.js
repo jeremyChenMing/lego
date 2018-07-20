@@ -13,10 +13,12 @@ export class Model extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  link = (id, type) => {
+    document.location.href = `#/main/detail?id=${id}&type=${type}`
+  }
   render() {
     return (
-      <div className={cx(l.modelBox)}>
+      <div onClick={this.link.bind(null, '888', 'hot')} className={cx(l.modelBox)}>
         <div className={cx(l.imgs)}></div>
         <div className={cx(l.con)}>
           <h4>设计大师</h4>
