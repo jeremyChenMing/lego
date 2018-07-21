@@ -70,7 +70,7 @@ class Detail extends React.Component {
                 <h1>FERRARI 250gto</h1>
                 <div className={cx(l.love)}><Icon type="heart" className={cx(l.red)} />&nbsp;+2483票</div>
                 <div>
-                  <Button className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px'}}>给他投票</Button>
+                  <Button className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
                   <Button className={cx(l.btn)} disabled type="primary" size="large">众筹产品</Button>
                 </div>
               </div>
@@ -90,32 +90,42 @@ class Detail extends React.Component {
 
             <h3 className={cx(l.total)}>全部评论： <span style={{color: '#c9c9c9'}}>26</span></h3>
             <ul className={cx(l.commentList)}>
-              <li className={cx(l.list)}>
-                <div className={cx(l.avarBox)}>
-                  <img src="/img/avart1.png" alt=""/>
-                </div>
-                <div className={cx(l.con)}>
-                  <p className={cx(l.name)}>CERAS <span className={cx(l.time)}>16天前</span></p>
-                  <p>评论什么呢写啥啊不知道写啥......</p>
-                  <div className={cx(l.contain)}>
-                    {
-                      [''].map( (item,index) => {
-                        return(
-                          <div className={cx(l.ll)}>
-                            <h3>CHDGE</h3>
-                            <p>我也不知道改说死额了时间！</p>
-                          </div>
-                        )
-                      })
-                    }
-                  </div>
-                  <div className={cx(l.iconList)}>
-                    <Icon type="message" className={cx(l.ii)} />
-                    <Icon type="like-o" className={cx(l.ii)} /> 10
-                  </div>
-                </div>
-              </li>
+              {
+                ['',''].map( (k,n) => {
+                  return(
+                    <li className={cx(l.list)} key={n}>
+                      <div className={cx(l.avarBox)}>
+                        <img src="/img/avart1.png" alt=""/>
+                      </div>
+                      <div className={cx(l.con)}>
+                        <p className={cx(l.name)}>CERAS <span className={cx(l.time)}>16天前</span></p>
+                        <p>评论什么呢写啥啊不知道写啥......</p>
+                        <div className={cx(l.contain)}>
+                          {
+                            [''].map( (item,index) => {
+                              return(
+                                <div className={cx(l.ll)}>
+                                  <h3>CHDGE</h3>
+                                  <p>我也不知道改说死额了时间！</p>
+                                </div>
+                              )
+                            })
+                          }
+                        </div>
+                        <div className={cx(l.iconList)}>
+                          <Icon type="message" className={cx(l.ii)} />
+                          <Icon type="like-o" className={cx(l.ii)} /> 10
+                        </div>
+                      </div>
+                    </li>
+                  )
+                })
+              }
             </ul>
+            <div className={cx(l.more)}>
+              <a  href="javascript:;">加载更多</a>
+            </div>
+            
           </div>
         </div>
       </MainLayout>

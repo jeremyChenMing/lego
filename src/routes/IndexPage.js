@@ -77,7 +77,7 @@ class IndexPage extends React.Component {
             </Carousel>
             <Row className={cx(l.hotBox)}>
               <Col span={12} className={cx(l.l_hot)}>热门作者</Col>
-              <Col span={12} className={cx(l.r_hot)}><a>查看总榜</a></Col>
+              <Col span={12} className={cx(l.r_hot)}><a href="#/main/author">查看总榜</a></Col>
             </Row>
 
             <div className={cx(l.gutterBox)}>

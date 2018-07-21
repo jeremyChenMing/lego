@@ -1,0 +1,151 @@
+@import '../less/index.less';
+
+
+.imgs{
+  width: 100%;
+  background-color: #fff;
+  .img{
+    display: flex;
+    & > li{
+      flex: 1;
+      height: 300px;
+      background-color: #ffc;
+      background: url('../assets/produce.png') no-repeat center center;
+    }
+  }
+}
+
+.navs{
+  padding-top: 20px;
+  background-color: #fff;
+  text-align: center;
+  & > span{
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+}
+.menuItems{
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    a{
+      // color: #fff;
+    }
+    
+}
+.menuItems::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  width: 0;
+  height: 2px;
+  border-bottom: 2px solid #000;
+  transition: all ease-in .2s;
+}
+.menuItems:hover::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.menuItems:hover ~ .menuItems::before {
+  left: 0;
+}
+.active::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.active{
+  color: #000;
+}
+
+
+
+
+
+.hots{
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 500px;
+}
+.mark{
+  width: 224px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.mar{
+  margin-right: 20px;
+}
+.pageBox{
+    padding: 0px 0 20px;
+    text-align: center;
+    & > ul{
+      display: inline-block;
+    }
+  }
+.modelBox{
+  background-color: #fff;
+  .imgs{
+    height: 252px;
+    background: url('../assets/produce.png') no-repeat center center;
+    background-size: 100% 100%;
+    position: relative;
+    .buys{
+      position: absolute;
+      bottom: -18px;
+      right: 10px;
+      background-color: red;
+      color: #fff;
+      border-radius: 5px;
+      padding: 3px 10px;
+      i:nth-child(1){
+        font-size: 20px;
+        font-style: normal;
+      }
+      i:nth-child(2){
+        font-size: 12px;
+        padding-left: 5px;
+      }
+    }
+  }
+  .con{
+    padding: 10px 20px;
+    text-align: left;
+    & > p{
+      color: #888;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    & > span{
+      color: #c9c9c9;
+      cursor: pointer;
+    }
+    border-bottom: 1px solid #e3e3e3;
+  }
+  .btnBox{
+    text-align: center;
+    padding: 10px 0 20px;
+    width: 100%;
+    .btns{
+      border-radius: 20px;
+      width: 70%;
+    }
+  }
+}
+
+
+
+
+
+
+

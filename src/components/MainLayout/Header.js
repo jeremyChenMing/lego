@@ -52,12 +52,12 @@ class Header extends React.Component {
           </Col>
           <Col span={3} className={cx(l.avatar)}>
             {
-              true ?
+              false ?
               <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
               :
               <span>
-                <a>登录</a>
-                <span className="ant-divider" />
+                <a href="#/login">登录</a>
+                <span className="ant-divider" style={{backgroundColor: '#000'}}/>
                 <a>注册</a>
               </span>
             }

@@ -24,6 +24,7 @@
     "react-dom": "^15.4.0",
     "react-motion": "^0.5.2",
     "scrollreveal": "^3.4.0",
+    "redux-form": "^7.0.4",
     "react-transition-group": "^2.4.0"
   },
   "devDependencies": {

@@ -1,0 +1,177 @@
+
+
+.loginBox{
+  width: 100%;
+  height: 100%;
+  background: no-repeat center center;
+  // background-image: url('../assets/yay.jpg');
+  // background-size: cover;
+  position: relative;
+  padding-top: 80px;
+  text-align: center;
+  color: #fff;
+  background-color: #fcc;
+  .logo{
+    padding-left: 140px;
+    height: 40px;
+    background: url('../assets/brickFUN.png') no-repeat left center;
+    display: inline-block;
+    font-size: 30px;
+    line-height: 40px;
+  }
+  & > p{
+    font-size: 16px;
+    margin: 30px 55px;
+  }
+}
+
+.login{
+  width: 500px;
+  margin: 0 auto;
+  min-height: 200px;
+  background-color: #fff;
+  color: rgba(0, 0, 0, .9);
+  padding: 40px;
+  border-radius: 5px;
+  position: relative;
+  .nav{
+    border-bottom: 1px solid #c9c9c9;
+    text-align: left;
+    & > span{
+      display: inline-block;
+      margin-right: 30px;
+      font-size: 16px;
+    }
+  }
+  .login_form{
+    text-align: left;
+    padding: 40px 0 0;
+    input{
+      font-size: 18px;
+    }
+  }
+  .login_form_button{
+    width: 100%;
+    margin-top: 10px;
+    height: 42px;
+    line-height: 42px;
+  }
+  h3{
+    font-size: 18px;
+    color: #b0b0b0;
+    margin: 40px 0 20px;
+  }
+  .log{
+     & > span{
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-color: #ddd;
+      border-radius: 50%;
+      cursor: pointer;
+     }
+  }
+  .code{
+    position: relative;
+    & > a{
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      z-index: 1;
+      color: rgba(0, 0, 0, .6);
+      font-size: 16px;
+      &:hover{
+        color: rgba(0, 0, 0, 1);
+      }
+    }
+  }
+  .qrBox{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    background-color: #fcf;
+    cursor: pointer;
+  }
+  .pcBox{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 60px;
+    height: 60px;
+    background-color: #ffc;
+    cursor: pointer;
+  }
+  h2{
+    border-bottom: 1px solid #c9c9c9;
+    text-align: left;
+    padding: 0px 0 15px;
+  }
+  .qr{
+    text-align: center;
+    padding: 40px 0 20px;
+    .qrImg{
+      width: 250px;
+      height: 250px;
+      background-color: #cff;
+      margin: 0 auto;
+    }
+    & > p{
+      font-size: 16px;
+      color: #b0b0b0;
+      margin: 10px 0;
+    }
+  }
+  .txt{
+    
+    & > a{
+      color: #b0b0b0;
+    }
+  }
+}
+
+
+
+
+.menuItems{
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    a{
+      // color: #fff;
+    }
+    
+}
+.menuItems::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  width: 0;
+  height: 2px;
+  border-bottom: 2px solid #000;
+  transition: all ease-in .2s;
+}
+.menuItems:hover::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.menuItems:hover ~ .menuItems::before {
+  left: 0;
+}
+.active::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.active{
+  color: #000;
+}

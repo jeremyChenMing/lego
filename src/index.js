@@ -1,7 +1,7 @@
 import dva from 'dva'
 import createLoading from 'dva-loading'
 import { message } from 'antd'
-// import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer } from 'redux-form'
 import createHistory from 'history/createHashHistory'
 // import createHistory from 'history/createBrowserHistory'
 import './less/index.less'
@@ -11,9 +11,9 @@ const historys = createHistory()
 // 1. Initialize
 const app = dva({
   history: historys,
-  // extraReducers: {
-  //   form: formReducer
-  // },
+  extraReducers: {
+    form: formReducer
+  },
   onError: (e) => {
     message.error(`错误：${e.message}`, 3)
   }

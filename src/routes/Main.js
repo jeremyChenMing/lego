@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { connect } from 'dva'
 import cx from 'classnames';
 import l from './IndexPage.less'
-import MainLayout from '../components/MainLayout/MainLayout'
 import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/router'
 import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
@@ -13,6 +12,8 @@ const { Content, Footer } = Layout;
 
 import IndexPage from './IndexPage'
 import Detail from '../components/Detail'
+import Views from '../components/Views'
+import Author from '../components/Author'
 
 class Main extends React.Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class Main extends React.Component {
           <Route path='/main/hot'  component={IndexPage} />
           <Route path='/main/total'  component={IndexPage} />
           <Route path='/main/detail'  component={Detail} />
+          <Route path='/main/view'  component={Views} />
+          <Route path='/main/author'  component={Author} />
         </Switch>
       </div>
     );

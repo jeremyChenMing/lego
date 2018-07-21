@@ -1,0 +1,130 @@
+
+
+.topBox{
+  width: 100%;
+  height: 430px;
+  background: url('../assets/lunbo.png') no-repeat center center;
+
+  position: relative;
+
+  .avartBox{
+    position: absolute;
+    width: 165px;
+    left: 50%;
+    bottom: -150px;
+    margin-left: -82.5px;
+    text-align: center;
+    & >img{
+      width: 100%;
+    }
+    & > h3{
+      line-height: 42px;
+    }
+    .txt{
+      display: flex;
+      color: #5E5E5E;
+      font-size: 12px;
+    }
+    .line{
+      padding-top: 1px;
+      & > i{
+        display: inline-block;
+        width: 2px;
+        height: 10px;
+        background-color: #5E5E5E;
+      }
+    }
+    .l_label{
+      text-align: right;
+      flex: 1;
+    }
+    .r_label{
+      text-align: left;
+      flex: 1;
+    }
+  }
+}
+
+.tabBox{
+  background-color: #fff;
+  height: 300px;
+  text-align: center;
+  padding-top: 260px;
+  .nav{
+    display: inline-block;
+    line-height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #C9C9C9;
+    position: relative;
+    padding: 5px 10px;
+    &:hover{
+      color: #000;
+    }
+  }
+  .nav::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+    width: 0;
+    height: 2px;
+    border-bottom: 2px solid #000;
+    transition: all ease-in .2s;
+  }
+  .nav:hover::before{
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    transition-delay: 0.1s;
+    border-bottom-color: #000;
+  }
+  .nav:hover ~ .nav::before {
+    left: 0;
+  }
+  .active::before{
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    transition-delay: 0.1s;
+    border-bottom-color: #000;
+  }
+
+  .active{
+    color: #000;
+    font-size: 18px;
+    // border-color: #000;
+  }
+  .mr{
+    margin-left: 20px;
+  }
+}
+
+.tabContent{
+  min-height: 500px;
+}
+
+.hots{
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 500px;
+}
+.mark{
+  width: 224px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.mar{
+  margin-right: 20px;
+}
+
+
+
+
+
+
+
+
+
+
