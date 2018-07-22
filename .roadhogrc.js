@@ -18,11 +18,11 @@ module.exports = {
   },
   "publicPath": "/",
   "proxy": {
-    // "/api": {
-      // "target": "http://localhost:3000/",
-      // "changeOrigin": true,
-      // "pathRewrite": { "^/api" : "" }
-    // }
+    "/api/": {
+      "target": "http://api.d.51bricks.com/api/",
+      "changeOrigin": true,
+      "pathRewrite": { "^/api/" : "" }
+    }
   },
   "hash": true,
   "theme": {

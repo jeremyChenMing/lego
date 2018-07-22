@@ -1,7 +1,6 @@
-/**
- * Created by nap on 17/9/4.
- */
-import _ from 'underscore'
+
+// import _ from 'underscore'
+import _ from 'lodash'
 
 const storage = window.localStorage
 
@@ -64,6 +63,25 @@ export const Storage = {
   clear () {
     storage.clear()
   }
+}
+
+export const getSearchObj = (location) =>{
+    var  qs = location.search.length>0 ? location.search.substr(1):'',
+    args = {},  
+    items = qs.length>0 ? qs.split('&'):[],
+    item = null,name = null,value = null,i = 0,len = items.length;
+
+    for(i = 0;i < len; i++){
+        item = items[i].split('=');
+        name = decodeURIComponent(item[0]);
+        value = decodeURIComponent(item[1]);
+
+        if(name.length){
+            args[name] = value;
+        }
+    }
+
+    return args;
 }
 
 export const deepClone = obj => JSON.parse(JSON.stringify(obj))

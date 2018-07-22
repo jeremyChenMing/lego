@@ -4,6 +4,9 @@ import MainLayout from './MainLayout/MainLayout';
 import moment from 'moment';
 import cx from 'classnames';
 import l from './Detail.less';
+import pathToRegexp from 'path-to-regexp'
+import { getProductsOfDetail } from '../services/common'
+import { getSearchObj } from '../utils/common'
 import { Icon, Button, Input } from 'antd';
 const { TextArea } = Input;
 
@@ -17,10 +20,33 @@ class Detail extends React.Component {
         {name: '众筹阶段', num: '1000/5000', status: '80%'},
         {name: '生产优化', num: '众筹完成一周内', status: '0%'},
         {name: '生产中', num: '优化完成2周内生产完成', status: '0%'},
-      ]
+      ],
+      id: undefined
     }
   }
+  getDetail = async() => {
+    const { id } = this.state;
+    try{
+      const result = await getProductsOfDetail(id);
+      console.log(result, '详情')
+      if (result && !result.code) {
 
+      }else{
+
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+  componentDidMount() {
+    const { location } = this.props;
+    const query = getSearchObj(location);
+    if (query.id) {
+      this.setState({
+        id: query.id
+      }, this.getDetail)
+    }
+  }
   render() {
     const { list } = this.state;
     const { location } = this.props;
@@ -104,7 +130,7 @@ class Detail extends React.Component {
                           {
                             [''].map( (item,index) => {
                               return(
-                                <div className={cx(l.ll)}>
+                                <div className={cx(l.ll)} key={index}>
                                   <h3>CHDGE</h3>
                                   <p>我也不知道改说死额了时间！</p>
                                 </div>

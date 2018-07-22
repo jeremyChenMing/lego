@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'dva'
 import { Menu, Icon, Row, Col, Avatar } from 'antd'
 import { Link } from 'dva/router'
 import cx from 'classnames'
@@ -34,8 +35,11 @@ class Header extends React.Component {
       })
     }
   }
+  upload = () => {
+    document.location.href = `#/upload`;
+  }
   render() {
-    const { location } = this.props;
+    const { location, example } = this.props;
     const { nav, active } = this.state;
     return (
       <div className={cx(l.headerBox)}>
@@ -52,8 +56,12 @@ class Header extends React.Component {
           </Col>
           <Col span={3} className={cx(l.avatar)}>
             {
-              false ?
-              <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+              example.access_token ?
+              <div className={cx(l.logined)}>
+                <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '30px'}} type="cloud-upload-o" />
+                <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+              </div>
+              
               :
               <span>
                 <a href="#/login">登录</a>
@@ -69,5 +77,10 @@ class Header extends React.Component {
   }
 }
 
-
-export default Header
+const mapState = state => {
+  const { example } = state;
+  return{
+    example
+  }
+}
+export default connect(mapState)(Header)

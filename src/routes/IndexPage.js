@@ -7,6 +7,7 @@ import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/
 import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
+
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout;
 
@@ -60,11 +61,13 @@ class Cell extends React.Component {
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
+    
   }
- 
+  
+
+  
   render() {
     const { location } = this.props;
-    console.log(location.pathname === '/main/hot')
     return (
       <MainLayout location={location}>
         <div className={cx(l.head)}>
@@ -100,7 +103,7 @@ class IndexPage extends React.Component {
           </div>
         </div>
         <Switch>
-          <Route path='/main/hot'  component={HotWorks} />
+          <Route path='/main/hot'  component={HotWorks} list={['']} />
           <Route path='/main/total'  component={TotalWorks} />
         </Switch>
       </MainLayout>

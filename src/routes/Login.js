@@ -5,6 +5,10 @@ import { connect } from 'dva'
 import InputField from '../components/MainLayout/InputField'
 import { reduxForm, SubmissionError, formValueSelector } from 'redux-form'
 import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
+import { registerUser, loginUser, getUserToken } from '../services/common'
+import { saveUserInfo } from '../actions/example'
+import { routerRedux } from 'dva/router'
+
 const FormItem = Form.Item;
 const required = (value) => {
   return typeof (value) === 'number' || value ? undefined : '此项是必填项'
@@ -38,8 +42,32 @@ class Login extends React.Component {
       active: index
     })
   }
-  handleSubmit = (values) => {
+  handleSubmit = async(values) => {
+    const { dispatch } = this.props;
     console.log(values)
+    this.setState({submitting: true})
+    try{
+      const result = await loginUser(values);
+      console.log(result)
+      if (result && !result.code) {
+        const token = await getUserToken(values);
+        this.setState({submitting: false})
+        if (token && !token.code) {
+          dispatch(saveUserInfo({...token, ...values}))
+          dispatch(routerRedux.replace('/main/hot'))
+        }else{
+
+        }
+
+
+      }else{
+        this.setState({submitting: false})
+      }
+    }catch(err) {
+      this.setState({submitting: false})
+      console.log(err)
+    }
+    
   }
 
   count = () => {
@@ -98,6 +126,27 @@ class Login extends React.Component {
       show: type
     })
   }
+
+
+
+
+
+
+
+
+  register = async() => {
+    try{
+      const result = await registerUser({username: 'jeremy', password: 123456});
+      console.log(result, '******')
+      if (result && !result.code) {
+
+      }else{
+
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
   render() {
     const { handleSubmit } = this.props;
     const { active, checked, show, submitting } = this.state;
@@ -122,7 +171,7 @@ class Login extends React.Component {
             <div>
               <div className={cx(l.login_form)}>
                 <InputField
-                  name='name'
+                  name='username'
                   placeholder='用户名'
                   inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
                   validate={[required]}
@@ -143,7 +192,7 @@ class Login extends React.Component {
                   <Checkbox onChange={this.changeCheck} checked={checked}>下次自动登录</Checkbox>
                 </Col>
                 <Col span={12} style={{textAlign: 'right'}}>
-                  <a>忘记密码</a> | <a>注册</a>
+                  <a>忘记密码</a> | <a onClick={this.register}>注册</a>
                 </Col>
               </Row>
 

@@ -5,6 +5,9 @@ import ScrollReveal from 'scrollreveal'
 import { Model } from './HotWorks'
 import { Pagination, Icon, Avatar  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
+import { getProducts } from '../services/common'
+
+
 
 const dutArr = (num) => {
   let temp = [];
@@ -23,20 +26,43 @@ class Views extends React.Component {
         {name: '时间排序'},
         {name: '只能排序'},
       ],
-      active: 0
+      active: 0,
+      pagination:{
+        limit: 10,
+        offset: 0,
+        total: 0,
+        current: 1,
+      },
+      produce: [],
     }
   }
+  getList = async() => {
+    const { pagination: {limit, offset} } = this.state;
+    try{
+      const result = await getProducts({limit, offset});
+      console.log(result, '**')
+      if (result && result.code) {
+        this.state.pagination.total = result.count;
+        this.setState({
+          produce: result.results
+        })
+      }else{
 
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
   componentDidMount() {
-
-    window.sr = ScrollReveal({ duration: 600, reset: false });
-    sr.reveal('.vealcell', { 
-      duration: 1000,
-      scale: 1,
-      origin: 'left',
-      distance: '10px',
-      rotate: {z: 15} 
-    }, 50);
+    this.getList()
+    // window.sr = ScrollReveal({ duration: 600, reset: false });
+    // sr.reveal('.vealcell', { 
+    //   duration: 1000,
+    //   scale: 1,
+    //   origin: 'left',
+    //   distance: '10px',
+    //   rotate: {z: 15} 
+    // }, 50);
   }
 
 
@@ -47,7 +73,7 @@ class Views extends React.Component {
   }
   render() {
     const { location } = this.props;
-    const { nav, active } = this.state;
+    const { nav, active, pagination: {current, total}, produce } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -60,7 +86,7 @@ class Views extends React.Component {
         <div className={cx('main_container')}>
           <div className={cx(l.hots)}>
             {
-              dutArr(40).map( (item,index) => {
+              produce.map( (item,index) => {
                 return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
                   <Model keys={index + 1}/>
                 </div>
@@ -69,7 +95,7 @@ class Views extends React.Component {
             }
           </div>
           <div className={cx(l.pageBox, 'pageBox')}>
-            <Pagination defaultCurrent={1} total={50} />
+            <Pagination defaultCurrent={current} total={total} />
           </div>
         </div>
       </MainLayout>

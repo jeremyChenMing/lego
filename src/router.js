@@ -23,6 +23,10 @@ function RouterConfig ({ history, app }) {
     app,
     component: () => import('./routes/Users')
   })
+  const Upload = dynamic({
+    app,
+    component: () => import('./routes/Upload')
+  })
 
   return (
     <Router history={history}>
@@ -33,6 +37,7 @@ function RouterConfig ({ history, app }) {
         <Route path='/person'  component={Person} />
         <Route path='/shop'  component={Shopping} />
         <Route path='/users' component={Users} />
+        <Route path='/upload' component={Upload} />
       </Switch>
     </Router>
   )

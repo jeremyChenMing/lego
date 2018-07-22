@@ -1,26 +1,42 @@
-
+import { USER } from '../constants/ActionTypes'
+import { LOCAL_STORAGE } from '../constants/Constants'
+import { Storage } from '../utils/common'
 export default {
 
-  namespace: 'example',
+  namespace: USER.ROOT,
 
-  state: {
-    page: 1
-  },
+  state: {},
 
   subscriptions: {
-    setup({ dispatch, history }) {  // eslint-disable-line
+    setup({dispatch, history}) {  // eslint-disable-line
+    },
+    keyboardWatcher ({dispatch, history}) {
+
     }
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {  // eslint-disable-line
-      yield put({ type: 'save' })
+    *fetch({payload}, {call, put}) {  // eslint-disable-line
+      yield put({type: 'save'})
     }
   },
 
   reducers: {
-    save (state, action) {
-      return { ...state, ...action.payload }
+
+    [USER.SAVE_USERINFO] (state, {payload}) {
+      const example = {
+        ...state,
+        ...payload
+      }
+      console.log(example)
+      Storage.setItem(LOCAL_STORAGE, {example})
+      return example
+    },
+
+    [USER.CLEAR_USERINFO] () {
+      // Storage.clear()
+      Storage.removeItem(LOCAL_STORAGE)
+      return {}
     }
   }
 

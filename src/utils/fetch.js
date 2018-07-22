@@ -1,7 +1,8 @@
 import 'es6-promise'
 import fetch from 'isomorphic-fetch'
 import qs from 'qs'
-import _ from 'underscore'
+import _ from 'lodash'
+// import _ from 'underscore'
 
 let rootState = {}
 
@@ -30,7 +31,6 @@ const checkStatus = (response) => {
 }
 
 const parseJSON = (response) => {
-  console.log(response, '**')
   return response.json().then((json) => {
     return json
   }).catch((err) => {
@@ -52,7 +52,7 @@ const completeHeader = (header) => {
     ...{
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token ? `JWT ${token}` : ''
+      Authorization: token ? `Bearer ${token}` : ''
     }
   }
 
