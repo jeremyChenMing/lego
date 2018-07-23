@@ -7,7 +7,7 @@ import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/
 import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
-
+import { routerRedux } from 'dva/router'
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout;
 
@@ -26,11 +26,16 @@ class Cell extends React.Component {
     })
     message.info(`${type ? '关注成功！' : '取消关注成功！'}`)
   }
+
+  link = () => {
+    const { dispatch } = this.props;
+    dispatch(routerRedux.replace('/person'))
+  }
   render() {
     const { keys = 1 } = this.props;
     return (
       <div className={cx(l.cellBox, l[`auth${keys}`])}>
-        <img className={cx(l.avart)} src="/img/avart1.png" alt="头像"/>
+        <img onClick={this.link} className={cx(l.avart)} src="/img/avart1.png" alt="头像"/>
         <p>
           <span className={cx(l.name)}>响亮的名字 <Icon type="star" /></span>
         </p>
@@ -67,7 +72,7 @@ class IndexPage extends React.Component {
 
   
   render() {
-    const { location } = this.props;
+    const { location, dispatch } = this.props;
     return (
       <MainLayout location={location}>
         <div className={cx(l.head)}>
@@ -88,7 +93,7 @@ class IndexPage extends React.Component {
                 ['','','','',''].map( (item, index) => {
                   return(
                     <div className={cx(l.gutter_row, l[index !== 4 ? 'mar' : ''])} key={index}>
-                      <Cell keys={index + 1}/>
+                      <Cell keys={index + 1} dispatch={dispatch}/>
                     </div>
                   )
                 })
