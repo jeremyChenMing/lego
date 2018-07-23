@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'dva'
 import { Menu, Icon, Row, Col, Avatar } from 'antd'
-import { Link } from 'dva/router'
+import { Link, routerRedux } from 'dva/router'
+import { outUser } from '../../services/common'
+import { clearUserInfo } from '../../actions/example'
 import cx from 'classnames'
 import l from './Header.less'
 const { SubMenu } = Menu;
@@ -36,6 +38,21 @@ class Header extends React.Component {
   upload = () => {
     document.location.href = `#/upload`;
   }
+
+  quiteSys = async() => {
+    // 退出登录
+    const { dispatch } = this.props;
+    try{
+      const result = await outUser();
+      if (result && !result.code) {
+        dispatch(clearUserInfo())
+        // Storage.clear()
+        dispatch(routerRedux.replace('/login'))
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
   render() {
     const { location, example } = this.props;
     const { nav, active } = this.state;
@@ -56,8 +73,11 @@ class Header extends React.Component {
             {
               example.access_token ?
               <div className={cx(l.logined)}>
-                <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '30px'}} type="cloud-upload-o" />
-                <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />
+                <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <Avatar style={{ backgroundColor: '#87d068' }} size="small" icon="user" />
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <Icon onClick={this.quiteSys} type="poweroff" style={{fontSize: '19px'}} className={cx(l.upload)}/>
               </div>
               
               :

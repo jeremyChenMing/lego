@@ -9,9 +9,13 @@ export const uploaderFile = (data) => {
 export const registerUser = (data) => {
   return fetch.post(`/api/v1/auth/register`, {}, data)
 }
-
+// 登录
 export const loginUser = (data) => {
   return fetch.post(`/api/v1/auth/login`, {}, data)
+}
+// 退出
+export const outUser = (data = {}) => {
+  return fetch.post(`/api/v1/auth/logout`, {}, data)
 }
 
 export const getUserToken = (data) => {

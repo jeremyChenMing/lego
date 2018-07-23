@@ -42,32 +42,28 @@ class Login extends React.Component {
       active: index
     })
   }
-  handleSubmit = async(values) => {
+  handleSubmit = (values) => {
     const { dispatch } = this.props;
     console.log(values)
     this.setState({submitting: true})
-    try{
-      const result = await loginUser(values);
-      console.log(result)
-      if (result && !result.code) {
-        const token = await getUserToken(values);
-        this.setState({submitting: false})
-        if (token && !token.code) {
-          dispatch(saveUserInfo({...token, ...values}))
-          dispatch(routerRedux.replace('/main/hot'))
+    return new Promise( (resolve, reject) => {
+      loginUser(values).then( result => {
+        if (result && !result.code) {
+          getUserToken(values).then( token => {
+            this.setState({submitting: false})
+            if (token && !token.code) {
+              dispatch(saveUserInfo({...token, ...values}))
+              dispatch(routerRedux.replace('/main/hot'))
+            }else{
+              reject(new SubmissionError({_error: '123123', password: result.message}))
+            }
+          })
         }else{
-
+          this.setState({submitting: false})
+          reject(new SubmissionError({_error: '123123', password: result.message}))
         }
-
-
-      }else{
-        this.setState({submitting: false})
-      }
-    }catch(err) {
-      this.setState({submitting: false})
-      console.log(err)
-    }
-    
+      }) 
+    })
   }
 
   count = () => {
@@ -150,6 +146,7 @@ class Login extends React.Component {
   render() {
     const { handleSubmit } = this.props;
     const { active, checked, show, submitting } = this.state;
+    console.log(this.props)
     return (
       <div className={cx(l.loginBox)}>
         <span className={cx(l.logo)}>筑乐</span>
