@@ -7,7 +7,9 @@ import l from './Detail.less';
 import pathToRegexp from 'path-to-regexp'
 import { getProductsOfDetail } from '../services/common'
 import { getSearchObj } from '../utils/common'
-import { Icon, Button, Input } from 'antd';
+import { Icon, Button, Input, notification } from 'antd';
+import { deepClone } from '../utils/common'
+import { UnmountClosed} from 'react-collapse';
 const { TextArea } = Input;
 
 const width = 140;
@@ -21,18 +23,27 @@ class Detail extends React.Component {
         {name: '生产优化', num: '众筹完成一周内', status: '0%'},
         {name: '生产中', num: '优化完成2周内生产完成', status: '0%'},
       ],
-      id: undefined
+      id: undefined,
+      detailObj: {},
+      commons: [
+        {show: false},
+        {show: false},
+        {show: false},
+      ]
     }
   }
   getDetail = async() => {
     const { id } = this.state;
     try{
       const result = await getProductsOfDetail(id);
-      console.log(result, '详情')
       if (result && !result.code) {
-
+        this.setState({
+          detailObj: result
+        })
       }else{
-
+        notification.error({
+          message: `获取产品详情失败！`
+        })
       }
     }catch(err) {
       console.log(err)
@@ -47,8 +58,25 @@ class Detail extends React.Component {
       }, this.getDetail)
     }
   }
+
+
+
+
+  // 给某个人评论
+  showLeaveMes = (type, k, n) => {
+    const { commons } = this.state;
+    const copyData = deepClone(commons)
+    if (type === 'down') {
+      copyData[n].show = true
+    }else if (type === 'up') {
+      copyData[n].show = false
+    }
+    this.setState({
+      commons: copyData
+    })
+  }
   render() {
-    const { list } = this.state;
+    const { list, detailObj, commons } = this.state;
     const { location } = this.props;
     return (
       <MainLayout location={location}>
@@ -93,7 +121,7 @@ class Detail extends React.Component {
                 </div>
               </div>
               <div className={cx(l.btm)}>
-                <h1>FERRARI 250gto</h1>
+                <h1>{detailObj.title ? detailObj.title : ''}</h1>
                 <div className={cx(l.love)}><Icon type="heart" className={cx(l.red)} />&nbsp;+2483票</div>
                 <div>
                   <Button className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
@@ -105,19 +133,20 @@ class Detail extends React.Component {
 
           <div className={cx(l.commentBox)}>
             <div className={l.ttxt}>
-              <p>第一次见到书本里的维京战船，就欲罢不能，心想一定要实现出来！超级喜欢船桨和风帆的结构,人偶可以手动滑动，玩家可以选择自
-己喜欢的图案裁剪风帆，制作非常简单。期待我的战船系列作品！</p>
-              <p style={{textAlign: 'right', color: '#c9c9c9'}}>作品上传：{moment().format('YYYY/MM/DD')}</p>
+              {/*<p>第一次见到书本里的维京战船，就欲罢不能，心想一定要实现出来！超级喜欢船桨和风帆的结构,人偶可以手动滑动，玩家可以选择自
+己喜欢的图案裁剪风帆，制作非常简单。期待我的战船系列作品！</p>*/}
+              <p>{detailObj.description ? detailObj.description : ''}</p>
+              <p style={{textAlign: 'right', color: '#c9c9c9'}}>作品上传：{detailObj ? moment(detailObj.create_at).format('YYYY/MM/DD') : ''}</p>
             </div>
             <div className={cx(l.cons)}>
-              <TextArea placeholder="说点什么..." rows={6} style={{resize: 'none'}}/>
+              <TextArea placeholder="说点什么..." rows={4} style={{resize: 'none'}}/>
               <Button type="primary" style={{marginTop: '10px', color: '#000'}}>评论</Button>
             </div>
 
             <h3 className={cx(l.total)}>全部评论： <span style={{color: '#c9c9c9'}}>26</span></h3>
             <ul className={cx(l.commentList)}>
               {
-                ['',''].map( (k,n) => {
+                commons.map( (k,n) => {
                   return(
                     <li className={cx(l.list)} key={n}>
                       <div className={cx(l.avarBox)}>
@@ -139,9 +168,23 @@ class Detail extends React.Component {
                           }
                         </div>
                         <div className={cx(l.iconList)}>
-                          <Icon type="message" className={cx(l.ii)} />
+                          
+                          {
+                           k.show ? <Icon onClick={this.showLeaveMes.bind(null, 'up', k, n)} className={cx(l.ii)} type="up-circle" />
+                           :
+                           <Icon onClick={this.showLeaveMes.bind(null, 'down', k, n)} type="message" className={cx(l.ii)} />
+                          }
                           <Icon type="like-o" className={cx(l.ii)} /> 10
                         </div>
+                        
+                          <UnmountClosed isOpened={k.show}  >
+                            <div className={cx(l.leaveMesBox)}>
+                              <TextArea rows={3} style={{resize: 'none'}} placeholder="请输入要回复的内容" />
+                              <Button type="primary" style={{marginTop: '5px', color: '#000'}}>发表评论</Button>
+                            </div> 
+                          </UnmountClosed>
+                          
+                        
                       </div>
                     </li>
                   )

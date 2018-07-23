@@ -8,6 +8,11 @@ import createHistory from 'history/createHashHistory'
 import './less/index.less'
 import { Storage } from './utils/common'
 import { LOCAL_STORAGE } from './constants/Constants'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
+
+
 let initialState = Storage.getItem(LOCAL_STORAGE)
 
 const historys = createHistory()

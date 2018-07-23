@@ -4,24 +4,40 @@ import l from './HotWorks.less';
 import ScrollReveal from 'scrollreveal'
 import { Pagination, Icon, Avatar  } from 'antd'
 import { getProducts } from '../services/common'
+import moment from 'moment'
+
+
 
 export class Model extends React.Component {
-  static propTypes = {
-    name: React.PropTypes.string,
-  };
-
   constructor(props) {
     super(props);
   }
   link = (id, type) => {
     document.location.href = `#/main/detail?id=${id}&type=${type}`
   }
+
+
+  componentDidMount() {
+    this.showTime(this.props.data);
+  }
+  showTime = (data) => {
+    let temp = '';
+    // const timeArr = data.create_at ? data.create_at.split(' ') : [];
+    if (data.create_at) {
+      temp = moment().from(data.create_at)
+    }
+    return temp;
+  }
+
   render() {
+    const { data } = this.props;
+    
+
     return (
-      <div onClick={this.link.bind(null, '888', 'hot')} className={cx(l.modelBox)}>
+      <div onClick={this.link.bind(null, data.id, 'hot')} className={cx(l.modelBox)}>
         <div className={cx(l.imgs)}></div>
         <div className={cx(l.con)}>
-          <h4>设计大师</h4>
+          <h4>{data.title ? data.title : ''}</h4>
           <p>拼装 - 汽车</p>
           <span><Icon type="eye-o" />1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,7 +48,7 @@ export class Model extends React.Component {
             <Avatar size="small" icon="user" />
           </div>
           <div className={cx(l.mid)}>name</div>
-          <div className={cx(l.right)}>12天前</div>
+          <div className={cx(l.right)}>{this.showTime(data)}</div>
         </div>
       </div>
     );
@@ -82,7 +98,7 @@ class HotWorks extends React.Component {
     try{
       const result = await getProducts({limit, offset});
       console.log(result, '**')
-      if (result && result.code) {
+      if (result && !result.code) {
         this.state.pagination.total = result.count;
         this.setState({
           produce: result.results
@@ -97,14 +113,13 @@ class HotWorks extends React.Component {
 
   render() {
     const { pagination: {current, total}, produce } = this.state;
-    console.log(this.props)
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
           {
             produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1}/>
+                <Model keys={index + 1} data={item}/>
               </div>
               
             })

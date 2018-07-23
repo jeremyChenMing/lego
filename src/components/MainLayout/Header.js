@@ -21,19 +21,17 @@ class Header extends React.Component {
   }
   componentDidMount() {
     const { location: {pathname} } = this.props;
-    if (pathname.indexOf('main')) {
-      this.setState({
-        active: 0
-      })
-    }else if (pathname.indexOf('shop')) {
-      this.setState({
-        active: 1
-      })
-    }else if (pathname.indexOf('us')) {
-      this.setState({
-        active: 2
-      })
+    let num = 0;
+    if (pathname.indexOf('main') !== -1) {
+      num = 0;
+    }else if (pathname.indexOf('shop') !== -1) {
+      num = 1;
+    }else if (pathname.indexOf('users') !== -1) {
+      num = 2;
     }
+    this.setState({
+      active: num
+    })
   }
   upload = () => {
     document.location.href = `#/upload`;

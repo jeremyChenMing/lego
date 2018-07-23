@@ -33,7 +33,7 @@ class TotalWorks extends React.Component {
     try{
       const result = await getProducts({limit, offset});
       console.log(result, '**')
-      if (result && result.code) {
+      if (result && !result.code) {
         this.state.pagination.total = result.count;
         this.setState({
           produce: result.results
@@ -64,7 +64,7 @@ class TotalWorks extends React.Component {
           {
             produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1}/>
+                <Model keys={index + 1} data={item}/>
               </div>
               
             })

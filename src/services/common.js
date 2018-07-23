@@ -1,24 +1,5 @@
 import * as fetch from '../utils/fetch'
 
-export const getMessage = () => {
-  return fetch.get(`/api/users`, {})
-}
-
-export const postMessage = (data) => {
-  return fetch.post(`/api/users`, {}, data)
-}
-export const delMessage = (uuid) => {
-  return fetch.del(`/api/users/${uuid}`, {})
-}
-
-
-
-
-
-
-
-
-// 接口开始位置
 // 上传文件
 export const uploaderFile = (data) => {
   return fetch.postFormData(`/api/v1/file/upload`, {}, data)
@@ -50,6 +31,10 @@ export const getProducts = (query = {}) => {
 // 获取产品详情
 export const getProductsOfDetail = (id, query = {}) => {
   return fetch.get(`/api/v1/products/${id}`, query)
+}
+// 新增产品
+export const creatProduce = (data) => {
+  return fetch.post(`/api/v1/products`, {}, data)
 }
 
 

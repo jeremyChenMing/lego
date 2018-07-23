@@ -1,5 +1,5 @@
 
-
+@import '../less/index.less';
 
 .title{
   background-color: #fff;
@@ -9,6 +9,118 @@
   line-height: 60px;
   padding: 0 32px;
 }
+.tle{
+  font-size: 16px;
+  & > span{
+    font-size: 12px;
+    color: #B6B5B5;
+    padding-left: 30px;
+  }
+}
+.rows{
+  margin-bottom: 10px;
+  line-height: 32px;
+  .label{
+    color: red;
+    text-align: right;
+    padding-right: 10px;
+  }
+  .con{
+    // position: relative;
+    text-align: right;
+    .num{
+      // position: absolute;
+      right: 0;
+      top: 0;
+      color: rgba(0, 0, 0, .2)
+    }
+  }
+  .list{
+
+  }
+  .cell{
+    background-color: #fcc;
+    min-height: 200px;
+    cursor: pointer;
+    background-position: center center;
+    background-size: auto 100%;
+    position: relative;
+    .close{
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      color: red;
+      display: none;
+      font-size: 20px;
+    }
+    
+    &:hover{
+      .close{
+        display: block;
+      }
+    }
+
+  }
+  .remark{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 32px;
+    padding: 0 5px;
+    line-height: 32px;
+    background-color: rgba(0, 0, 0, .2);
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+  }
+  .ups{
+    text-align: center;
+    padding: 30px 40px;
+    background-color: #f5f5f5;
+    color: #a2a2a2;
+    .icons{
+      font-size: 40px;
+      color: @theme-color;
+    }
+    & > h3{
+      font-size: 18px;
+      margin: 10px 0 10px;
+      color: #a2a2a2;
+    }
+    & > p{
+      line-height: 18px;
+      font-size: 12px;
+    }
+  }
+  .covers{
+    text-align: center;
+    padding: 40px 40px;
+    min-height: 200px;
+    background-color: #f5f5f5;
+    color: #a2a2a2;
+    background-position: center center;
+    background-size: auto 100%;
+    position: relative;
+    .icons{
+      font-size: 40px;
+      color: @theme-color;
+    }
+    & > h3{
+      font-size: 18px;
+      margin: 10px 0 10px;
+      color: #a2a2a2;
+    }
+  }
+  
+}
+
+
+
+
 .btnBox{
   
 }

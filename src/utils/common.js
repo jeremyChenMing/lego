@@ -85,3 +85,14 @@ export const getSearchObj = (location) =>{
 }
 
 export const deepClone = obj => JSON.parse(JSON.stringify(obj))
+
+
+
+
+
+
+
+
+
+
+

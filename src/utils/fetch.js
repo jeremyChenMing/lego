@@ -3,13 +3,17 @@ import fetch from 'isomorphic-fetch'
 import qs from 'qs'
 import _ from 'lodash'
 // import _ from 'underscore'
+import { Storage } from '../utils/common'
+import { LOCAL_STORAGE } from '../constants/Constants'
+let initial= Storage.getItem(LOCAL_STORAGE)
 
-let rootState = {}
+let rootState = {...initial}
 
 const requestTimeOut = 1000 * 600
 
 export const syncStateToFetch = (app, initialState) => {
-  rootState = app._store.getState()
+  console.log('123123')
+  rootState = app._store.getState();
   if (_.isEmpty(rootState)) {
     rootState = initialState
   }
@@ -43,20 +47,19 @@ const parseJSON = (response) => {
 }
 
 const completeHeader = (header) => {
-  const state = (rootState || {}).user || {}
+  const state = (rootState || {}).example || {}
 
-  const { token } = state
-
+  const { access_token } = state
   const result = {
     ...header,
     ...{
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : ''
+      Authorization: access_token ? `Bearer ${access_token}` : ''
     }
   }
 
-  if (!token) delete result.Authorization
+  if (!access_token) delete result.Authorization
 
   return result
 }
@@ -146,7 +149,6 @@ export const postFormData = (url, query = {}, data = {}, options = {}) => {
   defaultOpt.headers = completeHeader(defaultOpt.headers)
 
   delete defaultOpt.headers['Content-Type']
-  console.log('----', query)
   return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
 }
 
