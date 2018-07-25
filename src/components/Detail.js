@@ -9,6 +9,7 @@ import { getProductsOfDetail } from '../services/common'
 import { getSearchObj } from '../utils/common'
 import { Icon, Button, Input, notification } from 'antd';
 import { deepClone } from '../utils/common'
+import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UnmountClosed} from 'react-collapse';
 const { TextArea } = Input;
 
@@ -29,7 +30,10 @@ class Detail extends React.Component {
         {show: false},
         {show: false},
         {show: false},
-      ]
+      ],
+      star: true,
+      starClass: true,
+      vote: true,
     }
   }
   getDetail = async() => {
@@ -75,8 +79,37 @@ class Detail extends React.Component {
       commons: copyData
     })
   }
+
+
+  // 投票
+  handleVote = (vote) => {
+    this.setState({
+      vote: !vote
+    })
+  }
+  onVoteExited = () => {
+    this.setState({
+      vote: true
+    })
+  }
+
+
+  // 点赞
+  handleStar = (star) => {
+    if (this.state.starClass) {
+      this.setState({
+        star: !star
+      }) 
+    }
+    
+  }
+  onExited = () => {
+    this.setState({
+      starClass: false
+    })
+  }
   render() {
-    const { list, detailObj, commons } = this.state;
+    const { list, detailObj, commons, star, starClass, vote } = this.state;
     const { location } = this.props;
     return (
       <MainLayout location={location}>
@@ -111,7 +144,7 @@ class Detail extends React.Component {
                 <h3>SX-DHUQ <Icon type="star" /></h3>
                 <div className={cx(l.txt)} style={{fontSize: '12px', color: '#585858'}}>
                   <div className={cx(l.l_label)} style={{paddingRight: '10px'}}>上海</div>
-                  <div className={cx(l.line, l.pd)}><i></i></div>
+                  <div className={cx(l.line, l.pd)}><i style={{backgroundColor: '#585858'}}></i></div>
                   <div className={cx(l.r_label)} style={{paddingLeft: '10px'}}>创库4年</div>
                 </div>
                 <div className={cx(l.txt)}>
@@ -122,9 +155,15 @@ class Detail extends React.Component {
               </div>
               <div className={cx(l.btm)}>
                 <h1>{detailObj.title ? detailObj.title : ''}</h1>
-                <div className={cx(l.love)}><Icon type="heart" className={cx(l.red)} />&nbsp;+2483票</div>
+                <div className={cx(l.love)}>
+                  <CSSTransition in={vote} timeout={300} classNames="star" onExited={this.onVoteExited}>
+                    <Icon type="heart" className={cx(l.red)} />
+                  </CSSTransition>
+                  
+                  &nbsp;+2483票
+                </div>
                 <div>
-                  <Button className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
+                  <Button onClick={this.handleVote} className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
                   <Button className={cx(l.btn)} disabled type="primary" size="large">众筹产品</Button>
                 </div>
               </div>
@@ -133,14 +172,12 @@ class Detail extends React.Component {
 
           <div className={cx(l.commentBox)}>
             <div className={l.ttxt}>
-              {/*<p>第一次见到书本里的维京战船，就欲罢不能，心想一定要实现出来！超级喜欢船桨和风帆的结构,人偶可以手动滑动，玩家可以选择自
-己喜欢的图案裁剪风帆，制作非常简单。期待我的战船系列作品！</p>*/}
               <p>{detailObj.description ? detailObj.description : ''}</p>
               <p style={{textAlign: 'right', color: '#c9c9c9'}}>作品上传：{detailObj ? moment(detailObj.create_at).format('YYYY/MM/DD') : ''}</p>
             </div>
             <div className={cx(l.cons)}>
               <TextArea placeholder="说点什么..." rows={4} style={{resize: 'none'}}/>
-              <Button type="primary" style={{marginTop: '10px', color: '#000'}}>评论</Button>
+              <Button type="primary" style={{marginTop: '16px', color: '#000'}}>评论</Button>
             </div>
 
             <h3 className={cx(l.total)}>全部评论： <span style={{color: '#c9c9c9'}}>26</span></h3>
@@ -174,7 +211,13 @@ class Detail extends React.Component {
                            :
                            <Icon onClick={this.showLeaveMes.bind(null, 'down', k, n)} type="message" className={cx(l.ii)} />
                           }
-                          <Icon type="like-o" className={cx(l.ii)} /> 10
+                          <span className={cx(l.star)}>
+                            <CSSTransition in={star} timeout={300} classNames="star" onExited={this.onExited.bind(null, k, n)} unmountOnExit>
+                              <Icon type="like-o" className={cx(l.ii)} />
+                            </CSSTransition>
+                            <Icon onClick={this.handleStar.bind(null, star)} type="like-o" className={cx(l.ii, l[starClass ? 'ce' : null])} />
+                          </span>
+                          <span style={{padding: '0 0 0 10px'}}>10</span>
                         </div>
                         
                           <UnmountClosed isOpened={k.show}  >

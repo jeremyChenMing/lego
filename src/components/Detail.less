@@ -4,11 +4,11 @@
 .boxes{
   width: 100%;
   // height: 200px;
-  margin: 90px auto 50px;
+  margin: 70px auto 50px;
   position: relative;
   padding: 0 100px;
   .proBox{
-    height: 20px;
+    height: 12px;
     width: 100%;
     overflow: hidden;
     background-color: #eaeaea;
@@ -24,11 +24,11 @@
     padding: 0 60px;
   }
   .mar{
-    margin-left: calc(100% - 480px); 
+    margin-left: ~'calc(100% - 480px)'; 
     margin-left: 146.66px; 
   }
   .con{
-    margin-top: -40px;
+    margin-top: -36px;
     .cell{
       // width: 120px;
       text-align: center;
@@ -55,9 +55,9 @@
         background-color: @theme-color;
       }
       .h1{
-        font-size: 16px;
+        font-size: 18px;
         font-weight: bold;
-        padding-top: 10px;
+        padding: 10px 0 5px;
       }
       .num{
         font-size: 12px;
@@ -73,7 +73,7 @@
 }
 
 .headerBox{
-  height: 400px;
+  height: 410px;
   display: flex;
   // margin-bottom: 300px;
   overflow: hidden;
@@ -86,16 +86,21 @@
   .right{
     padding-left: 20px;
     .top{
-      height: 190px;
-      width: 250px;
-      margin-bottom: 20px;
-      padding: 20px;
+      height: 197px;
+      width: 242px;
+      width: 100%;
+      margin-bottom: 16px;
+      padding: 25px;
       background-color: #fff;
       text-align: center;
       & > img{
-        height: 50px;
-        width: 50px;
-        // margin-top: 20px;
+        height: 56px;
+        width: 56px;
+      }
+      & > h3{
+        margin-top: 10px;
+        font-size: 16px;
+        color: #282828;
       }
       .txt{
         display: flex;
@@ -124,13 +129,14 @@
       }
     }
     .btm{
-      padding: 20px;
-      height: 190px;
-      width: 250px;
+      padding: 25px;
+      height: 197px;
+      width: 100%;
       background-color: #fff;
       text-align: center;
       & > h1{
-        font-size: 20px;
+        font-size: 25px;
+        margin-top: 0;
       }
       .love{
         padding-bottom: 30px;
@@ -152,11 +158,11 @@
   }
 }
 .commentBox{
-  margin-top: 50px;
+  margin-top: 40px;
   background-color: #fff;
   min-height: 1200px;
   .ttxt{
-    padding: 30px 100px 10px;
+    padding: 36px 110px 16px;
     border-bottom: 1px solid rgba(230,230,230,1);
   }
   & > p{
@@ -170,10 +176,12 @@
     border-bottom: 1px solid rgba(230,230,230,1);
   }
   .total{
-    padding: 20px 100px;
+    padding: 20px 110px 40px;
+    font-size: 16px;
+    color: #585858;
   }
   .commentList{
-    padding: 0px 100px;
+    padding: 0px 110px;
     & > li{
       display: flex;
       border-bottom: 1px solid rgba(230,230,230,1);
@@ -182,7 +190,7 @@
         height: 60px
       }
       .avarBox{
-        padding-right: 20px;
+        padding-right: 16px;
       }
       .con{
         flex: 1;
@@ -229,8 +237,18 @@
       padding: 15px 0;
       .ii{
         cursor: pointer;
-        font-size: 16px;
+        font-size: 18px;
+      }
+      .star{
+        position: relative;
         margin-left: 30px;
+        width: 18px;
+        height: 18px;
+        .ce{
+          position: absolute;
+          left: 0;
+          top: -2px;
+        }
       }
     }
   }
@@ -244,4 +262,29 @@
   letter-spacing: 2px;
 }
 
+
+:global{
+  .star {
+    display: inline-block;
+    transform: scale(1);
+  }
+  .star-enter {
+    opacity: 1;
+    transform: translateY(0%) scale(1);
+  }
+  .star-enter-active {
+    opacity: 1;
+    transform: translateY(0%) scale(1);
+    transition: all 300ms ease-out;
+  }
+  .star-exit {
+    opacity: 1;
+    transform: translateY(0%) scale(1.25);
+  }
+  .star-exit-active {
+    opacity: 0;
+    transform: translateY(-100%) scale(2);
+    transition: all 300ms ease-in;
+  }
+};
 

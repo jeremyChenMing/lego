@@ -39,9 +39,9 @@ export class Model extends React.Component {
         <div className={cx(l.con)}>
           <h4>{data.title ? data.title : ''}</h4>
           <p>拼装 - 汽车</p>
-          <span><Icon type="eye-o" />1555</span>
+          <span><Icon type="eye-o" />&nbsp;1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <span><Icon type="like-o" />2215</span>
+          <span><Icon type="like-o" />&nbsp;2215</span>
         </div>
         <div className={cx(l.footBox)}>
           <div className={cx(l.left)}>
@@ -116,7 +116,7 @@ class HotWorks extends React.Component {
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
-          {
+          { /* produce */
             produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
                 <Model keys={index + 1} data={item}/>

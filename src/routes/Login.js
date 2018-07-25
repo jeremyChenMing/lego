@@ -154,7 +154,9 @@ class Login extends React.Component {
         {
           show === 'login' ?
           <div className={cx(l.login)}>
-            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}></div>
+            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+              <Icon type="qrcode" className={cx(l.icons)} />
+            </div>
             <div className={cx(l.nav)}>
               {
                 ['密码登录','短信登录'].map( (item,index) => {
@@ -186,7 +188,7 @@ class Login extends React.Component {
               </div>
               <Row>
                 <Col span={12} style={{textAlign: 'left'}}>
-                  <Checkbox onChange={this.changeCheck} checked={checked}>下次自动登录</Checkbox>
+                  <Checkbox onChange={this.changeCheck} checked={checked}> <span style={{color: '#282828'}}>下次自动登录</span></Checkbox>
                 </Col>
                 <Col span={12} style={{textAlign: 'right'}}>
                   <a>忘记密码</a> | <a onClick={this.register}>注册</a>
@@ -203,7 +205,9 @@ class Login extends React.Component {
           </div>
           :
           <div className={cx(l.login)}>
-            <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}></div>
+            <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
+              <Icon type="rollback" className={cx(l.icons)}/>
+            </div>
             <h2>微信二维码登录</h2>
             <div className={cx(l.qr)}>
               <div className={cx(l.qrImg)}></div>

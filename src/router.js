@@ -34,9 +34,9 @@ function RouterConfig ({ history, app }) {
         <Route path='/' exact render={() => <Redirect to="/main/hot"/>}  />
         <Route path='/main'  component={Main} />
         <Route path='/login'  component={Login} />
-        <Route path='/person'  component={Person} />
+        <Route path='/person/:id'  component={Person} />
         <Route path='/shop'  component={Shopping} />
-        <Route path='/users' component={Users} />
+        <Route path='/us' component={Users} />
         <Route path='/upload' component={Upload} />
       </Switch>
     </Router>

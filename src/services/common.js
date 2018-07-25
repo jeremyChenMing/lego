@@ -42,6 +42,18 @@ export const creatProduce = (data) => {
 }
 
 
+// 获取作者
+export const getUsers = (query = {}) => {
+  return fetch.get(`/api/v1/users`, query)
+}
+// 作者详情
+export const getUsersOfDetail = (id,query = {}) => {
+  return fetch.get(`/api/v1/users/${id}`, query)
+}
+// 获取作者的作品
+export const getAuthOfProduce = (id,query = {}) => {
+  return fetch.get(`/api/v1/users/${id}/products`, query)
+}
 
 
 

@@ -40,8 +40,8 @@ class Views extends React.Component {
     const { pagination: {limit, offset} } = this.state;
     try{
       const result = await getProducts({limit, offset});
-      console.log(result, '**')
-      if (result && result.code) {
+      console.log(result, '**123')
+      if (result && !result.code) {
         this.state.pagination.total = result.count;
         this.setState({
           produce: result.results
@@ -54,6 +54,7 @@ class Views extends React.Component {
     }
   }
   componentDidMount() {
+
     this.getList()
     // window.sr = ScrollReveal({ duration: 600, reset: false });
     // sr.reveal('.vealcell', { 
@@ -88,7 +89,7 @@ class Views extends React.Component {
             {
               produce.map( (item,index) => {
                 return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                  <Model keys={index + 1}/>
+                  <Model keys={index + 1} data={item}/>
                 </div>
                 
               })

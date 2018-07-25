@@ -2,6 +2,7 @@ import 'es6-promise'
 import fetch from 'isomorphic-fetch'
 import qs from 'qs'
 import _ from 'lodash'
+import { message } from 'antd'
 // import _ from 'underscore'
 import { Storage } from '../utils/common'
 import { LOCAL_STORAGE } from '../constants/Constants'
@@ -27,6 +28,12 @@ const checkStatus = (response) => {
       return response
     case 400:
       return response
+    case 403:
+      message.error("身份认证信息未提供，即将跳转登录！")
+      setTimeout(function () {
+        window.location.href = '#/login'
+      },2000)
+      break;
     case 302:
       return response
     default:
@@ -72,11 +79,12 @@ export const get = (url, query = {}, options = {}) => {
   const defaultOpt = {
     method: 'GET',
     timeout: requestTimeOut,
+    // credentials: 'include',
     headers: { ...options }
   }
 
   defaultOpt.headers = completeHeader(defaultOpt.headers)
-
+  console.log(defaultOpt)
   return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
 }
 

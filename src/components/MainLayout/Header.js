@@ -16,7 +16,7 @@ class Header extends React.Component {
       nav: [
         {name: '作品', path: '/main/hot'},
         {name: '商城', path: '/shop'},
-        {name: '关于我们', path: '/users'},
+        {name: '关于我们', path: '/us'},
       ],
       active: 0,
     }
@@ -28,7 +28,7 @@ class Header extends React.Component {
       num = 0;
     }else if (pathname.indexOf('shop') !== -1) {
       num = 1;
-    }else if (pathname.indexOf('users') !== -1) {
+    }else if (pathname.indexOf('us') !== -1) {
       num = 2;
     }
     this.setState({

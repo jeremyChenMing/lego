@@ -8,6 +8,7 @@ import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
 import { routerRedux } from 'dva/router'
+import { getUsers } from '../services/common'
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout;
 
@@ -28,13 +29,14 @@ class Cell extends React.Component {
   }
 
   link = () => {
-    const { dispatch } = this.props;
-    dispatch(routerRedux.replace('/person'))
+    const { dispatch, data } = this.props;
+    console.log(data)
+    dispatch(routerRedux.replace(`/person/${data.id}`))
   }
   render() {
-    const { keys = 1 } = this.props;
+    const { keys = 1, data } = this.props;
     return (
-      <div className={cx(l.cellBox, l[`auth${keys}`])}>
+      <div className={cx(l.cellBox)} style={{backgroundImage: 'url("/img/avart1.png")'}}>
         <img onClick={this.link} className={cx(l.avart)} src="/img/avart1.png" alt="头像"/>
         <p>
           <span className={cx(l.name)}>响亮的名字 <Icon type="star" /></span>
@@ -66,12 +68,29 @@ class Cell extends React.Component {
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
-    
+    this.state = {
+      userList: [],
+    }
   }
   
-
-  
+  users = async() => {
+    try{
+      const result = await getUsers();
+      console.log(result)
+      if (result && !result.code) {
+        this.setState({
+          userList: result
+        })
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+  componentDidMount() {
+    this.users();
+  }
   render() {
+    const { userList } = this.state;
     const { location, dispatch } = this.props;
     return (
       <MainLayout location={location}>
@@ -90,10 +109,10 @@ class IndexPage extends React.Component {
 
             <div className={cx(l.gutterBox)}>
               {
-                ['','','','',''].map( (item, index) => {
+                userList.map( (item, index) => {
                   return(
                     <div className={cx(l.gutter_row, l[index !== 4 ? 'mar' : ''])} key={index}>
-                      <Cell keys={index + 1} dispatch={dispatch}/>
+                      <Cell keys={index + 1} dispatch={dispatch} data={item}/>
                     </div>
                   )
                 })
@@ -107,10 +126,13 @@ class IndexPage extends React.Component {
             </div>
           </div>
         </div>
-        <Switch>
-          <Route path='/main/hot'  component={HotWorks} list={['']} />
-          <Route path='/main/total'  component={TotalWorks} />
-        </Switch>
+        <div style={{minHeight: '600px'}}>
+          <Switch>
+            <Route path='/main/hot'  component={HotWorks} list={['']} />
+            <Route path='/main/total'  component={TotalWorks} />
+          </Switch> 
+        </div>
+        
       </MainLayout>
     );
   }

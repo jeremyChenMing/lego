@@ -3,7 +3,7 @@ import { connect } from 'dva'
 import cx from 'classnames';
 import l from './Person.less'
 import MainLayout from '../components/MainLayout/MainLayout'
-
+import { getUsersOfDetail, getAuthOfProduce } from '../services/common'
 import { Model } from '../components/HotWorks'
 import { Pagination } from 'antd'
 const dutArr = (num) => {
@@ -16,18 +16,48 @@ const dutArr = (num) => {
 class PersonProduce extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      produce: [],
+    }
   }
+  getProducts = async(id) => {
+    try{
+      const result = await getAuthOfProduce(id);
+      console.log(result, '个人详情---作品')
+      if (result && !result.code) {
+        this.setState({
+          produce: result
+        })
+      }else{
 
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+  componentDidMount() {
+    console.log(this.props)
+    if (this.props.id) {
+      this.getProducts(this.props.id)
+    }
+  }
+  componentWillReceiveProps(nextProps) {
+    const { id } = nextProps
+    if (nextProps.id !== this.props.id && nextProps.id) {
+      this.getProducts(nextProps.id)
+    }
+  }
   render() {
     const { data } = this.props;
+    const { produce } = this.state;
     const source = {};
     return (
       <div>
         <div className={cx(l.hots)}>
           {
-            dutArr(data).map( (item,index) => {
+            produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={source}/>
+                <Model keys={index + 1} data={item}/>
               </div>
             })
           }
@@ -45,9 +75,36 @@ class Person extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: 0
+      active: 0,
+      id: undefined,
+      mess: {}
     }
   }
+  getPersonDetail = async() => {
+    const { id } = this.state;
+    try{
+      const result = await getUsersOfDetail(id);
+      console.log(result, '个人详情')
+      if (result && !result.code) {
+        this.setState({
+          mess: result
+        })
+      }else{
+
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+  componentDidMount() {
+    const { match: {params} } = this.props;
+    if (params.id) {
+      this.setState({
+        id: params.id
+      }, this.getPersonDetail)
+    }
+  }
+
   handle = (num) => {
     console.log(num)
     this.setState({
@@ -56,7 +113,7 @@ class Person extends React.Component {
   }
   render() {
     const { location } = this.props;
-    const { active } = this.state;
+    const { active, id } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
@@ -76,7 +133,7 @@ class Person extends React.Component {
         </div>
 
         <div className={cx(l.tabContent, 'main_container')}>
-          <PersonProduce data={active === 0 ? 20 : 40}/>
+          <PersonProduce id={id} data={active === 0 ? 20 : 40}/>
         </div>
       </MainLayout>
     );
