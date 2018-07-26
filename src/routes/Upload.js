@@ -121,6 +121,22 @@ class Upload extends React.Component {
   save = async() => {
     const { imgs, title, description, covers } = this.state;
     console.log(covers)
+    if (!title) {
+      notification.info({
+        message: `请填写标题！`
+      })
+      return
+    }else if (!imgs.length) {
+      notification.info({
+        message: `请至少上传一张作品图！`
+      })
+      return 
+    }else if (!covers.id) {
+      notification.info({
+        message: `请上传作品封面`
+      })
+      return
+    }
     let arrs = imgs.concat([covers])
     const para = {
       title, 
@@ -128,20 +144,20 @@ class Upload extends React.Component {
       images: arrs
     }
     console.log(para, 'para')
-    try{
-      const result = await creatProduce(para)
-      if (result && !result.code) {
-        notification.success({
-          message: `添加成功！`
-        })
-      }else{
-        notification.error({
-          message: `添加失败，原因：${result.msg}`
-        })
-      }
-    }catch(err) {
-      console.log(err)
-    }
+    // try{
+    //   const result = await creatProduce(para)
+    //   if (result && !result.code) {
+    //     notification.success({
+    //       message: `添加成功！`
+    //     })
+    //   }else{
+    //     notification.error({
+    //       message: `添加失败，原因：${result.msg}`
+    //     })
+    //   }
+    // }catch(err) {
+    //   console.log(err)
+    // }
   }
 
 

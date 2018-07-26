@@ -9,9 +9,13 @@ import './less/index.less'
 import { Storage } from './utils/common'
 import { LOCAL_STORAGE } from './constants/Constants'
 import moment from 'moment'
+import { notification } from 'antd'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
-
+notification.config({
+  placement: 'topRight',
+  top: 55,
+});
 
 let initialState = Storage.getItem(LOCAL_STORAGE)
 

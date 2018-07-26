@@ -5,7 +5,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import l from './Detail.less';
 import pathToRegexp from 'path-to-regexp'
-import { getProductsOfDetail } from '../services/common'
+import { getProductsOfDetail, givePraise } from '../services/common'
 import { getSearchObj } from '../utils/common'
 import { Icon, Button, Input, notification } from 'antd';
 import { deepClone } from '../utils/common'
@@ -83,9 +83,25 @@ class Detail extends React.Component {
 
   // 投票
   handleVote = (vote) => {
-    this.setState({
-      vote: !vote
+    const { id } = this.state;
+    givePraise(id).then( data => {
+      if (data && !data.code) {
+        this.state.detailObj.num_votes = this.state.detailObj.num_votes + 1
+        this.setState({
+          vote: !vote
+        })
+        // },this.getDetail)
+
+
+      }else{
+
+      }
+    }).catch(err => {
+      console.log(err)
     })
+    
+
+
   }
   onVoteExited = () => {
     this.setState({
@@ -160,7 +176,7 @@ class Detail extends React.Component {
                     <Icon type="heart" className={cx(l.red)} />
                   </CSSTransition>
                   
-                  &nbsp;+2483票
+                  &nbsp;{detailObj.num_votes}票
                 </div>
                 <div>
                   <Button onClick={this.handleVote} className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>

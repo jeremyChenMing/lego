@@ -28,7 +28,6 @@ export class Model extends React.Component {
     }
     return temp;
   }
-
   render() {
     const { data } = this.props;
     return (
@@ -39,7 +38,7 @@ export class Model extends React.Component {
           <p title={data.description ? data.description : ''}>{data.description ? data.description : ''}</p>
           <span><Icon type="eye-o" />&nbsp;1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <span><Icon type="like-o" />&nbsp;2215</span>
+          <span><Icon type="like-o" />&nbsp;{data.num_votes}</span>
         </div>
         <div className={cx(l.footBox)}>
           <div className={cx(l.left)}>

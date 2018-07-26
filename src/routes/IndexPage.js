@@ -8,7 +8,7 @@ import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
 import { routerRedux } from 'dva/router'
-import { getUsers } from '../services/common'
+import { getUsers, getProfile } from '../services/common'
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout;
 
@@ -73,6 +73,17 @@ class IndexPage extends React.Component {
     }
   }
   
+  profile = async() => {
+    try{
+      const result = await getProfile();
+      console.log(result, 'user/profile')
+      if (result && !result.code) {
+
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
   users = async() => {
     try{
       const result = await getUsers();
