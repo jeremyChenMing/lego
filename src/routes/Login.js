@@ -199,9 +199,9 @@ class Login extends React.Component {
 
               <h3>第三方账号登录</h3>
               <div className={cx(l.log)}>
-                <span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span></span>
+                <span className={cx('myself-icon', l.icon)}>&#xe65b;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span className={cx('myself-icon', l.icon)}>&#xe65a;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span className={cx('myself-icon', l.icon)}>&#xe66a;</span>
               </div>
             </div>
           </div>
