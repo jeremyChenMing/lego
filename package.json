@@ -12,6 +12,7 @@
   "dependencies": {
     "antd": "^2.13.6",
     "babel-runtime": "^6.9.2",
+    "cropperjs": "^1.4.1",
     "dva": "^2.0.3",
     "dva-loading": "^1.0.3",
     "es6-promise": "^4.2.2",
@@ -23,9 +24,9 @@
     "react-collapse": "^4.0.3",
     "react-dom": "^15.4.0",
     "react-motion": "^0.5.2",
-    "scrollreveal": "^3.4.0",
+    "react-transition-group": "^2.4.0",
     "redux-form": "^7.0.4",
-    "react-transition-group": "^2.4.0"
+    "scrollreveal": "^3.4.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",

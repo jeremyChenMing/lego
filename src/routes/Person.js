@@ -54,8 +54,8 @@ class PersonProduce extends React.Component {
     return (
       <div>
         <div className={cx(l.hots)}>
-          {
-            produce.map( (item,index) => {
+          {/*  */
+             produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
                 <Model keys={index + 1} data={item}/>
               </div>

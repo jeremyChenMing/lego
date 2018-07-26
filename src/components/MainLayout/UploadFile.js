@@ -10,6 +10,7 @@ class UploadFile extends React.Component {
     refFun: () => {},
     type: 'URL',
     spin: true,
+    ajaxBool: true,
   }
   constructor(props) {
     super(props);
@@ -19,18 +20,20 @@ class UploadFile extends React.Component {
   }
 
   load = (file, result) => {
-    uploaderFile({name: file.name, file}).then( data => {
-      this.setState({spinning: false})
-      if (data && !data.code) {
-        this.props.loadFile(file, result, {...data})
-      }
-    }).catch(err => {
-      this.setState({spinning: false})
-      console.log(err)
-    })
-
-
-    
+    const { ajaxBool } = this.props;
+    if(ajaxBool) {
+      uploaderFile({name: file.name, file}).then( data => {
+        this.setState({spinning: false})
+        if (data && !data.code) {
+          this.props.loadFile(file, result, {...data})
+        }
+      }).catch(err => {
+        this.setState({spinning: false})
+        console.log(err)
+      }) 
+    }else{
+      this.props.loadFile(file, result, {})
+    }
   }
 
   handleFileChange = (e) => {
@@ -98,10 +101,10 @@ class UploadFile extends React.Component {
   render() {
     // (input) => this.reset=input
     const { spinning } = this.state;
-    const { spin } = this.props;
+    const { spin, upStyle } = this.props;
     return (
       <Spin size="large" tip="正在上传..." spinning={spin ? spinning : false}>
-      <div className={l.file_upload}>
+      <div className={l.file_upload} style={upStyle ? upStyle : {}}>
         <div className={l.wrapper}>
           {this.props.children}
           <form>

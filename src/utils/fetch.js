@@ -100,6 +100,18 @@ export const post = (url, query = {}, data = {}, options = {}) => {
 
   return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
 }
+export const postFile = (url, query = {}, data = {}, options = {}) => {
+  const defaultOpt = {
+    method: 'POST',
+    timeout: requestTimeOut,
+    body: data,
+    headers: { ...options }
+  }
+
+  defaultOpt.headers = completeHeader(defaultOpt.headers)
+
+  return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
+}
 
 export const put = (url, query = {}, data = {}, options = {}) => {
   const defaultOpt = {
