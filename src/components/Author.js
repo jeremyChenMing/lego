@@ -14,7 +14,8 @@ class Author extends React.Component {
         {name: '创客团队'},
       ],
       active: 0,
-      userList: []
+      userList: [],
+      follow: false,
     }
   }
   users = async() => {
@@ -40,9 +41,18 @@ class Author extends React.Component {
       active: index
     })
   }
+
+
+  filter = (type) => {
+    if (type === 'follow') {
+      this.setState({
+        follow: !this.state.follow
+      })
+    }
+  }
   render() {
     const { location } = this.props;
-    const { nav, active, userList } = this.state;
+    const { nav, active, userList, follow } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -61,7 +71,12 @@ class Author extends React.Component {
             </Col>
             <Col span={12} className={cx(l.right)}>
               <span>排序：</span>&nbsp;&nbsp;
-              <span className={cx(l.fil)}>关注人数 {true ? <Icon type="down" /> : <Icon type="up" />}</span>
+              <span onClick={this.filter.bind(null, 'follow')} className={cx(l.fil)}>
+                关注人数 
+                <span className={cx(l.followIcon, l[follow ? 'activeIcon' : null])}>
+                  <Icon type="down"  />
+                </span>
+              </span>
             </Col>
           </Row>
         </div>
@@ -101,7 +116,7 @@ class Cell extends React.Component {
             <h2>KDJEWL <Icon type="star" /></h2>
             <p>背景 | 自由职业</p>
             <p style={{fontSize: '16px', color: '#282828', marginBottom: '5px'}}>创作 65 &nbsp;&nbsp;|&nbsp;&nbsp; 关注 29937</p>
-            <p style={{marginBottom: '0px'}}>这里写的是简介。。。。。</p>
+            <p style={{marginBottom: '0px'}}>这里写的是简介这里写的是简介这里写的是简这里写的是简</p>
             <Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button>
           </div>
         </div>

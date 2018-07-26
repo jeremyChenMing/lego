@@ -4,9 +4,6 @@ import * as fetch from '../utils/fetch'
 export const uploaderFile = (data) => {
   return fetch.postFormData(`/api/v1/file/upload`, {}, data)
 }
-export const uploaderFilePost = (data) => {
-  return fetch.postFile(`/api/v1/file/upload`, {}, data)
-}
 
 // 
 export const registerUser = (data) => {

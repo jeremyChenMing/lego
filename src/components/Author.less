@@ -62,12 +62,26 @@
     cursor: pointer;
     display: inline-block;
     margin-right: 20px;
-    color: #000;
+    color: rgba(0, 0, 0, .7);
+    &:hover{
+      color: rgba(0, 0, 0, 1);
+    }
   }
   .right{
     text-align: right;
   }
 }
+
+.followIcon{
+  display: inline-block;
+  transition: transform ease-in .2s;
+  transform: rotate(0deg);
+}
+.activeIcon{
+  transform: rotate(180deg);
+}
+
+
 
 
 .cellList{
@@ -84,18 +98,24 @@
 .cellBoxes{
   display: flex;
   .left{
-    display: flex;
+    & > div{
+      display: inline-block;
+      vertical-align: top;
+    }
     img{
       width: 68px;
       cursor: pointer;
     }
     p{
-      // margin-top: 5px;
       font-size: 12px;
       margin-bottom: 10px;
+      // 不换行
+      white-space: nowrap;  
+      text-overflow:ellipsis; 
+      overflow:hidden;
     }
     .cons{
-      flex: 1;
+      width: 240px;
       padding-right: 50px;
       padding-left: 20px;
       color: #c9c9c9;

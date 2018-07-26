@@ -13,7 +13,6 @@ let rootState = {...initial}
 const requestTimeOut = 1000 * 600
 
 export const syncStateToFetch = (app, initialState) => {
-  console.log('123123')
   rootState = app._store.getState();
   if (_.isEmpty(rootState)) {
     rootState = initialState
@@ -53,6 +52,20 @@ const parseJSON = (response) => {
   })
 }
 
+function getCookie(name){
+  var strcookie = document.cookie;//获取cookie字符串
+  var arrcookie = strcookie.split("; ");//分割
+  console.log(strcookie)
+  //遍历匹配
+  for ( var i = 0; i < arrcookie.length; i++) {
+  var arr = arrcookie[i].split("=");
+  if (arr[0] == name){
+  return arr[1];
+  }
+  }
+  return "";
+}
+// console.log(getCookie('id'))
 const completeHeader = (header) => {
   const state = (rootState || {}).example || {}
 
@@ -79,12 +92,12 @@ export const get = (url, query = {}, options = {}) => {
   const defaultOpt = {
     method: 'GET',
     timeout: requestTimeOut,
-    // credentials: 'include',
+    credentials: 'include',
     headers: { ...options }
   }
 
   defaultOpt.headers = completeHeader(defaultOpt.headers)
-  console.log(defaultOpt)
+  
   return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
 }
 
@@ -93,18 +106,6 @@ export const post = (url, query = {}, data = {}, options = {}) => {
     method: 'POST',
     timeout: requestTimeOut,
     body: JSON.stringify(data),
-    headers: { ...options }
-  }
-
-  defaultOpt.headers = completeHeader(defaultOpt.headers)
-
-  return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
-}
-export const postFile = (url, query = {}, data = {}, options = {}) => {
-  const defaultOpt = {
-    method: 'POST',
-    timeout: requestTimeOut,
-    body: data,
     headers: { ...options }
   }
 

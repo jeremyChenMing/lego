@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Menu, Icon, Row, Col, Avatar } from 'antd'
+import { Menu, Icon, Row, Col, Avatar, Dropdown } from 'antd'
 import { Link, routerRedux } from 'dva/router'
 import { outUser } from '../../services/common'
 import { clearUserInfo } from '../../actions/example'
 import cx from 'classnames'
 import l from './Header.less'
-const { SubMenu } = Menu;
 
 
 class Header extends React.Component {
@@ -53,14 +52,34 @@ class Header extends React.Component {
       console.log(err)
     }
   }
+
+  clickMore = ({key}) => {
+    if (key === '0') {
+
+    }else if (key === '1') {
+      this.quiteSys()
+    }
+  }
   render() {
     const { location, example } = this.props;
     const { nav, active } = this.state;
+    const menu = (
+      <Menu onClick={this.clickMore}>
+        <Menu.Item key="0">
+          <a>个人中心</a>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Item key="1">
+          <a>退出登录</a>
+        </Menu.Item>
+      </Menu>
+    )
     return (
       <div className={cx(l.headerBox)}>
         <Row className={cx(l.header, 'main_container')}>
           <Col span={4} className={cx(l.left)}>
             <img src="/img/brickFUN.png" alt=""/>
+            <span>筑乐 <i>。</i></span>
           </Col>
           <Col span={17} className={cx(l.right)}>
             {
@@ -75,9 +94,9 @@ class Header extends React.Component {
               <div className={cx(l.logined)}>
                 <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <Avatar style={{ backgroundColor: '#87d068' }} size="small" icon="user" />
-                &nbsp;&nbsp;&nbsp;&nbsp;
-                <Icon onClick={this.quiteSys} type="poweroff" style={{fontSize: '19px'}} className={cx(l.upload)}/>
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <Avatar src={'/img/avart1.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" />
+                </Dropdown>
               </div>
               
               :

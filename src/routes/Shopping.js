@@ -37,7 +37,7 @@ class Shopping extends React.Component {
     const { list, nav, active } = this.state
     return (
       <MainLayout location={location}>
-        <div className={cx(l.imgs)}>
+        <div className={cx(l.imges)}>
           <ul className={cx(l.img, 'main_container')} >
             {
               list.map( (item,index) => {

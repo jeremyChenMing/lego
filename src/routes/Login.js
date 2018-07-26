@@ -8,7 +8,7 @@ import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
 import { registerUser, loginUser, getUserToken } from '../services/common'
 import { saveUserInfo } from '../actions/example'
 import { routerRedux } from 'dva/router'
-
+console.log(routerRedux)
 const FormItem = Form.Item;
 const required = (value) => {
   return typeof (value) === 'number' || value ? undefined : '此项是必填项'
@@ -127,29 +127,31 @@ class Login extends React.Component {
 
 
 
-
+  linkIndex = () => {
+    const { dispatch } = this.props;
+    dispatch(routerRedux.push('/main/hot'))
+  }
 
 
   register = async() => {
-    try{
-      const result = await registerUser({username: 'jeremy', password: 123456});
-      console.log(result, '******')
-      if (result && !result.code) {
+    // try{
+    //   const result = await registerUser({username: 'jeremy', password: 123456});
+    //   console.log(result, '******')
+    //   if (result && !result.code) {
 
-      }else{
+    //   }else{
 
-      }
-    }catch(err) {
-      console.log(err)
-    }
+    //   }
+    // }catch(err) {
+    //   console.log(err)
+    // }
   }
   render() {
     const { handleSubmit } = this.props;
     const { active, checked, show, submitting } = this.state;
-    console.log(this.props)
     return (
       <div className={cx(l.loginBox)}>
-        <span className={cx(l.logo)}>筑乐</span>
+        <span onClick={this.linkIndex} className={cx(l.logo)}>筑乐</span>
         <p>登陆筑乐与10万+积木爱好者一起交流设计 分享快乐吧！</p>
         {
           show === 'login' ?

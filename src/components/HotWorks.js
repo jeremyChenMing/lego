@@ -31,14 +31,12 @@ export class Model extends React.Component {
 
   render() {
     const { data } = this.props;
-    
-
     return (
       <div onClick={this.link.bind(null, data.id, 'hot')} className={cx(l.modelBox)}>
         <div className={cx(l.imgs)}></div>
         <div className={cx(l.con)}>
           <h4>{data.title ? data.title : ''}</h4>
-          <p>拼装 - 汽车</p>
+          <p title={data.description ? data.description : ''}>{data.description ? data.description : ''}</p>
           <span><Icon type="eye-o" />&nbsp;1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <span><Icon type="like-o" />&nbsp;2215</span>

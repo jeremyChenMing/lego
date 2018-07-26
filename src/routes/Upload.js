@@ -20,7 +20,7 @@ class Upload extends React.Component {
       imgs: [],
       visible: false,
       spinning: false,
-      cover: true,
+      cover: false,
       mark: {},
       covers: {},
       title: undefined, 
@@ -35,9 +35,6 @@ class Upload extends React.Component {
   renderTitle = (str, size) => {
     return <h3 className={cx(l.tle)}>{str} <span>{size}</span></h3>
   }
-
-
-
 
   loadFile = (file, urlData, data) => {
     let copyData = deepClone(this.state.imgs);
@@ -124,10 +121,11 @@ class Upload extends React.Component {
   save = async() => {
     const { imgs, title, description, covers } = this.state;
     console.log(covers)
+    let arrs = imgs.concat([covers])
     const para = {
       title, 
       description,
-      images: imgs
+      images: arrs
     }
     console.log(para, 'para')
     try{
@@ -216,7 +214,7 @@ class Upload extends React.Component {
     }
     
   }
-  callback = (blob, data) => {
+  callback = (blob, result) => {
     uploaderFile({name: 'coverPng', file: blob}).then( data => {
       if (data && !data.code) {
         console.log(data)
@@ -224,7 +222,7 @@ class Upload extends React.Component {
         this.setState({
           covers: {...this.state.covers, ...data},
           cover: false,
-          coverUrlData: data
+          coverUrlData: result
         })
       }else{
         notification.error({
@@ -428,11 +426,11 @@ class Upload extends React.Component {
                 <div className={cx(l.rights)}>
                   <div className={cx(l.imgs, 'small')}></div>
                   <div className={cx(l.con)}>
-                    <h4>名称</h4>
-                    <p>拼装 - 汽车</p>
-                    <span><Icon type="eye-o" />&nbsp;1555</span>
+                    <h4>{title}</h4>
+                    <p title={description}>{description}</p>
+                    <span><Icon type="eye-o" />&nbsp;0</span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span><Icon type="like-o" />&nbsp;2215</span>
+                    <span><Icon type="like-o" />&nbsp;0</span>
                   </div>
                   <div className={cx(l.footBox)}>
                     <div className={cx(l.left)}>
