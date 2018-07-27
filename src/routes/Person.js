@@ -18,15 +18,19 @@ class PersonProduce extends React.Component {
     super(props);
     this.state = {
       produce: [],
+      total: 0,
+      page: 1,
+      pageSize: 10,
     }
   }
   getProducts = async(id) => {
+    const { page, pageSize } = this.state;
     try{
-      const result = await getAuthOfProduce(id);
-      console.log(result, '个人详情---作品')
+      const result = await getAuthOfProduce(id, {limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
         this.setState({
-          produce: result
+          total: result.count,
+          produce: result.results
         })
       }else{
 
@@ -47,23 +51,27 @@ class PersonProduce extends React.Component {
       this.getProducts(nextProps.id)
     }
   }
+  changePage = (page, pageSize) => {
+    this.setState({
+      page: page
+    }, this.getProducts)
+  }
   render() {
-    const { data } = this.props;
-    const { produce } = this.state;
-    const source = {};
+    const { info,  } = this.props;
+    const { produce, page, total, pageSize } = this.state;
     return (
       <div>
         <div className={cx(l.hots)}>
           {/*  */
              produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item}/>
+                <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : "/img/avart1.png"} name={info.nickname ? info.nickname : ''}/>
               </div>
             })
           }
         </div>
         <div className={cx(l.pageBox, 'pageBox')}>
-          <Pagination defaultCurrent={1} total={50} />
+          <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage}/>
         </div>
       </div>
     );
@@ -113,18 +121,20 @@ class Person extends React.Component {
   }
   render() {
     const { location } = this.props;
-    const { active, id } = this.state;
+    const { active, id, mess } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
           <div className={cx(l.avartBox)}>
-            <img src="/img/avart1.png" alt=""/>
-            <h3>阳思考</h3>
-            <div className={cx(l.txt)}>
+            <img src={mess.avatar ? mess.avatar : "/img/avart1.png"} alt=""/>
+            <h3 style={{height: '42px'}}>{mess.nickname}</h3>
+            {/*<div className={cx(l.txt)}>
               <div className={cx(l.l_label)} style={{paddingRight: '5px'}}>创作 87</div>
               <div className={cx(l.line, l.pd)}><i></i></div>
               <div className={cx(l.r_label)} style={{paddingLeft: '5px'}}>粉丝 88</div>
             </div>
+            */}
+            <div>创作 {mess.num_products ? mess.num_products : 0}</div>
           </div>
         </div>
         <div className={cx(l.tabBox)}>
@@ -133,7 +143,7 @@ class Person extends React.Component {
         </div>
 
         <div className={cx(l.tabContent, 'main_container')}>
-          <PersonProduce id={id} data={active === 0 ? 20 : 40}/>
+          <PersonProduce id={id} info={{avatar: mess.avatar, nickname: mess.nickname}}/>
         </div>
       </MainLayout>
     );

@@ -1,16 +1,16 @@
-
+@import '../less/index.less';
 
 .loginBox{
   width: 100%;
   height: 100%;
   background: no-repeat center center;
-  // background-image: url('../assets/yay.jpg');
-  // background-size: cover;
+  background-image: url('../assets/beijing.jpg');
+  background-size: cover;
   position: relative;
   padding-top: 80px;
   text-align: center;
   color: #fff;
-  background-color: #fcc;
+  // background-color: #fcc;
   .logo{
     padding-left: 140px;
     height: 40px;
@@ -94,6 +94,18 @@
       &:hover{
         color: rgba(0, 0, 0, 1);
       }
+    }
+    .iicon{
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      z-index: 1;
+      // color: rgba(0, 0, 0, .6);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .the{
+      color: @theme-color;
     }
   }
   .qrBox{

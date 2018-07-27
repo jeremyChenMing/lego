@@ -17,12 +17,12 @@ class Header extends React.Component {
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/us'},
       ],
-      active: 0,
+      active: -1,
     }
   }
   componentDidMount() {
     const { location: {pathname} } = this.props;
-    let num = 0;
+    let num = -1;
     if (pathname.indexOf('main') !== -1) {
       num = 0;
     }else if (pathname.indexOf('shop') !== -1) {
@@ -54,8 +54,9 @@ class Header extends React.Component {
   }
 
   clickMore = ({key}) => {
+    const { dispatch } = this.props;
     if (key === '0') {
-
+      dispatch(routerRedux.push('/center'))
     }else if (key === '1') {
       this.quiteSys()
     }

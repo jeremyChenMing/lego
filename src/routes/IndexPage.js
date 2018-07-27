@@ -30,34 +30,44 @@ class Cell extends React.Component {
 
   link = () => {
     const { dispatch, data } = this.props;
-    console.log(data)
     dispatch(routerRedux.replace(`/person/${data.id}`))
   }
   render() {
     const { keys = 1, data } = this.props;
+    const renderBack = (data) => {
+      console.log(data.avatar, '---')
+      return data.avatar ? {backgroundImage: `url(${data.avatar})`} : {backgroundImage: `url(/img/avart1.png)`}
+    }
+    console.log(renderBack(data))
     return (
-      <div className={cx(l.cellBox)} style={{backgroundImage: 'url("/img/avart1.png")'}}>
-        <img onClick={this.link} className={cx(l.avart)} src="/img/avart1.png" alt="头像"/>
-        <p>
-          <span className={cx(l.name)}>响亮的名字 <Icon type="star" /></span>
-        </p>
-        <div className={cx(l.txt)}>
-          <div className={cx(l.l_label)}>北京</div>
-          <div className={cx(l.line)}><i></i></div>
-          <div className={cx(l.r_label)}>创客2年</div>
+      <div className={cx(l.cellBox)} style={renderBack(data)}>
+        <div className={cx(l.shadow)}></div>
+        <div className={cx(l.cons)}>
+          <img onClick={this.link} className={cx(l.avart)} src={data.avatar ? data.avatar : "/img/avart1.png"} alt="头像"/>
+          <p>
+            <span className={cx(l.name)}>{data.nickname ? data.nickname : ' '} <Icon type="star" /></span>
+          </p>
+          {/*<div className={cx(l.txt)}>
+            <div className={cx(l.l_label)}>北京</div>
+            <div className={cx(l.line)}><i></i></div>
+            <div className={cx(l.r_label)}>创客2年</div>
+          </div>
+          <div className={cx(l.txt)}>
+            <div className={cx(l.l_label)} style={{paddingRight: '30px'}}>创作 {data.num_products ? data.num_products : 0}</div>
+            <div className={cx(l.line, l.pd)}><i></i></div>
+            <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
+          </div>*/}
+          <div style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)', margin: '10px 0'}}>{data.intro ? `简介：${data.intro}` : '简介：暂无'}</div>
+          <div style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)'}}>创作 {data.num_products ? data.num_products : 0}</div>
+          {/*<Button 
+            onClick={this.handle.bind(null, this.state.type)} 
+            type={this.state.type} 
+            className={cx(l.btn, l[this.state.type ? '' : 'grays'])}
+          >
+            {this.state.type ? '关注ta' : '取消关注'}
+          </Button>*/}
         </div>
-        <div className={cx(l.txt)}>
-          <div className={cx(l.l_label)} style={{paddingRight: '30px'}}>创作 87</div>
-          <div className={cx(l.line, l.pd)}><i></i></div>
-          <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
-        </div>
-        <Button 
-          onClick={this.handle.bind(null, this.state.type)} 
-          type={this.state.type} 
-          className={cx(l.btn, l[this.state.type ? '' : 'grays'])}
-        >
-          {this.state.type ? '关注ta' : '取消关注'}
-        </Button>
+        
       </div>
     );
   }

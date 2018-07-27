@@ -7,7 +7,7 @@ import l from './Detail.less';
 import pathToRegexp from 'path-to-regexp'
 import { getProductsOfDetail, givePraise } from '../services/common'
 import { getSearchObj } from '../utils/common'
-import { Icon, Button, Input, notification } from 'antd';
+import { Icon, Button, Input, notification, Carousel } from 'antd';
 import { deepClone } from '../utils/common'
 import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
 import { UnmountClosed} from 'react-collapse';
@@ -124,6 +124,14 @@ class Detail extends React.Component {
       starClass: false
     })
   }
+
+  renderBack = (data) => {
+    let temp = {};
+    if (data) {
+      temp = {backgroundImage: `url(${data})`}
+    }
+    return temp;
+  }
   render() {
     const { list, detailObj, commons, star, starClass, vote } = this.state;
     const { location } = this.props;
@@ -152,7 +160,13 @@ class Detail extends React.Component {
           </div>
           <div className={cx(l.headerBox)}>
             <div className={cx(l.left)}>
-              <img src="/img/produce.png" alt=""/>
+              <Carousel autoplay={true}>
+                {
+                  (detailObj.images || []).map( (item,index) => {
+                    return <div key={index} style={this.renderBack(item.url)} className={cx(l.bgs)}><h3>1</h3></div>
+                  })
+                }
+              </Carousel>
             </div>
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>

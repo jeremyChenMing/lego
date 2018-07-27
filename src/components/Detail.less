@@ -74,13 +74,25 @@
 
 .headerBox{
   height: 410px;
-  display: flex;
-  // margin-bottom: 300px;
   overflow: hidden;
+  & > div{
+    display: inline-block;
+    vertical-align: top;
+  }
   .left{
-    flex: 1;
-    & > img{
-      width: 100%;
+    width: ~'calc(100% - 282px)';
+    .bgs{
+      background-color: #fff;
+      height: 410px;
+      overflow: hidden;
+      text-align: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center center;
+      // background-size: 100% 100%;
+      & > h3{
+        color: transparent;
+      }
     }
   }
   .right{

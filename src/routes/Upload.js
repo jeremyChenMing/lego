@@ -120,6 +120,7 @@ class Upload extends React.Component {
   }
   save = async() => {
     const { imgs, title, description, covers } = this.state;
+    console.log(imgs)
     console.log(covers)
     if (!title) {
       notification.info({
@@ -137,27 +138,27 @@ class Upload extends React.Component {
       })
       return
     }
-    let arrs = imgs.concat([covers])
+    let arrs = [covers].concat(imgs);
     const para = {
       title, 
       description,
       images: arrs
     }
     console.log(para, 'para')
-    // try{
-    //   const result = await creatProduce(para)
-    //   if (result && !result.code) {
-    //     notification.success({
-    //       message: `添加成功！`
-    //     })
-    //   }else{
-    //     notification.error({
-    //       message: `添加失败，原因：${result.msg}`
-    //     })
-    //   }
-    // }catch(err) {
-    //   console.log(err)
-    // }
+    try{
+      const result = await creatProduce(para)
+      if (result && !result.code) {
+        notification.success({
+          message: `添加成功！`
+        })
+      }else{
+        notification.error({
+          message: `添加失败，原因：${result.msg}`
+        })
+      }
+    }catch(err) {
+      console.log(err)
+    }
   }
 
 
@@ -217,12 +218,19 @@ class Upload extends React.Component {
     a.readAsDataURL(blob);
   }
   okCover = () => { // ---------- ------------  ----------- ------------
+    const { covers } = this.state;
     if (this.cropper) {
-      const urls = this.cropper.getCroppedCanvas();
-      console.log(urls)
-      urls.toBlob( (blob) => {
-        this.blobToDataURL(blob, this.callback.bind(null, blob))
-      }) 
+      // const urls = this.cropper.getCroppedCanvas({fillColor: '#fff'});
+      // console.log(urls)
+      // urls.toBlob( (blob) => {
+      //   this.blobToDataURL(blob, this.callback.bind(null, blob))
+      // })
+
+
+      // 另外一种方法
+      console.log(covers.file.type)
+      const dataUrls = this.cropper.getCroppedCanvas({fillColor: '#fff'}).toDataURL(covers.file.type)
+      this.callback(this.dataURLtoBlob(dataUrls) ,dataUrls)
     }else{
       notification.info({
         message: `请先上传图片！`

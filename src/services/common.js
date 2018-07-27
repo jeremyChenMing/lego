@@ -74,7 +74,7 @@ export const putProfile = (data, query = {}) => {
 }
 // 16、删除作者简介
 export const patchProfile = (data, query = {}) => {
-  return fetch.patch(`/api/v1/user/profile`, query)
+  return fetch.patch(`/api/v1/user/profile`, query, data)
 }
 // 。。。。。。。。。？
 

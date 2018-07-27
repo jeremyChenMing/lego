@@ -26,6 +26,7 @@ class Login extends React.Component {
       checked: true,
       show: 'login',
       submitting: false,
+      eye: false,
     }
   }
   componentWillUnmount() {
@@ -55,7 +56,7 @@ class Login extends React.Component {
               dispatch(saveUserInfo({...token, ...values}))
               dispatch(routerRedux.replace('/main/hot'))
             }else{
-              reject(new SubmissionError({_error: '123123', password: result.message}))
+              reject(new SubmissionError({_error: '123123', password: token.message}))
             }
           })
         }else{
@@ -109,6 +110,22 @@ class Login extends React.Component {
                 validate={[required]} />
     }
   }
+  renderRig = () => {
+    const { eye } = this.state;
+    return <div className={cx(l.code)}>
+        <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+                placeholder='密码'
+                name='password'
+                type={eye ? 'text' : 'password'}
+                validate={[required]} />
+        <Icon onClick={this.showEye.bind(null, eye)} className={cx(l.iicon, l[eye ? 'the' : null])} type="eye-o" />
+      </div>
+  }
+  showEye = (bool) => {
+    this.setState({
+      eye: !bool
+    })
+  }
 
 
 
@@ -132,19 +149,27 @@ class Login extends React.Component {
     dispatch(routerRedux.push('/main/hot'))
   }
 
-
-  register = async() => {
-    // try{
-    //   const result = await registerUser({username: 'jeremy', password: 123456});
-    //   console.log(result, '******')
-    //   if (result && !result.code) {
-
-    //   }else{
-
-    //   }
-    // }catch(err) {
-    //   console.log(err)
-    // }
+  linkRegister = () => {
+    this.setState({
+      show: 'register'
+    })
+  }
+  register = (values) => {
+    const { dispatch } = this.props;
+    console.log(values)
+    values.login = true;
+    this.setState({submitting: true})
+    return new Promise( (resolve, reject) => {
+      registerUser(values).then( token => {
+        this.setState({submitting: false})
+        if (token && !token.code) {
+          dispatch(saveUserInfo({...token, ...values}))
+          dispatch(routerRedux.replace('/main/hot'))
+        }else{
+          reject(new SubmissionError({_error: '123123', password: token.message}))
+        }
+      }) 
+    })
   }
   render() {
     const { handleSubmit } = this.props;
@@ -156,12 +181,12 @@ class Login extends React.Component {
         {
           show === 'login' ?
           <div className={cx(l.login)}>
-            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            {/*<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <Icon type="qrcode" className={cx(l.icons)} />
-            </div>
+            </div>*/}
             <div className={cx(l.nav)}>
-              {
-                ['密码登录','短信登录'].map( (item,index) => {
+              {/* ,'短信登录' */
+                ['密码登录'].map( (item,index) => {
                   return(
                     <span onClick={this.handlNav.bind(null, index)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item}</span>
                   )
@@ -190,21 +215,46 @@ class Login extends React.Component {
               </div>
               <Row>
                 <Col span={12} style={{textAlign: 'left'}}>
-                  <Checkbox onChange={this.changeCheck} checked={checked}> <span style={{color: '#282828'}}>下次自动登录</span></Checkbox>
+                  {/*<Checkbox onChange={this.changeCheck} checked={checked}> <span style={{color: '#282828'}}>下次自动登录</span></Checkbox>*/}
                 </Col>
                 <Col span={12} style={{textAlign: 'right'}}>
-                  <a>忘记密码</a> | <a onClick={this.register}>注册</a>
+                  {/*<a>忘记密码</a> | */}<a onClick={this.linkRegister}>注册</a>
                 </Col>
               </Row>
-
+            {/*
               <h3>第三方账号登录</h3>
               <div className={cx(l.log)}>
                 <span className={cx('myself-icon', l.icon)}>&#xe65b;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span className={cx('myself-icon', l.icon)}>&#xe65a;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span className={cx('myself-icon', l.icon)}>&#xe66a;</span>
               </div>
+            */}
             </div>
           </div>
+          : show === 'register' ?
+            <div className={cx(l.login)}>
+              <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
+                <Icon type="rollback" className={cx(l.icons)}/>
+              </div>
+              <div className={cx(l.login_form)}>
+                <InputField
+                  name='username'
+                  placeholder='用户名'
+                  inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
+                  validate={[required]}
+                  size='large'
+                  // onPressEnter={handleSubmit(this.handleSubmit.bind(this))} 
+                />
+                {this.renderRig()}
+                <Button
+                  type='primary'
+                  loading={submitting}
+                  disabled={submitting}
+                  style={{width: '100%', color: '#000', height: '42px', lineHeight: '42px', marginBottom: '10px'}}
+                  size="large"
+                  onClick={handleSubmit(this.register)}>注册</Button>
+              </div>
+            </div>
           :
           <div className={cx(l.login)}>
             <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>

@@ -30,7 +30,7 @@ export default {
       }
       console.log(example)
       Storage.setItem(LOCAL_STORAGE, {example})
-      document.cookie = `id=Bearer ${payload.access_token}`
+      // document.cookie = `id=Bearer ${payload.access_token}`
       return example
     },
 

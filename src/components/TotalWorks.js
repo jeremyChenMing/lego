@@ -19,23 +19,19 @@ class TotalWorks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pagination:{
-        limit: 10,
-        offset: 0,
-        total: 0,
-        current: 1,
-      },
+      total: 0,
+      page: 1,
+      pageSize: 10,
       produce: [],
     }
   }
   getList = async() => {
-    const { pagination: {limit, offset} } = this.state;
+    const { page, pageSize } = this.state;
     try{
-      const result = await getProducts({limit, offset});
-      console.log(result, '**')
+      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
-        this.state.pagination.total = result.count;
         this.setState({
+          total: result.count,
           produce: result.results
         })
       }else{
@@ -56,8 +52,13 @@ class TotalWorks extends React.Component {
     //   rotate: {z: 15} 
     // }, 50);
   }
+  changePage = (page, pageSize) => {
+    this.setState({
+      page: page
+    }, this.getList)
+  }
   render() {
-    const { pagination: {current, total}, produce } = this.state;
+    const { page, pageSize,total, produce } = this.state;
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
@@ -71,7 +72,7 @@ class TotalWorks extends React.Component {
           }
         </div>
         <div className={cx(l.pageBox, 'pageBox')}>
-          <Pagination defaultCurrent={current} total={total} />
+          <Pagination current={page} pageSize={pageSize} total={total} onChange={this.changePage}/>
         </div>
       </div>
     );

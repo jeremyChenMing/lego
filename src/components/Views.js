@@ -27,23 +27,19 @@ class Views extends React.Component {
         {name: '只能排序'},
       ],
       active: 0,
-      pagination:{
-        limit: 10,
-        offset: 0,
-        total: 0,
-        current: 1,
-      },
+      total: 0,
+      page: 1,
+      pageSize: 20,
       produce: [],
     }
   }
   getList = async() => {
-    const { pagination: {limit, offset} } = this.state;
+    const { page, pageSize } = this.state;
     try{
-      const result = await getProducts({limit, offset});
-      console.log(result, '**123')
+      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
-        this.state.pagination.total = result.count;
         this.setState({
+          total: result.count,
           produce: result.results
         })
       }else{
@@ -72,9 +68,14 @@ class Views extends React.Component {
       active: index
     })
   }
+  changePage = (page, pageSize) => {
+    this.setState({
+      page: page
+    }, this.getList)
+  }
   render() {
     const { location } = this.props;
-    const { nav, active, pagination: {current, total}, produce } = this.state;
+    const { nav, active, page, pageSize, total, produce } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -96,7 +97,7 @@ class Views extends React.Component {
             }
           </div>
           <div className={cx(l.pageBox, 'pageBox')}>
-            <Pagination defaultCurrent={current} total={total} />
+            <Pagination current={page} pageSize={pageSize} total={total} onChange={this.changePage}/>
           </div>
         </div>
       </MainLayout>

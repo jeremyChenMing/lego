@@ -27,6 +27,10 @@ function RouterConfig ({ history, app }) {
     app,
     component: () => import('./routes/Upload')
   })
+  const Center = dynamic({
+    app,
+    component: () => import('./routes/Center')
+  })
 
   return (
     <Router history={history}>
@@ -38,6 +42,7 @@ function RouterConfig ({ history, app }) {
         <Route path='/shop'  component={Shopping} />
         <Route path='/us' component={Users} />
         <Route path='/upload' component={Upload} />
+        <Route path='/center' component={Center} />
       </Switch>
     </Router>
   )

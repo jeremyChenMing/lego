@@ -75,7 +75,7 @@ const completeHeader = (header) => {
     ...{
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: access_token ? `Bearer ${access_token}` : ''
+      // Authorization: access_token ? `Bearer ${access_token}` : ''
     }
   }
 

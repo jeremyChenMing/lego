@@ -28,23 +28,30 @@ export class Model extends React.Component {
     }
     return temp;
   }
+  renderBack = (data) => {
+    let temp = {};
+    if (data && data.images && data.images[0]) {
+      temp = {backgroundImage: `url(${data.images[0].url})`}
+    }
+    return temp;
+  }
   render() {
     const { data } = this.props;
     return (
       <div onClick={this.link.bind(null, data.id, 'hot')} className={cx(l.modelBox)}>
-        <div className={cx(l.imgs)}></div>
+        <div className={cx(l.imgs)} style={this.renderBack(data)}></div>
         <div className={cx(l.con)}>
           <h4>{data.title ? data.title : ''}</h4>
           <p title={data.description ? data.description : ''}>{data.description ? data.description : ''}</p>
-          <span><Icon type="eye-o" />&nbsp;1555</span>
-          &nbsp;&nbsp;&nbsp;&nbsp;
+          {/*<span><Icon type="eye-o" />&nbsp;1555</span>
+          &nbsp;&nbsp;&nbsp;&nbsp;*/}
           <span><Icon type="like-o" />&nbsp;{data.num_votes}</span>
         </div>
         <div className={cx(l.footBox)}>
           <div className={cx(l.left)}>
-            <Avatar size="small" icon="user" />
+            <Avatar size="small" icon="user" src={this.props.avatar} />
           </div>
-          <div className={cx(l.mid)}>name</div>
+          <div className={cx(l.mid)}>{this.props.name}</div>
           <div className={cx(l.right)}>{this.showTime(data)}</div>
         </div>
       </div>
@@ -69,12 +76,9 @@ class HotWorks extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      pagination:{
-        limit: 10,
-        offset: 0,
-        total: 0,
-        current: 1,
-      },
+      total: 0,
+      page: 1,
+      pageSize: 10,
       produce: [],
     }
   }
@@ -91,13 +95,12 @@ class HotWorks extends React.Component {
     // }, 50);
   }
   getList = async() => {
-    const { pagination: {limit, offset} } = this.state;
+    const { page, pageSize } = this.state;
     try{
-      const result = await getProducts({limit, offset});
-      console.log(result, '**')
+      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
-        this.state.pagination.total = result.count;
         this.setState({
+          total: result.count,
           produce: result.results
         })
       }else{
@@ -107,23 +110,28 @@ class HotWorks extends React.Component {
       console.log(err)
     }
   }
+  changePage = (page, pageSize) => {
+    this.setState({
+      page: page
+    }, this.getList)
+  }
 
   render() {
-    const { pagination: {current, total}, produce } = this.state;
+    const { page, total, pageSize, produce, pagination } = this.state;
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
           { /* produce */
             produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item}/>
+                <Model keys={index + 1} data={item} avatar={item.avatar ? item.avatar : "/img/avart1.png"}/>
               </div>
               
             })
           }
         </div>
         <div className={cx(l.pageBox, 'pageBox')}>
-          <Pagination defaultCurrent={current} total={total} />
+          <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage}/>
         </div>
       </div>
     );

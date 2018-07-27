@@ -16,15 +16,20 @@ class Author extends React.Component {
       active: 0,
       userList: [],
       follow: false,
+      total: 0,
+      page: 1,
+      pageSize: 5,
     }
   }
   users = async() => {
+    const { page, pageSize } = this.state;
     try{
-      const result = await getUsers();
+      const result = await getUsers({limit: pageSize, offset: (page - 1) * pageSize});
       console.log(result)
       if (result && !result.code) {
         this.setState({
-          userList: result
+          total: result.count,
+          userList: result.results
         })
       }
     }catch(err) {
@@ -50,9 +55,15 @@ class Author extends React.Component {
       })
     }
   }
+
+  changePage = (page, pageSize) => {
+    this.setState({
+      page: page
+    }, this.users)
+  }
   render() {
     const { location } = this.props;
-    const { nav, active, userList, follow } = this.state;
+    const { nav, active, userList, follow, page, total, pageSize } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -86,13 +97,13 @@ class Author extends React.Component {
           {/*  */
             userList.map( (item,index) => {
               return <li key={index} className={cx(l[index !== userList.length - 1 ? 'border' : null])}>
-                <Cell />
+                <Cell list={item}/>
               </li>
             })
           }
           </ul>
           <div className={cx(l.pageBox, 'pageBox')}>
-            <Pagination defaultCurrent={1} total={1} />
+            <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage}/>
           </div>
         </div>
       </MainLayout>
@@ -105,19 +116,20 @@ class Cell extends React.Component {
   }
 
   render() {
-    const { data = ['','','',''] } = this.props;
+    const { data = ['','','',''], list } = this.props;
     const yes = {color: '#000'};
     const no = {color: '#000'};
     return (
       <div className={cx(l.cellBoxes)}>
         <div span={8} className={cx(l.left)}>
-          <div><img src="/img/avart1.png" alt=""/></div>
+          <div><img src={list.avatar ? list.avatar : "/img/avart1.png"} alt=""/></div>
           <div className={cx(l.cons)}>
-            <h2>KDJEWL <Icon type="star" /></h2>
-            <p>背景 | 自由职业</p>
-            <p style={{fontSize: '16px', color: '#282828', marginBottom: '5px'}}>创作 65 &nbsp;&nbsp;|&nbsp;&nbsp; 关注 29937</p>
-            <p style={{marginBottom: '0px'}}>这里写的是简介这里写的是简介这里写的是简这里写的是简</p>
-            <Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button>
+            <h2>{list.nickname} <Icon type="star" /></h2>
+            <p>简介：{list.intro ? list.intro : '暂无'}</p>
+            <p style={{fontSize: '16px', color: '#282828', marginBottom: '5px'}}>创作 {list.num_products ? list.num_products : 0} {/*&nbsp;&nbsp;|&nbsp;&nbsp; 关注 29937*/}</p>
+            <p style={{marginBottom: '0px'}}>{list.intro ? list.intro : '暂无'}</p>
+            {/*<Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button>*/}
+            <div style={{height: '32px'}}></div>
           </div>
         </div>
         <div span={16} className={cx(l.right)}>
