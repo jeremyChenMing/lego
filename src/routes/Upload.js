@@ -6,7 +6,7 @@ import MainLayout from '../components/MainLayout/MainLayout'
 import UploadFile from '../components/MainLayout/UploadFile'
 import { Card, Button, Input, Row, Col, Icon, Modal, notification, Spin, Avatar, Tooltip } from 'antd'
 import { deepClone } from '../utils/common'
-import { uploaderFile, creatProduce, uploaderFilePost } from '../services/common'
+import { uploaderFile, creatProduce, uploaderFilePost, getProfile } from '../services/common'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 
@@ -27,11 +27,27 @@ class Upload extends React.Component {
       description: undefined, 
       udbool: true,
       lrbool: true,
-      coverUrlData: null
+      coverUrlData: null,
+      info: {}
     }
   }
+  getInformation = async() => {
+    try{
+      const result = await getProfile();
+      if (result && !result.code) {
+        this.setState({
+          info: result,
+        })
+      }else{
 
-
+      }
+    }catch(err) {
+      console.log(err)
+    }
+  }
+  componentDidMount() {
+    this.getInformation()
+  }
   renderTitle = (str, size) => {
     return <h3 className={cx(l.tle)}>{str} <span>{size}</span></h3>
   }
@@ -289,7 +305,7 @@ class Upload extends React.Component {
 
   render() {
     const { location } = this.props;
-    const { imgs, visible, covers, spinning, title, description, cover, udbool, lrbool, coverUrlData } = this.state;
+    const { imgs, visible, covers, spinning, title, description, cover, udbool, lrbool, coverUrlData, info } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx('main_container')}>
@@ -403,14 +419,13 @@ class Upload extends React.Component {
                   }
                 </div>
                 
-                <Row style={{padding: '10px 0',textAlign: 'left'}}>
+                <Row style={{padding: '10px 0',textAlign: 'left', display: [covers.urlData ? 'block' : 'none']}}>
                   <Col span={8}>
                     <UploadFile loadFile={this.loadCover} spin={false} ajaxBool={false} upStyle={{display: 'inline-block'}}>
                       <Button type="primary" style={{color: 'rgba(0,0,0,.65)'}}>重新上传</Button>
                     </UploadFile>
                   </Col>
                   <Col span={16} style={{textAlign: 'right'}}>
-
                     <ButtonGroup >
                       <Tooltip title="左转45" placement="bottom"> 
                         <Button onClick={this.handleRotate.bind(null, 'left')} type="primary" icon="reload" className={cx('reload')} style={{color: 'rgba(0,0,0,.65)'}}/>
@@ -458,9 +473,9 @@ class Upload extends React.Component {
                   </div>
                   <div className={cx(l.footBox)}>
                     <div className={cx(l.left)}>
-                      <Avatar size="small" icon="user" />
+                      <Avatar size="small" icon="user" src={info.avatar} />
                     </div>
-                    <div className={cx(l.mid)}>name</div>
+                    <div className={cx(l.mid)}>{info.nickname}</div>
                     <div className={cx(l.right)}>未发布</div>
                   </div>
                 </div> 

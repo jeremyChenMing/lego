@@ -53,7 +53,7 @@ class Login extends React.Component {
           getUserToken(values).then( token => {
             this.setState({submitting: false})
             if (token && !token.code) {
-              dispatch(saveUserInfo({...token, ...values}))
+              dispatch(saveUserInfo({...token}))
               dispatch(routerRedux.replace('/main/hot'))
             }else{
               reject(new SubmissionError({_error: '123123', password: token.message}))

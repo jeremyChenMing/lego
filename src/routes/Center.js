@@ -33,7 +33,6 @@ class Center extends React.Component {
   getInformation = async() => {
     try{
       const result = await getProfile();
-      console.log(result, 'getInformation')
       if (result && !result.code) {
         this.setState({
           info: result,
@@ -202,19 +201,19 @@ class Center extends React.Component {
           closable={false}
           confirmLoading={confirmLoading}
         >
-        <div className={cx(l.cropperBox)}>
-          {urlData && <img src={urlData} ref={(img) => this.img = img} alt=""/>} 
-        </div>
-         
+          <div className={cx(l.cropperBox)}>
+            {urlData && <img src={urlData} ref={(img) => this.img = img} alt=""/>} 
+          </div>
         </Modal>
         <div className={cx(l.centerBox, 'main_container')}>
           <div className={cx(l.head)} style={renderHead(headData)}>
-          <div className={cx(l.btns)}>
-            <UploadFile loadFile={this.loadFile} ajaxBool={false} spin={false} upStyle={{display: 'inline-block', width: '100%'}}>
-              <div className={cx(l.tt)}>上传头像</div>
-            </UploadFile>
+            <div className={cx(l.btns)}>
+              <UploadFile loadFile={this.loadFile} ajaxBool={false} spin={false} upStyle={{display: 'inline-block', width: '100%'}}>
+                <div className={cx(l.tt)}>上传头像</div>
+              </UploadFile>
+            </div>
           </div>
-          </div>
+          <div className={cx(l.headTxt)}>头像</div>
           <div className={cx(l.tableBox)}>
             <div className={cx(l.editBtn)}>
               <Button onClick={this.edit} type="primary" icon="edit"></Button>

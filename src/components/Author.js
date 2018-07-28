@@ -167,7 +167,7 @@ class Cell extends React.Component {
             })
           }
           {
-            produce.length >= 4 && <a href="javascript:;" className={cx(l.more)}><i></i></a>
+            produce.length >= 4 && <a href={`#/person/${list.id}`} className={cx(l.more)}><i></i></a>
           }
         </div>
       </div>
