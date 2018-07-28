@@ -35,10 +35,8 @@ class Cell extends React.Component {
   render() {
     const { keys = 1, data } = this.props;
     const renderBack = (data) => {
-      console.log(data.avatar, '---')
       return data.avatar ? {backgroundImage: `url(${data.avatar})`} : {backgroundImage: `url(/img/avart1.png)`}
     }
-    console.log(renderBack(data))
     return (
       <div className={cx(l.cellBox)} style={renderBack(data)}>
         <div className={cx(l.shadow)}></div>

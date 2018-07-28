@@ -23,6 +23,7 @@ class Center extends React.Component {
     this.state = {
       show: true,
       cover: false,
+      confirmLoading: false,
       info: {},
       urlData: null,
       headData: null,
@@ -110,7 +111,9 @@ class Center extends React.Component {
       // urls.toBlob( (blob) => {
       //   this.blobToDataURL(blob, this.callback.bind(null, blob))
       // }) 
-
+      this.setState({
+        confirmLoading: true
+      })
       // 另外一种方法
       const dataUrls = this.cropper.getCroppedCanvas({fillColor: '#fff'}).toDataURL(file.type);
       this.callback(this.dataURLtoBlob(dataUrls) ,dataUrls)
@@ -119,12 +122,20 @@ class Center extends React.Component {
   callback = (blob, result) => {
     uploaderFile({name: 'headPng', file: blob}).then( data => {
       if (data && !data.code) {
-        console.log(data)
         this.state.info.avatar = data.url
-        this.setState({
-          cover: false,
-          headData: result
+        patchProfile({avatar: data.url}).then( data => {
+          if (data && !data.code) {
+            this.setState({
+              cover: false,
+              headData: result
+            })
+          }else{
+
+          }
+        }).catch(err => {
+          console.log(err)
         })
+        
       }else{
         notification.error({
           message: `上传失败,${data.msg}`
@@ -168,9 +179,14 @@ class Center extends React.Component {
       console.log(err)
     })
   }
+  cancel = () => {
+    this.setState({
+      show: true
+    })
+  }
   render() {
     const { location } = this.props;
-    const { show, info, cover, urlData, headData } = this.state;
+    const { show, info, cover, urlData, headData, confirmLoading } = this.state;
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${data})`} : {}
     }
@@ -184,6 +200,7 @@ class Center extends React.Component {
           width={600}
           maskClosable={false}
           closable={false}
+          confirmLoading={confirmLoading}
         >
         <div className={cx(l.cropperBox)}>
           {urlData && <img src={urlData} ref={(img) => this.img = img} alt=""/>} 
@@ -199,7 +216,7 @@ class Center extends React.Component {
           </div>
           </div>
           <div className={cx(l.tableBox)}>
-            <div>
+            <div className={cx(l.editBtn)}>
               <Button onClick={this.edit} type="primary" icon="edit"></Button>
             </div>
             <div className={l.px}>
@@ -223,10 +240,14 @@ class Center extends React.Component {
               <span>简介：</span>
               {
                 show ? `${info.intro ? info.intro : ''}`
-                : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%'}}/>
+                : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}}/>
               }
             </div>
-            { !show && <Button onClick={this.save} type="primary">保存</Button>}
+            <div className={cx(l.btnBox)}>
+              { !show && <Button onClick={this.cancel} style={{marginRight: '15px'}}>取消</Button>}
+              { !show && <Button onClick={this.save} type="primary">保存</Button>}
+            </div>
+            
           </div>
         </div>
       </MainLayout>

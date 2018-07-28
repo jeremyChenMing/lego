@@ -3,7 +3,7 @@ import cx from 'classnames';
 import l from './Author.less';
 import { Pagination, Icon, Avatar, Row, Col, Button  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
-import { getUsers } from '../services/common'
+import { getUsers, getAuthOfProduce } from '../services/common'
 
 class Author extends React.Component {
   constructor(props) {
@@ -113,12 +113,35 @@ class Author extends React.Component {
 class Cell extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      produce: []
+    }
   }
 
+  getsProduce = async(id) => {
+    try{
+      const result = await getAuthOfProduce(id);
+      if (result && !result.code) {
+        this.setState({
+          produce: result
+        })
+      }
+    }catch(err) {
+
+    }
+  }
+  componentDidMount() {
+    const { list } = this.props;
+    if (list.id) {
+      this.getsProduce(list.id)
+    }
+  }
   render() {
-    const { data = ['','','',''], list } = this.props;
+    const { list } = this.props;
+    const { produce } = this.state;
     const yes = {color: '#000'};
     const no = {color: '#000'};
+    console.log(produce.length)
     return (
       <div className={cx(l.cellBoxes)}>
         <div span={8} className={cx(l.left)}>
@@ -134,14 +157,17 @@ class Cell extends React.Component {
         </div>
         <div span={16} className={cx(l.right)}>
           {
-            data.map( (item,index) => {
-              return(
-                <a href="javascript:;" key={index} className={cx(l.linkImg)}></a>
-              )
+            produce.map( (item,index) => {
+              const url = item.images[0] ? {backgroundImage: `url(${item.images[0].url})`} : {};
+              if (index < 4) {
+                return(
+                  <a href={`#/main/detail?id=${item.id}`} key={index} style={url} className={cx(l.linkImg)}></a>
+                ) 
+              }
             })
           }
           {
-            data.length >= 4 && <a href="javascript:;" className={cx(l.more)}><i></i></a>
+            produce.length >= 4 && <a href="javascript:;" className={cx(l.more)}><i></i></a>
           }
         </div>
       </div>
