@@ -6,6 +6,7 @@ import InputField from '../components/MainLayout/InputField'
 import { reduxForm, SubmissionError, formValueSelector } from 'redux-form'
 import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
 import { registerUser, loginUser, getUserToken } from '../services/common'
+import { getSearchObj } from '../utils/common'
 import { saveUserInfo } from '../actions/example'
 import { routerRedux } from 'dva/router'
 console.log(routerRedux)
@@ -27,6 +28,15 @@ class Login extends React.Component {
       show: 'login',
       submitting: false,
       eye: false,
+    }
+  }
+  componentDidMount() {
+    const { location } = this.props;
+    const query = getSearchObj(location)
+    if (query.type) {
+      this.setState({
+        show: query.type
+      })
     }
   }
   componentWillUnmount() {

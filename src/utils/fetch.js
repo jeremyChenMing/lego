@@ -3,7 +3,6 @@ import fetch from 'isomorphic-fetch'
 import qs from 'qs'
 import _ from 'lodash'
 import { message } from 'antd'
-// import _ from 'underscore'
 import { Storage } from '../utils/common'
 import { LOCAL_STORAGE } from '../constants/Constants'
 let initial= Storage.getItem(LOCAL_STORAGE)
@@ -75,12 +74,12 @@ const completeHeader = (header) => {
     ...{
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'credentials': 'include',
       // Authorization: access_token ? `Bearer ${access_token}` : ''
     }
   }
 
   if (!access_token) delete result.Authorization
-
   return result
 }
 
@@ -92,12 +91,11 @@ export const get = (url, query = {}, options = {}) => {
   const defaultOpt = {
     method: 'GET',
     timeout: requestTimeOut,
-    credentials: 'include',
     headers: { ...options }
   }
 
   defaultOpt.headers = completeHeader(defaultOpt.headers)
-  
+  // console.log(defaultOpt, '请求头')
   return fetch(getUrl(url, query), defaultOpt).then(checkStatus).then(parseJSON)
 }
 

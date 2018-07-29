@@ -8,6 +8,7 @@ import cx from 'classnames'
 import l from './Header.less'
 
 
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -104,7 +105,7 @@ class Header extends React.Component {
               <span>
                 <a href="#/login">登录</a>
                 <span className="ant-divider" style={{backgroundColor: '#000'}}/>
-                <a>注册</a>
+                <a href={`#/login?type=register`}>注册</a>
               </span>
             }
           </Col>
