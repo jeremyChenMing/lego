@@ -5,7 +5,7 @@ import moment from 'moment';
 import cx from 'classnames';
 import l from './Detail.less';
 import pathToRegexp from 'path-to-regexp'
-import { getProductsOfDetail, givePraise } from '../services/common'
+import { getProductsOfDetail, givePraise, getUsersOfDetail } from '../services/common'
 import { getSearchObj } from '../utils/common'
 import { Icon, Button, Input, notification, Carousel } from 'antd';
 import { deepClone } from '../utils/common'
@@ -34,6 +34,23 @@ class Detail extends React.Component {
       star: true,
       starClass: true,
       vote: true,
+      authId: null,
+      authMes: {}
+    }
+  }
+  getAuthMes = async() => {
+    const { authId } = this.state;
+    try{
+      const result = await getUsersOfDetail(authId);
+      if (result && !result.code) {
+        this.setState({
+          authMes: result
+        })
+      }else{
+
+      }
+    }catch(err) {
+      console.log(err)
     }
   }
   getDetail = async() => {
@@ -42,8 +59,9 @@ class Detail extends React.Component {
       const result = await getProductsOfDetail(id);
       if (result && !result.code) {
         this.setState({
-          detailObj: result
-        })
+          detailObj: result,
+          authId: result.author_id
+        }, this.getAuthMes)
       }else{
         notification.error({
           message: `获取产品详情失败！`
@@ -133,7 +151,7 @@ class Detail extends React.Component {
     return temp;
   }
   render() {
-    const { list, detailObj, commons, star, starClass, vote } = this.state;
+    const { list, detailObj, commons, star, starClass, vote, authMes } = this.state;
     const { location } = this.props;
     return (
       <MainLayout location={location}>
@@ -170,9 +188,14 @@ class Detail extends React.Component {
             </div>
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>
-                <img src="/img/avart1.png" alt=""/>
-                <h3>SX-DHUQ <Icon type="star" /></h3>
-                <div className={cx(l.txt)} style={{fontSize: '12px', color: '#585858'}}>
+                <div className={cx(l.imgs)}>
+                  <img src={authMes.avatar ? authMes.avatar : "/img/avart1.png"} alt=""/>
+                </div>
+                
+                <h3>{authMes.nickname ? authMes.nickname : ''} <Icon type="star" /></h3>
+                <div style={{fontSize: '12px', color: '#585858', margin: '5px 0 10px'}}>简介：{authMes.info ? authMes.info : '暂无'}</div>
+                <div style={{fontSize: '12px', color: '#c9c9c9'}}>创作：{authMes.num_products ? authMes.num_products : 0}</div>
+                {/*<div className={cx(l.txt)} style={{fontSize: '12px', color: '#585858'}}>
                   <div className={cx(l.l_label)} style={{paddingRight: '10px'}}>上海</div>
                   <div className={cx(l.line, l.pd)}><i style={{backgroundColor: '#585858'}}></i></div>
                   <div className={cx(l.r_label)} style={{paddingLeft: '10px'}}>创库4年</div>
@@ -181,7 +204,7 @@ class Detail extends React.Component {
                   <div className={cx(l.l_label)} style={{paddingRight: '30px'}}>创作 87</div>
                   <div className={cx(l.line, l.pd)}><i></i></div>
                   <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
-                </div>
+                </div>*/}
               </div>
               <div className={cx(l.btm)}>
                 <h1>{detailObj.title ? detailObj.title : ''}</h1>

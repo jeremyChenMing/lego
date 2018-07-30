@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import InputField from '../components/MainLayout/InputField'
 import { reduxForm, SubmissionError, formValueSelector } from 'redux-form'
 import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
-import { registerUser, loginUser, getUserToken } from '../services/common'
+import { registerUser, loginUser, getUserToken, getProfile } from '../services/common'
 import { getSearchObj } from '../utils/common'
 import { saveUserInfo } from '../actions/example'
 import { routerRedux } from 'dva/router'
@@ -60,7 +60,7 @@ class Login extends React.Component {
     return new Promise( (resolve, reject) => {
       loginUser(values).then( result => {
         if (result && !result.code) {
-          getUserToken(values).then( token => {
+          getProfile().then( token => {
             this.setState({submitting: false})
             if (token && !token.code) {
               dispatch(saveUserInfo({...token}))

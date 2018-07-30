@@ -3,9 +3,9 @@ import cx from 'classnames';
 import l from './HotWorks.less';
 import ScrollReveal from 'scrollreveal'
 import { Pagination, Icon, Avatar  } from 'antd'
-import { getProducts } from '../services/common'
+import { getProducts, getUsersOfDetail } from '../services/common'
 import moment from 'moment'
-
+import _ from 'lodash'
 
 
 export class Model extends React.Component {
@@ -13,12 +13,13 @@ export class Model extends React.Component {
     super(props);
   }
   link = (id, type) => {
-    document.location.href = `#/main/detail?id=${id}&type=${type}`
+    document.location.href = `#/main/detail?id=${id}`
   }
 
 
   componentDidMount() {
-    this.showTime(this.props.data);
+    const { name, avatar } = this.props;
+    // console.log(name, avatar, '*&')
   }
   showTime = (data) => {
     let temp = '';
@@ -80,6 +81,8 @@ class HotWorks extends React.Component {
       page: 1,
       pageSize: 10,
       produce: [],
+      ids: [],
+      authMes: {}
     }
   }
 
@@ -94,15 +97,35 @@ class HotWorks extends React.Component {
     //   rotate: {z: 15} 
     // }, 50);
   }
+  getMes = async() => {
+    const arr = _.uniq(this.state.ids);
+    let mes = {};
+    try{
+      for(let i=0; i<arr.length; i++) {
+        const data = await getUsersOfDetail(arr[i])
+        const key = arr[i].toString()
+        mes[key] = data
+      }
+      this.setState({
+        authMes: mes
+      })
+    }catch(err) {
+      console.log(err)
+    }
+  }
   getList = async() => {
     const { page, pageSize } = this.state;
     try{
       const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
+        let ids = result.results.map( item => {
+          return item.author_id
+        })
         this.setState({
           total: result.count,
-          produce: result.results
-        })
+          produce: result.results,
+          ids
+        }, this.getMes)
       }else{
 
       }
@@ -117,14 +140,15 @@ class HotWorks extends React.Component {
   }
 
   render() {
-    const { page, total, pageSize, produce, pagination } = this.state;
+    const { page, total, pageSize, produce, pagination, authMes } = this.state;
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
           { /* produce */
             produce.map( (item,index) => {
+              const perMes = authMes[item.author_id] ? authMes[item.author_id] : {};
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item} avatar={item.avatar ? item.avatar : "/img/avart1.png"}/>
+                <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : "/img/avart1.png"} avatar={perMes.avatar ? perMes.avatar : "/img/avart1.png"}/>
               </div>
               
             })

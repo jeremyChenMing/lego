@@ -27,11 +27,12 @@ const checkStatus = (response) => {
     case 400:
       return response
     case 403:
-      message.error("身份认证信息未提供，即将跳转登录！")
-      setTimeout(function () {
-        window.location.href = '#/login'
-      },2000)
-      break;
+      // message.error("身份认证信息未提供，即将跳转登录！")
+      // setTimeout(function () {
+      //   window.location.href = '#/login'
+      // },2000)
+      // break;
+      return response
     case 302:
       return response
     default:
@@ -43,7 +44,6 @@ const parseJSON = (response) => {
   return response.json().then((json) => {
     return json
   }).catch((err) => {
-    console.log(err)
     return Promise.reject({ // eslint-disable-line
       code: -1,
       msg: `${err}`

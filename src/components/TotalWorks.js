@@ -4,8 +4,8 @@ import l from './HotWorks.less';
 import ScrollReveal from 'scrollreveal'
 import { Model } from './HotWorks'
 import { Pagination } from 'antd'
-import { getProducts } from '../services/common'
-
+import { getProducts, getUsersOfDetail } from '../services/common'
+import _ from 'lodash'
 
 const dutArr = (num) => {
   let temp = [];
@@ -23,6 +23,24 @@ class TotalWorks extends React.Component {
       page: 1,
       pageSize: 10,
       produce: [],
+      ids: [],
+      authMes: {}
+    }
+  }
+  getMes = async() => {
+    const arr = _.uniq(this.state.ids);
+    let mes = {};
+    try{
+      for(let i=0; i<arr.length; i++) {
+        const data = await getUsersOfDetail(arr[i])
+        const key = arr[i].toString()
+        mes[key] = data
+      }
+      this.setState({
+        authMes: mes
+      })
+    }catch(err) {
+      console.log(err)
     }
   }
   getList = async() => {
@@ -30,10 +48,14 @@ class TotalWorks extends React.Component {
     try{
       const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize});
       if (result && !result.code) {
+        let ids = result.results.map( item => {
+          return item.author_id
+        })
         this.setState({
           total: result.count,
-          produce: result.results
-        })
+          produce: result.results,
+          ids
+        }, this.getMes)
       }else{
 
       }
@@ -58,14 +80,15 @@ class TotalWorks extends React.Component {
     }, this.getList)
   }
   render() {
-    const { page, pageSize,total, produce } = this.state;
+    const { page, pageSize,total, produce, authMes } = this.state;
     return (
       <div className={cx('main_container')}>
         <div className={cx(l.hots)}>
           {
             produce.map( (item,index) => {
+              const perMes = authMes[item.author_id] ? authMes[item.author_id] : {};
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item}/>
+                <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : "/img/avart1.png"} avatar={perMes.avatar ? perMes.avatar : "/img/avart1.png"}/>
               </div>
               
             })

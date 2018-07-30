@@ -92,15 +92,15 @@ class Header extends React.Component {
           </Col>
           <Col span={3} className={cx(l.avatar)}>
             {
-              example.access_token ?
+              example.id ?
               <div className={cx(l.logined)}>
                 <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Dropdown overlay={menu} trigger={['click']}>
-                  <Avatar src={'/img/avart1.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" />
+                    <Avatar src={example.avatar ? example.avatar : '/img/avart1.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" >
+                    </Avatar>
                 </Dropdown>
               </div>
-              
               :
               <span>
                 <a href="#/login">登录</a>
