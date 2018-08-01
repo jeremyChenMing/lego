@@ -178,13 +178,17 @@ class Detail extends React.Component {
           </div>
           <div className={cx(l.headerBox)}>
             <div className={cx(l.left)}>
-              <Carousel autoplay={true}>
+            {
+              detailObj.images && detailObj.images.length ?
+              <Carousel autoplay={true} dots={true} effect="fade">
                 {
-                  (detailObj.images || []).map( (item,index) => {
+                  detailObj.images.map( (item,index) => {
                     return <div key={index} style={this.renderBack(item.url)} className={cx(l.bgs)}><h3>1</h3></div>
                   })
                 }
               </Carousel>
+              : null
+            }
             </div>
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>

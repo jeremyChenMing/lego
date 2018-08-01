@@ -29,29 +29,20 @@ export default {
     },
     *checkLogin({payload}, {call, put, select}) {
 
-      const auths = yield call(getProfile)
-      
-      if (auths.code && auths.code === 'not_authenticated') {
-        console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
-        yield put({type: 'clear'});
-        if (payload === '/login') {
+      if (payload === '/login' || payload === '/center') {
 
-        }else{
-          Modal.confirm({
-            title: '登录失效',
-            content: '登录凭证过期, 请重新登录！',
-            okText: '确认',
-            cancelText: '取消',
-            onOk: () => { document.location.href = '#/login'},
-            onCancel: () => {}
-          }); 
-        }
-        
       }else{
-        console.log(auths)
-        // 现在没有的时间没有过期
-        yield put({type: 'sets', payload: auths});
+        const auths = yield call(getProfile);
+        if (auths.code && auths.code === 'not_authenticated') {
+          console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
+          yield put({type: 'clear'});
+        }else{
+          console.log('现在没有的时间没有过期')
+          yield put({type: 'sets', payload: auths});
+        }
+
       }
+
 
     }
   },

@@ -39,7 +39,15 @@ class Center extends React.Component {
           headData: result.avatar
         })
       }else{
-
+        console.log('123123', result.code)
+        Modal.confirm({
+          title: '登录失效',
+          content: '登录凭证过期, 请重新登录！',
+          okText: '确认',
+          cancelText: '取消',
+          onOk: () => { document.location.href = '#/login'},
+          onCancel: () => {document.location.href = '#/'}
+        });
       }
     }catch(err) {
       console.log(err)
