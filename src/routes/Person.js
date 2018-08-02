@@ -40,7 +40,6 @@ class PersonProduce extends React.Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
     if (this.props.id) {
       this.getProducts(this.props.id)
     }
@@ -57,12 +56,12 @@ class PersonProduce extends React.Component {
     }, this.getProducts)
   }
   render() {
-    const { info,  } = this.props;
+    const { info } = this.props;
     const { produce, page, total, pageSize } = this.state;
     return (
       <div>
         <div className={cx(l.hots)}>
-          {/*  */
+          {
              produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
                 <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : "/img/avart1.png"} name={info.nickname ? info.nickname : ''}/>
@@ -92,7 +91,6 @@ class Person extends React.Component {
     const { id } = this.state;
     try{
       const result = await getUsersOfDetail(id);
-      console.log(result, '个人详情')
       if (result && !result.code) {
         this.setState({
           mess: result
@@ -141,7 +139,6 @@ class Person extends React.Component {
           <span onClick={this.handle.bind(null, 0)} className={cx(l.nav, l[active === 0 ? 'active' : ''])}>个人作品</span>
           <span onClick={this.handle.bind(null, 1)} className={cx(l.nav,l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>
         </div>
-
         <div className={cx(l.tabContent, 'main_container')}>
           <PersonProduce id={id} info={{avatar: mess.avatar, nickname: mess.nickname}}/>
         </div>

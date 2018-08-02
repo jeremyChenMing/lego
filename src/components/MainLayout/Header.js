@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'dva'
-import { Menu, Icon, Row, Col, Avatar, Dropdown } from 'antd'
+import { Menu, Icon, Row, Col, Avatar, Dropdown, message } from 'antd'
 import { Link, routerRedux } from 'dva/router'
 import { outUser } from '../../services/common'
 import { clearUserInfo } from '../../actions/example'
@@ -62,6 +62,14 @@ class Header extends React.Component {
       this.quiteSys()
     }
   }
+  linkPath = (item) => {
+    const { dispatch } = this.props;
+    if (item.path === '/shop') {
+       message.info('即将上线，敬请期待...');
+    }else{
+      dispatch(routerRedux.push(item.path))
+    }
+  }
   render() {
     const { location, example } = this.props;
     const { nav, active } = this.state;
@@ -86,7 +94,7 @@ class Header extends React.Component {
           <Col span={17} className={cx(l.right)}>
             {
               nav.map( (item,index) => {
-                return <Link className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index} to={item.path}>{item.name}</Link> 
+                return <a onClick={this.linkPath.bind(null, item)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</a> 
               })
             }
           </Col>
