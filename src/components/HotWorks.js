@@ -123,7 +123,7 @@ class HotWorks extends React.Component {
         })
         this.setState({
           total: result.count,
-          produce: result.results,
+          produce: _.sortBy(result.results, function (o) { return -o.num_votes}),
           ids
         }, this.getMes)
       }else{

@@ -20,7 +20,7 @@ class PersonProduce extends React.Component {
       produce: [],
       total: 0,
       page: 1,
-      pageSize: 10,
+      pageSize: 20,
     }
   }
   getProducts = async(id) => {

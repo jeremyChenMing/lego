@@ -94,11 +94,11 @@ class IndexPage extends React.Component {
   }
   users = async() => {
     try{
-      const result = await getUsers();
+      const result = await getUsers({limit: 5, offset: 0});
       console.log(result)
       if (result && !result.code) {
         this.setState({
-          userList: result
+          userList: result.results
         })
       }
     }catch(err) {
@@ -125,7 +125,6 @@ class IndexPage extends React.Component {
               <Col span={12} className={cx(l.l_hot)}>热门作者</Col>
               <Col span={12} className={cx(l.r_hot)}><a href="#/main/author">查看总榜</a></Col>
             </Row>
-
             <div className={cx(l.gutterBox)}>
               {
                 userList.map( (item, index) => {
@@ -137,11 +136,9 @@ class IndexPage extends React.Component {
                 })
               }
             </div>
-
-
             <div className={cx(l.tabLink)}>
               <a href="#/main/hot" className={cx(l[location.pathname === "/main/hot" ? 'ac' : null])}>热门作品</a>
-              <a href="#/main/total" className={cx(l[location.pathname === "/main/total" ? 'ac' : null])}>查看总榜</a>
+              <a href="#/main/view" className={cx(l[location.pathname === "/main/total" ? 'ac' : null])}>查看总榜</a>
             </div>
           </div>
         </div>

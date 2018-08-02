@@ -7,7 +7,7 @@ import { Pagination, Icon, Avatar  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
 import { getProducts, getUsersOfDetail } from '../services/common'
 import _ from 'lodash'
-
+import { deepClone } from '../utils/common'
 
 const dutArr = (num) => {
   let temp = [];
@@ -24,12 +24,13 @@ class Views extends React.Component {
       nav: [
         {name: '热度排序'},
         {name: '时间排序'},
-        {name: '只能排序'},
+        {name: '智能排序'},
       ],
       active: 0,
       total: 0,
       page: 1,
       pageSize: 20,
+      old: [],
       produce: [],
       ids: [],
       authMes: {}
@@ -37,6 +38,7 @@ class Views extends React.Component {
   }
   getMes = async() => {
     const arr = _.uniq(this.state.ids);
+    // console.log(arr)
     let mes = {};
     try{
       for(let i=0; i<arr.length; i++) {
@@ -61,9 +63,14 @@ class Views extends React.Component {
         })
         this.setState({
           total: result.count,
-          produce: result.results,
+          old: result.results,
+          // produce: this.sort(result.results),
           ids
-        }, this.getMes)
+        },() => {
+          this.getMes()
+          this.sort()
+        })
+
       }else{
 
       }
@@ -84,20 +91,41 @@ class Views extends React.Component {
     // }, 50);
   }
 
-
   link = (index) => {
+    const { produce } = this.state;
     this.setState({
       active: index
+    }, this.sort)
+  }
+  sort = () => {
+    const { active, old } = this.state;
+    let temp = [];
+    if (active === 0) {
+      temp = _.sortBy(old, function (o) {
+        return -o.num_votes
+      })
+    }else if (active === 1) {
+      // 时间
+      temp = _.orderBy(deepClone(old), ['create_at'], ['desc'])
+    }else{
+      temp = _.orderBy(deepClone(old), ['title'], ['asc'])
+    }
+    this.setState({
+      produce: temp
     })
   }
+
   changePage = (page, pageSize) => {
     this.setState({
       page: page
     }, this.getList)
   }
+
+  
   render() {
     const { location } = this.props;
     const { nav, active, page, pageSize, total, produce, authMes } = this.state;
+
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>

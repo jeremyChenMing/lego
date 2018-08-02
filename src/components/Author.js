@@ -4,7 +4,7 @@ import l from './Author.less';
 import { Pagination, Icon, Avatar, Row, Col, Button  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
 import { getUsers, getAuthOfProduce } from '../services/common'
-
+import _ from 'lodash'
 class Author extends React.Component {
   constructor(props) {
     super(props);
@@ -14,27 +14,58 @@ class Author extends React.Component {
         {name: '创客团队'},
       ],
       active: 0,
+      oldData: [],
       userList: [],
-      follow: false,
       total: 0,
       page: 1,
       pageSize: 5,
+      filType: 1,
+      recom: false, //推荐度  false === '从高到低'， true 与其相反
+      follow: false, //关注度 ,
     }
+  }
+  addNum = (arr = []) => {
+    let num = 0;
+    arr.map( item => {
+      num += item.num_votes
+    })
+    return num
+  }
+  dealData = async(arr, count) => {
+    for(let i=0; i<arr.length; i++) {
+      const result = await getAuthOfProduce(arr[i].id);
+      arr[i].products = result;
+      arr[i].follow = this.addNum(result)
+    }
+    this.setState({
+      total: count,
+      oldData: arr,
+    }, this.sort)
   }
   users = async() => {
     const { page, pageSize } = this.state;
     try{
       const result = await getUsers({limit: pageSize, offset: (page - 1) * pageSize});
-      console.log(result)
       if (result && !result.code) {
-        this.setState({
-          total: result.count,
-          userList: result.results
-        })
+        this.dealData(result.results, result.count)
       }
     }catch(err) {
       console.log(err)
     }
+  }
+  sort = () => {
+    const { oldData, filType } = this.state;
+    let temp = [];
+    if (filType === 1) {
+      console.log('推荐创客')
+      temp = _.orderBy(oldData, ['num_products'], ['desc'])
+    }else{
+      console.log('关注的人数')
+      temp = _.orderBy(oldData, ['follow'], ['desc'])
+    }
+    this.setState({
+      userList: temp
+    })
   }
   componentDidMount() {
     this.users()
@@ -53,6 +84,10 @@ class Author extends React.Component {
       this.setState({
         follow: !this.state.follow
       })
+    }else if (type === 'recom') {
+      this.setState({
+        [type]: !this.state[type]
+      }) 
     }
   }
 
@@ -61,9 +96,15 @@ class Author extends React.Component {
       page: page
     }, this.users)
   }
+  changeFilter = (type) => {
+    this.setState({
+      filType: type,
+      page: 1
+    }, this.users)
+  }
   render() {
     const { location } = this.props;
-    const { nav, active, userList, follow, page, total, pageSize } = this.state;
+    const { nav, active, userList, follow, recom, page, total, pageSize, filType } = this.state;
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -77,10 +118,21 @@ class Author extends React.Component {
           <Row className={cx('main_container')}>
             <Col span={12} className={cx(l.left)}>
               <span>筛选：</span>&nbsp;&nbsp;
-              <span className={cx(l.fil)}>推荐创客 {true ? <Icon type="down" /> : <Icon type="up" />}</span>
-              <span className={cx(l.fil)}>不限城市 {true ? <Icon type="down" /> : <Icon type="up" />}</span>
+
+              {/* 自定义的 */}
+
+              <span onClick={this.changeFilter.bind(null, 1)} className={cx(l.filterCell,l[filType === 1 ? 'acFil' : null])}>推荐创客</span>&nbsp;&nbsp;
+              <span onClick={this.changeFilter.bind(null, 2)}className={cx(l.filterCell,l[filType === 2 ? 'acFil' : null])}>关注人数</span>
+
+              {/*<span className={cx(l.fil)} onClick={this.filter.bind(null, 'recom')}>
+                推荐创客 
+                <span className={cx(l.followIcon, l[recom ? 'activeIcon' : null])}>
+                  <Icon type="down"  />
+                </span>
+              </span>
+              <span className={cx(l.fil)}>不限城市 {true ? <Icon type="down" /> : <Icon type="up" />}</span>*/}
             </Col>
-            <Col span={12} className={cx(l.right)}>
+            {/*<Col span={12} className={cx(l.right)}>
               <span>排序：</span>&nbsp;&nbsp;
               <span onClick={this.filter.bind(null, 'follow')} className={cx(l.fil)}>
                 关注人数 
@@ -88,16 +140,16 @@ class Author extends React.Component {
                   <Icon type="down"  />
                 </span>
               </span>
-            </Col>
+            </Col>*/}
           </Row>
         </div>
         
         <div className={cx('main_container')}>
           <ul className={cx(l.cellList)}>
-          {/*  */
+          {
             userList.map( (item,index) => {
               return <li key={index} className={cx(l[index !== userList.length - 1 ? 'border' : null])}>
-                <Cell list={item}/>
+                <Cell list={item} />
               </li>
             })
           }
@@ -113,35 +165,12 @@ class Author extends React.Component {
 class Cell extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      produce: []
-    }
   }
 
-  getsProduce = async(id) => {
-    try{
-      const result = await getAuthOfProduce(id);
-      if (result && !result.code) {
-        this.setState({
-          produce: result
-        })
-      }
-    }catch(err) {
-
-    }
-  }
-  componentDidMount() {
-    const { list } = this.props;
-    if (list.id) {
-      this.getsProduce(list.id)
-    }
-  }
   render() {
     const { list } = this.props;
-    const { produce } = this.state;
     const yes = {color: '#000'};
     const no = {color: '#000'};
-    console.log(produce.length)
     return (
       <div className={cx(l.cellBoxes)}>
         <div span={8} className={cx(l.left)}>
@@ -157,7 +186,7 @@ class Cell extends React.Component {
         </div>
         <div span={16} className={cx(l.right)}>
           {
-            produce.map( (item,index) => {
+            (list.products || []).map( (item,index) => {
               const url = item.images[0] ? {backgroundImage: `url(${item.images[0].url})`} : {};
               if (index < 4) {
                 return(
@@ -167,7 +196,7 @@ class Cell extends React.Component {
             })
           }
           {
-            produce.length >= 4 && <a href={`#/person/${list.id}`} className={cx(l.more)}><i></i></a>
+            list.products.length >= 4 && <a href={`#/person/${list.id}`} className={cx(l.more)}><i></i></a>
           }
         </div>
       </div>

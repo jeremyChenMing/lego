@@ -19,7 +19,8 @@ module.exports = {
   "publicPath": "/",
   "proxy": {
     "/api/": {
-      "target": "http://api.d.51bricks.com/api/",
+      // "target": "http://api.d.51bricks.com/api/",
+      "target": "http://bricks.upvi.com/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api/" : "" }
     }
