@@ -64,7 +64,7 @@ class PersonProduce extends React.Component {
           {
              produce.map( (item,index) => {
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : "/img/avart1.png"} name={info.nickname ? info.nickname : ''}/>
+                <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : "/img/touxiang.png"} name={info.nickname ? info.nickname : ''}/>
               </div>
             })
           }
@@ -124,7 +124,7 @@ class Person extends React.Component {
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
           <div className={cx(l.avartBox)}>
-            <img src={mess.avatar ? mess.avatar : "/img/avart1.png"} alt=""/>
+            <img src={mess.avatar ? mess.avatar : "/img/touxiang.png"} alt=""/>
             <h3 style={{height: '42px'}}>{mess.nickname}</h3>
             {/*<div className={cx(l.txt)}>
               <div className={cx(l.l_label)} style={{paddingRight: '5px'}}>创作 87</div>

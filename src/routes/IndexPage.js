@@ -35,13 +35,13 @@ class Cell extends React.Component {
   render() {
     const { keys = 1, data } = this.props;
     const renderBack = (data) => {
-      return data.avatar ? {backgroundImage: `url(${data.avatar})`} : {backgroundImage: `url(/img/avart1.png)`}
+      return data.avatar ? {backgroundImage: `url(${data.avatar})`} : {backgroundImage: `url(/img/touxiang.png)`}
     }
     return (
       <div className={cx(l.cellBox)} style={renderBack(data)}>
         <div className={cx(l.shadow)}></div>
         <div className={cx(l.cons)}>
-          <img onClick={this.link} className={cx(l.avart)} src={data.avatar ? data.avatar : "/img/avart1.png"} alt="头像"/>
+          <img onClick={this.link} className={cx(l.avart)} src={data.avatar ? data.avatar : "/img/touxiang.png"} alt="头像"/>
           <p>
             <span className={cx(l.name)}>{data.nickname ? data.nickname : ' '} <Icon type="star" /></span>
           </p>

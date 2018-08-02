@@ -105,7 +105,7 @@ class Header extends React.Component {
                 <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <Dropdown overlay={menu} trigger={['click']}>
-                    <Avatar src={example.avatar ? example.avatar : '/img/avart1.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" >
+                    <Avatar src={example.avatar ? example.avatar : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" >
                     </Avatar>
                 </Dropdown>
               </div>

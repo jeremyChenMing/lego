@@ -174,7 +174,7 @@ class Cell extends React.Component {
     return (
       <div className={cx(l.cellBoxes)}>
         <div span={8} className={cx(l.left)}>
-          <div><img src={list.avatar ? list.avatar : "/img/avart1.png"} alt=""/></div>
+          <div><img src={list.avatar ? list.avatar : "/img/touxiang.png"} alt=""/></div>
           <div className={cx(l.cons)}>
             <h2>{list.nickname} <Icon type="star" /></h2>
             <p>简介：{list.intro ? list.intro : '暂无'}</p>

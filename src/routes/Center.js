@@ -195,7 +195,7 @@ class Center extends React.Component {
     const { location } = this.props;
     const { show, info, cover, urlData, headData, confirmLoading } = this.state;
     const renderHead = (data) => {
-      return data ? {backgroundImage: `url(${data})`} : {}
+      return data ? {backgroundImage: `url(${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
     return (
       <MainLayout location={location}>

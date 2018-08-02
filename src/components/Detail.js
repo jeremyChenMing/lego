@@ -193,7 +193,7 @@ class Detail extends React.Component {
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>
                 <div className={cx(l.imgs)}>
-                  <img src={authMes.avatar ? authMes.avatar : "/img/avart1.png"} alt=""/>
+                  <img src={authMes.avatar ? authMes.avatar : "/img/touxiang.png"} alt=""/>
                 </div>
                 
                 <h3>{authMes.nickname ? authMes.nickname : ''} <Icon type="star" /></h3>

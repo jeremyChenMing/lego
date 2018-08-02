@@ -88,7 +88,7 @@ class TotalWorks extends React.Component {
             produce.map( (item,index) => {
               const perMes = authMes[item.author_id] ? authMes[item.author_id] : {};
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ""} avatar={perMes.avatar ? perMes.avatar : "/img/avart1.png"}/>
+                <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ""} avatar={perMes.avatar ? perMes.avatar : "/img/touxiang.png"}/>
               </div>
               
             })
