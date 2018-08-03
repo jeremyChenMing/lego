@@ -69,9 +69,11 @@ class Login extends React.Component {
           //     reject(new SubmissionError({_error: '123123', password: token.message}))
           //   }
           // })
-          dispatch(saveUserInfo({...result}))
+          setTimeout(function () {
+            dispatch({type: 'example/checkLogin'})
+          }, 0)
           dispatch(routerRedux.replace('/main/hot'))
-          
+
         }else{
           this.setState({submitting: false})
           reject(new SubmissionError({_error: '123123', password: result.message}))
@@ -294,7 +296,7 @@ Login = reduxForm({ // eslint-disable-line
 
 const selector = formValueSelector('login')
 export default connect(state => {
-  const name = selector(state, 'name')
+  const name = selector(state, 'username')
   return {name}
 })(Login)
 
