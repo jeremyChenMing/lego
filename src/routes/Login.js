@@ -60,15 +60,18 @@ class Login extends React.Component {
     return new Promise( (resolve, reject) => {
       loginUser(values).then( result => {
         if (result && !result.code) {
-          getProfile().then( token => {
-            this.setState({submitting: false})
-            if (token && !token.code) {
-              dispatch(saveUserInfo({...token}))
-              dispatch(routerRedux.replace('/main/hot'))
-            }else{
-              reject(new SubmissionError({_error: '123123', password: token.message}))
-            }
-          })
+          // getProfile().then( token => {
+          //   this.setState({submitting: false})
+          //   if (token && !token.code) {
+          //     dispatch(saveUserInfo({...token}))
+          //     dispatch(routerRedux.replace('/main/hot'))
+          //   }else{
+          //     reject(new SubmissionError({_error: '123123', password: token.message}))
+          //   }
+          // })
+          dispatch(saveUserInfo({...result}))
+          dispatch(routerRedux.replace('/main/hot'))
+          
         }else{
           this.setState({submitting: false})
           reject(new SubmissionError({_error: '123123', password: result.message}))
@@ -186,7 +189,7 @@ class Login extends React.Component {
     const { active, checked, show, submitting } = this.state;
     return (
       <div className={cx(l.loginBox)}>
-        <span onClick={this.linkIndex} className={cx(l.logo)}>筑乐</span>
+        <span onClick={this.linkIndex} className={cx(l.logo)}>brickFUN筑乐</span>
         <p>登陆筑乐与10万+积木爱好者一起交流设计 分享快乐吧！</p>
         {
           show === 'login' ?
