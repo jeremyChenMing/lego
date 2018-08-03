@@ -75,7 +75,8 @@ const completeHeader = (header) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'credentials': 'include',
-      // Authorization: access_token ? `Bearer ${access_token}` : ''
+      // 'credentials': 'same-origin',
+      Authorization: access_token ? `Bearer ${access_token}` : ''
     }
   }
 

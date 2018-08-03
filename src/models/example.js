@@ -3,6 +3,7 @@ import { LOCAL_STORAGE } from '../constants/Constants'
 import { Storage } from '../utils/common'
 import { getProfile } from '../services/common'
 import { Modal } from 'antd'
+import moment from 'moment'
 
 export default {
 
@@ -27,21 +28,38 @@ export default {
     *fetch({payload}, {call, put}) {  // eslint-disable-line
       yield put({type: 'save'})
     },
+    *setsMes({payload}, {call, put, select}) {
+      const auths = yield call(getProfile);
+      yield put({type: 'sets', payload: auths});
+    },
     *checkLogin({payload}, {call, put, select}) {
-
+      const mes = yield select(state => state.example);
+      const bool = mes.expires_at ? moment().isBefore(mes.expires_at) : false;
       if (payload === '/login' || payload === '/center') {
 
       }else{
-        const auths = yield call(getProfile);
-        if (auths.code && auths.code === 'not_authenticated') {
-          console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
-          yield put({type: 'clear'});
-        }else{
+        if (bool) {
           console.log('现在没有的时间没有过期')
-          yield put({type: 'sets', payload: auths});
+        }else{
+          yield put({type: 'clear'});
+          console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
         }
-
       }
+      
+
+      // if (payload === '/login' || payload === '/center') {
+
+      // }else{
+      //   const auths = yield call(getProfile);
+      //   if (auths.code && auths.code === 'not_authenticated') {
+      //     console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
+      //     yield put({type: 'clear'});
+      //   }else{
+      //     console.log('现在没有的时间没有过期')
+      //     yield put({type: 'sets', payload: auths});
+      //   }
+
+      // }
 
 
     }

@@ -100,7 +100,7 @@ class Header extends React.Component {
           </Col>
           <Col span={3} className={cx(l.avatar)}>
             {
-              example.id ?
+              example.access_token ?
               <div className={cx(l.logined)}>
                 <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

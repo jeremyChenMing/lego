@@ -61,19 +61,21 @@ class Login extends React.Component {
     return new Promise( (resolve, reject) => {
       loginUser(values).then( result => {
         if (result && !result.code) {
-          // getProfile().then( token => {
-          //   this.setState({submitting: false})
-          //   if (token && !token.code) {
-          //     dispatch(saveUserInfo({...token}))
-          //     dispatch(routerRedux.replace('/main/hot'))
-          //   }else{
-          //     reject(new SubmissionError({_error: '123123', password: token.message}))
-          //   }
-          // })
-          setTimeout(function () {
-            dispatch({type: 'example/checkLogin'})
-          }, 0)
-          dispatch(routerRedux.replace('/main/hot'))
+          getUserToken(values).then( token => {
+            this.setState({submitting: false})
+            if (token && !token.code) {
+              dispatch(saveUserInfo({...token}))
+              dispatch({type: 'example/setsMes'})
+              dispatch(routerRedux.replace('/main/hot'))
+            }else{
+              reject(new SubmissionError({_error: '123123', password: token.message}))
+            }
+          })
+          // document.cookie = `id=Bearer`
+          // setTimeout(function () {
+          //   dispatch({type: 'example/checkLogin'})
+          // }, 0)
+          // dispatch(routerRedux.replace('/main/hot'))
 
         }else{
           this.setState({submitting: false})
