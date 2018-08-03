@@ -9,14 +9,14 @@ import { registerUser, loginUser, getUserToken, getProfile } from '../services/c
 import { getSearchObj } from '../utils/common'
 import { saveUserInfo } from '../actions/example'
 import { routerRedux } from 'dva/router'
-console.log(routerRedux)
+
 const FormItem = Form.Item;
 const required = (value) => {
   return typeof (value) === 'number' || value ? undefined : '此项是必填项'
 }
 
 
-
+// http%3a%2f%2fconsole.upvi.com
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +38,7 @@ class Login extends React.Component {
         show: query.type
       })
     }
+
   }
   componentWillUnmount() {
     if (this.timer) {
