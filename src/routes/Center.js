@@ -6,7 +6,7 @@ import MainLayout from '../components/MainLayout/MainLayout'
 import { getProfile, uploaderFile, patchProfile } from '../services/common'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
-import { deepClone } from '../utils/common'
+import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase } from '../utils/common'
 
 import { Input, Radio, Button, Modal, notification } from 'antd'
 const RadioGroup = Radio.Group;
@@ -54,7 +54,9 @@ class Center extends React.Component {
     }
   }
   componentDidMount() {
-    this.getInformation()
+    this.getInformation();
+    const str = `${+new Date()}`
+    console.log( str.substring(str.length - 4))
   }
 
 
@@ -97,37 +99,19 @@ class Center extends React.Component {
   }
 
 
-  dataURLtoBlob = (dataurl) => {  
-    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new Blob([u8arr], { type: mime });
-  }
-  blobToDataURL = (blob, callback) => {
-    var a = new FileReader();
-    a.onload = function (e) { callback(e.target.result); }
-    a.readAsDataURL(blob);
-  }
   okCover = () => {
     const { file } = this.state;
     if (this.cropper) {
-      // const urls = this.cropper.getCroppedCanvas({fillColor: '#fff'});
-      // console.log(urls)
-      // urls.toBlob( (blob) => {
-      //   this.blobToDataURL(blob, this.callback.bind(null, blob))
-      // }) 
       this.setState({
         confirmLoading: true
       })
       // 另外一种方法
       const dataUrls = this.cropper.getCroppedCanvas({fillColor: '#fff'}).toDataURL(file.type);
-      this.callback(this.dataURLtoBlob(dataUrls) ,dataUrls)
+      this.callback(dataURLtoFile(dataUrls, `head${timeBase()}.png`) ,dataUrls)
     }
   }
   callback = (blob, result) => {
-    uploaderFile({name: 'headPng', file: blob}).then( data => {
+    uploaderFile({name: 'headPng.png', file: blob}).then( data => {
       if (data && !data.code) {
         this.state.info.avatar = data.url
         patchProfile({avatar: data.url}).then( data => {

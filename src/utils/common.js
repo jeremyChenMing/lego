@@ -86,9 +86,34 @@ export const getSearchObj = (location) =>{
 
 export const deepClone = obj => JSON.parse(JSON.stringify(obj))
 
+export const dataURLtoFile = (dataurl, filename) => {
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, {type:mime});
+}
 
+export const dataURLtoBlob = (dataurl) => {  
+    var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
+  }
 
+export const blobToDataURL = (blob, callback) => {
+  var a = new FileReader();
+  a.onload = function (e) { callback(e.target.result); }
+  a.readAsDataURL(blob);
+}
 
+export const timeBase = (num = 4) => {
+  const str = `${+new Date()}`;
+  return str.substring(str.length - num);
+}
 
 
 
