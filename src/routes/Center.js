@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'dva'
 import cx from 'classnames'
 import l from './Center.less'
 import UploadFile from '../components/MainLayout/UploadFile'
@@ -151,6 +152,7 @@ class Center extends React.Component {
     })
   }
   save = () => {
+    const { dispatch } = this.props;
     const { info } = this.state;
     console.log(info)
     patchProfile({...info}).then( data => {
@@ -158,6 +160,7 @@ class Center extends React.Component {
         this.setState({
           show: true
         }, this.getInformation)
+        dispatch({type: 'example/setsMes'})
         notification.success({
           message: `保存成功`
         })
@@ -181,6 +184,7 @@ class Center extends React.Component {
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
+    console.log('111233')
     return (
       <MainLayout location={location}>
         <Modal
@@ -246,4 +250,4 @@ class Center extends React.Component {
   }
 }
 
-export default Center
+export default connect()(Center)

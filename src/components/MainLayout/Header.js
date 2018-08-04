@@ -64,11 +64,11 @@ class Header extends React.Component {
   }
   linkPath = (item) => {
     const { dispatch } = this.props;
-    if (item.path === '/shop') {
-       message.info('即将上线，敬请期待...');
-    }else{
+    // if (item.path === '/shop') {
+    //    message.info('即将上线，敬请期待...');
+    // }else{
       dispatch(routerRedux.push(item.path))
-    }
+    // }
   }
   render() {
     const { location, example } = this.props;

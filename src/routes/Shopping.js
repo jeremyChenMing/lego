@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { connect } from 'dva'
 import cx from 'classnames';
 import l from './Shopping.less'
@@ -105,4 +106,48 @@ class Model extends React.Component {
 }
 
 
-export default Shopping
+
+class ShoppingExample extends React.Component {
+  static propTypes = {
+    name: React.PropTypes.string,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      iFrameHeight: `calc(100vh - 55px)`
+    }
+  }
+
+  render() {
+    const { location } = this.props;
+    return (
+      <MainLayout location={location}>
+        <div  className={cx('main_container', l.box)}>
+          <iframe 
+            // ref={input => this.input = input}
+            ref="ifa"
+            style={{width:'100%', minHeight: this.state.iFrameHeight, overflow:'visible'}}
+            onLoad={() => {
+              // const obj = ReactDOM.findDOMNode(this);
+              // console.log(this.refs.iframe.contentWindow.document)
+              // this.setState({
+              //     "iFrameHeight":  obj.contentWindow.document.body.scrollHeight + 'px'
+              // });
+            }}
+            ref="iframe" 
+            width="100%" 
+            height={this.state.iFrameHeight} 
+            frameBorder="0"
+            src="https://h5.youzan.com/v2/feature/84fz4fxg?ps=760"
+            >
+          </iframe>
+        </div>
+      </MainLayout>
+    );
+  }
+}
+
+
+
+export default ShoppingExample
