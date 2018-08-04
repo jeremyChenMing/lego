@@ -40,7 +40,6 @@ class Center extends React.Component {
           headData: result.avatar
         })
       }else{
-        console.log('123123', result.code)
         Modal.confirm({
           title: '登录失效',
           content: '登录凭证过期, 请重新登录！',
@@ -56,8 +55,6 @@ class Center extends React.Component {
   }
   componentDidMount() {
     this.getInformation();
-    const str = `${+new Date()}`
-    console.log( str.substring(str.length - 4))
   }
 
 
@@ -112,6 +109,7 @@ class Center extends React.Component {
     }
   }
   callback = (blob, result) => {
+    const { dispatch } = this.props;
     uploaderFile({name: 'headPng.png', file: blob}).then( data => {
       if (data && !data.code) {
         this.state.info.avatar = data.url
@@ -121,6 +119,7 @@ class Center extends React.Component {
               cover: false,
               headData: result
             })
+            dispatch({type: 'example/setsMes'})
           }else{
 
           }
@@ -152,7 +151,6 @@ class Center extends React.Component {
     })
   }
   save = () => {
-    const { dispatch } = this.props;
     const { info } = this.state;
     console.log(info)
     patchProfile({...info}).then( data => {
@@ -160,7 +158,6 @@ class Center extends React.Component {
         this.setState({
           show: true
         }, this.getInformation)
-        dispatch({type: 'example/setsMes'})
         notification.success({
           message: `保存成功`
         })
@@ -184,7 +181,6 @@ class Center extends React.Component {
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
-    console.log('111233')
     return (
       <MainLayout location={location}>
         <Modal

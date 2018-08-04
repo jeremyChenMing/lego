@@ -39,6 +39,8 @@ class Login extends React.Component {
       })
     }
 
+    
+
   }
   componentWillUnmount() {
     if (this.timer) {
@@ -155,7 +157,8 @@ class Login extends React.Component {
   changeTab = (type) => {
     this.setState({
       show: type
-    })
+    }) 
+    
   }
 
 
@@ -199,9 +202,9 @@ class Login extends React.Component {
         {
           show === 'login' ?
           <div className={cx(l.login)}>
-            {/*<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            {/**/}<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <Icon type="qrcode" className={cx(l.icons)} />
-            </div>*/}
+            </div>
             <div className={cx(l.nav)}>
               {/* ,'短信登录' */
                 ['密码登录'].map( (item,index) => {
@@ -278,20 +281,48 @@ class Login extends React.Component {
             <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
               <Icon type="rollback" className={cx(l.icons)}/>
             </div>
-            <h2>微信二维码登录</h2>
+            {/*<h2>微信二维码登录</h2>
             <div className={cx(l.qr)}>
-              <div className={cx(l.qrImg)}></div>
+              <div id="login_container" className={cx(l.qrImg)}></div>
               <p>请使用微信扫描二维码登陆“筑乐”</p>
             </div>
             <div className={cx(l.txt)}>
               <a>密码登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a>注册新的账号</a>
-            </div>
+            </div>*/}
+            <QR />
           </div>
         }
       </div>
     );
   }
 }
+class QR extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentDidMount() {
+    // https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect
+
+    this.obj = new WxLogin({
+      self_redirect:false,
+      id:"login_container", 
+      appid: "wxbdc5610cc59c1631", 
+      scope: "snsapi_login", 
+      redirect_uri: "http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot", //http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
+      state: "3d6be0a4035d839573b04816624a415e",
+      style: "",
+      href: ""
+    });
+  }
+  // state 用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），
+  // 建议第三方带上该参数，可设置为简单的随机数加session进行校验
+  render() {
+    return (
+      <div id="login_container"></div>
+    );
+  }
+}
+
 
 Login = reduxForm({ // eslint-disable-line
   form: 'login'
