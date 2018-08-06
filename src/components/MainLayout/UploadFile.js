@@ -29,6 +29,9 @@ class UploadFile extends React.Component {
         }
       }).catch(err => {
         this.setState({spinning: false})
+        notification.error({
+          message: '上传文件错误！'
+        })
         console.log(err)
       }) 
     }else{
@@ -66,7 +69,7 @@ class UploadFile extends React.Component {
           that.setState({
             // file,
             // iconType: that.showIconType(file.type)
-          }, () => loadFile(file))
+          }, that.load(file, this.result))
         }
       }
       reader.onloadstart = function(){
@@ -101,11 +104,11 @@ class UploadFile extends React.Component {
   render() {
     // (input) => this.reset=input
     const { spinning } = this.state;
-    const { spin, upStyle } = this.props;
+    const { spin, upStyle, wraS } = this.props;
     return (
       <Spin size="large" tip="正在上传..." spinning={spin ? spinning : false}>
       <div className={l.file_upload} style={upStyle ? upStyle : {}}>
-        <div className={l.wrapper}>
+        <div className={l.wrapper} style={wraS ? wraS : {}}>
           {this.props.children}
           <form>
             <input type='file'  onChange={this.handleFileChange}/>

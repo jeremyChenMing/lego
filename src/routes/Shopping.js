@@ -13,6 +13,7 @@ const dutArr = (num) => {
   }
   return temp;
 }
+
 class Shopping extends React.Component {
   constructor(props) {
     super(props);
@@ -98,7 +99,6 @@ class Model extends React.Component {
           <div className={cx(l.btnBox)}>
             <Button type="primary" style={{color: '#000'}} size="large" className={cx(l.btns)}>点击购买</Button>
           </div>
-          
         </div>
       </div>
     );
@@ -108,10 +108,6 @@ class Model extends React.Component {
 
 
 class ShoppingExample extends React.Component {
-  static propTypes = {
-    name: React.PropTypes.string,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -125,19 +121,10 @@ class ShoppingExample extends React.Component {
       <MainLayout location={location}>
         <div  className={cx('main_container', l.box)}>
           <iframe 
-            // ref={input => this.input = input}
-            ref="ifa"
             style={{width:'100%', minHeight: this.state.iFrameHeight, overflow:'visible'}}
-            onLoad={() => {
-              // const obj = ReactDOM.findDOMNode(this);
-              // console.log(this.refs.iframe.contentWindow.document)
-              // this.setState({
-              //     "iFrameHeight":  obj.contentWindow.document.body.scrollHeight + 'px'
-              // });
-            }}
-            ref="iframe" 
+            id="iframes"
             width="100%" 
-            height={this.state.iFrameHeight} 
+            height={this.state.iFrameHeight}
             frameBorder="0"
             src="https://h5.youzan.com/v2/feature/84fz4fxg?ps=760"
             >

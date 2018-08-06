@@ -4,6 +4,7 @@ import l from './Author.less';
 import { Pagination, Icon, Avatar, Row, Col, Button  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
 import { getUsers, getAuthOfProduce } from '../services/common'
+import { HOST } from '../utils/common'
 import _ from 'lodash'
 class Author extends React.Component {
   constructor(props) {
@@ -190,7 +191,7 @@ class Cell extends React.Component {
         <div span={16} className={cx(l.right)}>
           {
             (list.products || []).map( (item,index) => {
-              const url = item.images[0] ? {backgroundImage: `url(${item.images[0].url})`} : {};
+              const url = item.images[0] ? {backgroundImage: `url(${HOST}${item.images[0].url})`} : {};
               if (index < 4) {
                 return(
                   <a href={`#/main/detail?id=${item.id}`} key={index} style={url} className={cx(l.linkImg)}></a>

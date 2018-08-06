@@ -4,6 +4,7 @@ import l from './HotWorks.less';
 import ScrollReveal from 'scrollreveal'
 import { Pagination, Icon, Avatar  } from 'antd'
 import { getProducts, getUsersOfDetail } from '../services/common'
+import { HOST } from '../utils/common'
 import moment from 'moment'
 import _ from 'lodash'
 
@@ -32,7 +33,7 @@ export class Model extends React.Component {
   renderBack = (data) => {
     let temp = {};
     if (data && data.images && data.images[0]) {
-      temp = {backgroundImage: `url(${data.images[0].url})`}
+      temp = {backgroundImage: `url(${HOST}${data.images[0].url})`}
     }
     return temp;
   }

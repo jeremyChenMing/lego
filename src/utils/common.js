@@ -2,6 +2,8 @@
 // import _ from 'underscore'
 import _ from 'lodash'
 
+export const HOST = 'http://bricks.upvi.com';
+
 const storage = window.localStorage
 
 export const open = (url) => {

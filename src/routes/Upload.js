@@ -18,9 +18,12 @@ class Upload extends React.Component {
     super(props);
     this.state = {
       imgs: [],
+      draws: [],
+      drawing: false,
       prew: false,
       saveLoading: false,
       visible: false,
+      explainVisible: false,
       spinning: false,
       cover: false,
       mark: {},
@@ -30,7 +33,8 @@ class Upload extends React.Component {
       udbool: true,
       lrbool: true,
       coverUrlData: null,
-      info: {}
+      info: {},
+      exValue: undefined,
     }
   }
   getInformation = async() => {
@@ -54,6 +58,32 @@ class Upload extends React.Component {
     return <h3 className={cx(l.tle)}>{str} <span>{size}</span></h3>
   }
 
+  drawStart = () => {
+    this.setState({
+      drawing: true
+    })
+  }
+  drawEnd = () => {
+    this.setState({
+      drawing: false
+    })
+  }
+  duceDraw = (item, index) => {
+    console.log(item)
+    let fakeData = deepClone(this.state.draws);
+    fakeData.splice(index,1)
+    this.setState({
+      draws: fakeData
+    })
+  }
+  loadDrawing = (file, result, data) => {
+    let fakeData = deepClone(this.state.draws);
+    fakeData.push(data)
+    this.setState({
+      draws: fakeData
+    })
+  }
+
   loadFile = (file, urlData, data) => {
     let copyData = deepClone(this.state.imgs);
     if (copyData.length > 5) {
@@ -68,6 +98,45 @@ class Upload extends React.Component {
     }
     
   }
+  drawExplain = (item, index) => {
+    this.setState({
+      explainVisible: true,
+      explain: {...item, keys: index}
+    })
+  }
+  changeExplain = (e) => {
+    const value = e.target.value;
+    this.setState({
+      exValue: value
+    })
+  }
+  addExOk = () => {
+    const { explain, exValue } = this.state;
+    console.log(explain)
+    let copyData = deepClone(this.state.draws);
+    copyData[explain.keys].caption = exValue;
+    this.setState({
+      explainVisible: false,
+      draws: copyData
+    },() => {
+      this.setState({
+        exValue: undefined
+      })
+    })
+  }
+  addExCancel = () => {
+    this.setState({
+      explainVisible: false,
+      exValue: undefined,
+      explain: {}
+    })
+  }
+
+
+
+
+
+
   addRemark = (item, index) => {
     this.setState({
       visible: true,
@@ -137,7 +206,7 @@ class Upload extends React.Component {
     }
   }
   save = async(time) => {
-    const { imgs, title, description, covers } = this.state;
+    const { imgs, title, description, covers, draws } = this.state;
     const that = this;
     if (!title) {
       notification.info({
@@ -154,12 +223,18 @@ class Upload extends React.Component {
         message: `请上传作品封面`
       })
       return
+    }else if (!draws.length) {
+      notification.info({
+        message: `请至少上传一张图纸！`
+      })
+      return 
     }
     let arrs = [covers].concat(imgs);
     const para = {
       title, 
       description,
-      images: arrs
+      images: arrs,
+      ideas: draws
     }
     // console.log(para, 'para')
     this.setState({saveLoading: true})
@@ -305,7 +380,10 @@ class Upload extends React.Component {
   }
   render() {
     const { location } = this.props;
-    const { imgs, visible, covers, spinning, title, description, cover, udbool, lrbool, coverUrlData, info, saveLoading, prew } = this.state;
+    const { imgs, visible, covers, spinning, title, description, cover, udbool, lrbool, 
+      coverUrlData, info, saveLoading, prew, draws, drawing,
+      explain, explainVisible 
+    } = this.state;
     return (
       <MainLayout location={location}>
         <Spin tip="正在上传..." size="large" spinning={saveLoading} wrapperClassName="spinClass">
@@ -378,13 +456,52 @@ class Upload extends React.Component {
                 </Col>
               </Row>
             </Card>
+            <Card title={this.renderTitle("上传图纸", "注：支持格式：.lxf .io")} bordered={false} style={{marginBottom: '20px'}}>
+              <Row className={cx(l.rows)}>
+                <Col span={1}  className={cx(l.label)}>*</Col>
+                <Col span={23}>
+                  <ul className={cx(l.fileList)} style={{marginBottom: `${draws.length ? '15px' : '0px'}`}}>
+                  {
+                    draws.map( (item,index) => {
+                      return <li key={index}>
+                        <div className={cx(l.cons)}>
+                          <span>
+                            {item.name}
+                            <i style={{paddingLeft: '10px', fontSize: '12px', color: 'rgba(0,0,0,.5)', fontStyle: 'normal'}}>{item.caption ? ` 备注(${item.caption})` : ''}</i>
+                            </span>
+                          <span>
+                            <Icon  onClick={this.duceDraw.bind(null, item, index)} type="close" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <Tooltip title="添加备注">
+                              <Icon onClick={this.drawExplain.bind(null, item, index)} type="plus-circle-o" />
+                            </Tooltip>
+                          </span>
+                        </div>
+                        
+                      </li>
+                    })
+                  }
+                  </ul>
+                  <UploadFile loadFile={this.loadDrawing} ajaxBool={true} wraS={{display: 'inline-block'}} type="file" spin={false} start={this.drawStart} end={this.drawEnd}>
+                    <div style={{textAlign: 'left', display: 'inline-block'}}>
+                      <Button loading={drawing} icon="plus" type="primary" style={{color: 'rgba(0,0,0,.65)'}}>上传图纸</Button>
+                    </div>
+                  </UploadFile>
+                </Col>
+              </Row>
+            </Card>
             <div className={cx(l.btnBox)}>
               <Button onClick={this.save} type="primary" size="large" style={{width: 100, color: 'rgba(0,0,0,.65)'}}>发布</Button>
               <Button onClick={this.handlePrew} size="large" style={{marginLeft: '25px', width: 100}}>预览</Button>
             </div>
           </div>
         </Spin>
-
+        <Modal visible={explainVisible} title="添加文件备注" onOk={this.addExOk} onCancel={this.addExCancel} maskClosable={false} closable={false}>
+          <Row style={{lineHeight: '42px', padding: '20px 40px'}}>
+            <Col span={4} style={{textAlign: 'center'}}>备注：</Col>
+            <Col span={20}><Input value={this.state.exValue} onChange={this.changeExplain} placeholder="请添加文件备注" /></Col>
+          </Row>
+        </Modal>
         <Modal visible={visible} title="添加注释" onOk={this.addOk} onCancel={this.addCancel} maskClosable={false} closable={false}>
           <Row style={{lineHeight: '42px', padding: '20px 40px'}}>
             <Col span={4} style={{textAlign: 'center'}}>注释：</Col>

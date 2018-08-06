@@ -308,7 +308,7 @@ class QR extends React.Component {
       id:"login_container", 
       appid: "wxbdc5610cc59c1631", 
       scope: "snsapi_login", 
-      redirect_uri: "http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot", //http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
+      redirect_uri: "https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do", //http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
       state: "3d6be0a4035d839573b04816624a415e",
       style: "",
       href: ""

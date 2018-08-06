@@ -6,7 +6,7 @@ import cx from 'classnames';
 import l from './Detail.less';
 import pathToRegexp from 'path-to-regexp'
 import { getProductsOfDetail, givePraise, getUsersOfDetail } from '../services/common'
-import { getSearchObj } from '../utils/common'
+import { getSearchObj, HOST } from '../utils/common'
 import { Icon, Button, Input, notification, Carousel } from 'antd';
 import { deepClone } from '../utils/common'
 import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
@@ -146,7 +146,7 @@ class Detail extends React.Component {
   renderBack = (data) => {
     let temp = {};
     if (data) {
-      temp = {backgroundImage: `url(${data})`}
+      temp = {backgroundImage: `url(${HOST}${data})`}
     }
     return temp;
   }
