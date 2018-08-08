@@ -4,6 +4,7 @@ import cx from 'classnames';
 import l from './Person.less'
 import MainLayout from '../components/MainLayout/MainLayout'
 import { getUsersOfDetail, getAuthOfProduce } from '../services/common'
+import { HOST } from '../utils/common'
 import { Model } from '../components/HotWorks'
 import { Pagination } from 'antd'
 const dutArr = (num) => {
@@ -124,7 +125,7 @@ class Person extends React.Component {
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
           <div className={cx(l.avartBox)}>
-            <img src={mess.avatar ? mess.avatar : "/img/touxiang.png"} alt=""/>
+            <img src={mess.avatar ? `${HOST}${mess.avatar}` : "/img/touxiang.png"} alt=""/>
             <h3 style={{height: '42px'}}>{mess.nickname}</h3>
             {/*<div className={cx(l.txt)}>
               <div className={cx(l.l_label)} style={{paddingRight: '5px'}}>创作 87</div>
@@ -140,7 +141,7 @@ class Person extends React.Component {
           <span onClick={this.handle.bind(null, 1)} className={cx(l.nav,l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>
         </div>
         <div className={cx(l.tabContent, 'main_container')}>
-          <PersonProduce id={id} info={{avatar: mess.avatar, nickname: mess.nickname}}/>
+          <PersonProduce id={id} info={{avatar: `${HOST}${mess.avatar}`, nickname: mess.nickname}}/>
         </div>
       </MainLayout>
     );

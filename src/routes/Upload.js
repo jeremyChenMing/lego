@@ -257,7 +257,7 @@ class Upload extends React.Component {
             message: `上传作品失败，原因：${result.msg}`
           })
         }  
-      }, 1500)
+      }, 500)
       
     }catch(err) {
       this.setState({saveLoading: false})
@@ -458,7 +458,7 @@ class Upload extends React.Component {
             </Card>
             <Card title={this.renderTitle("上传图纸", "注：支持格式：.lxf .io")} bordered={false} style={{marginBottom: '20px'}}>
               <Row className={cx(l.rows)}>
-                <Col span={1}  className={cx(l.label)}>*</Col>
+                <Col span={1}  className={cx(l.label)}></Col>
                 <Col span={23}>
                   <ul className={cx(l.fileList)} style={{marginBottom: `${draws.length ? '15px' : '0px'}`}}>
                   {
@@ -467,7 +467,7 @@ class Upload extends React.Component {
                         <div className={cx(l.cons)}>
                           <span>
                             {item.name}
-                            <i style={{paddingLeft: '10px', fontSize: '12px', color: 'rgba(0,0,0,.5)', fontStyle: 'normal'}}>{item.caption ? ` 备注(${item.caption})` : ''}</i>
+                            <i style={{paddingLeft: '10px', fontSize: '12px', color: 'rgba(0,0,0,.5)', fontStyle: 'normal'}}>{item.caption ? ` 备注（${item.caption}）` : ''}</i>
                             </span>
                           <span>
                             <Icon  onClick={this.duceDraw.bind(null, item, index)} type="close" />
@@ -483,7 +483,7 @@ class Upload extends React.Component {
                   }
                   </ul>
                   <UploadFile loadFile={this.loadDrawing} ajaxBool={true} wraS={{display: 'inline-block'}} type="file" spin={false} start={this.drawStart} end={this.drawEnd}>
-                    <div style={{textAlign: 'left', display: 'inline-block'}}>
+                    <div style={{textAlign: 'left', display: 'inline-block', paddingLeft: '10px'}}>
                       <Button loading={drawing} icon="plus" type="primary" style={{color: 'rgba(0,0,0,.65)'}}>上传图纸</Button>
                     </div>
                   </UploadFile>

@@ -3,6 +3,7 @@ import { connect } from 'dva'
 import { Menu, Icon, Row, Col, Avatar, Dropdown, message } from 'antd'
 import { Link, routerRedux } from 'dva/router'
 import { outUser } from '../../services/common'
+import { HOST } from '../../utils/common'
 import { clearUserInfo } from '../../actions/example'
 import cx from 'classnames'
 import l from './Header.less'
@@ -70,6 +71,14 @@ class Header extends React.Component {
       dispatch(routerRedux.push(item.path))
     // }
   }
+  uploadLink = () => {
+    const { example: {id}, dispatch } = this.props;
+    if (id) {
+      dispatch(routerRedux.push('/upload'))
+    }else{
+      dispatch(routerRedux.push('/login'))
+    }
+  }
   render() {
     const { location, example } = this.props;
     const { nav, active } = this.state;
@@ -84,12 +93,16 @@ class Header extends React.Component {
         </Menu.Item>
       </Menu>
     )
+    // <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
     return (
       <div className={cx(l.headerBox)}>
         <Row className={cx(l.header, 'main_container')}>
-          <Col span={4} className={cx(l.left)}>
-            <img src="/img/brickFUN.png" alt=""/>
-            <span>筑乐 <i>。</i></span>
+          <Col span={4} >
+            <a href="#/" className={cx(l.left)}>
+              {/*<img src="/img/brickFUN.png" alt=""/>*/}
+              <span>brickFUN</span>
+              <span>筑乐 <i className={cx(l.dot)}>。</i></span>
+            </a>
           </Col>
           <Col span={17} className={cx(l.right)}>
             {
@@ -99,22 +112,23 @@ class Header extends React.Component {
             }
           </Col>
           <Col span={3} className={cx(l.avatar)}>
+            <div className={cx(l.firDiv)}>
+              <a onClick={this.uploadLink} className={cx('myself-icon')}>&#xe61e;</a>
+            </div>
             {
               example.id ?
-              <div className={cx(l.logined)}>
-                <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <div className={cx(l.secDiv)}>
                 <Dropdown overlay={menu} trigger={['hover']}>
-                    <Avatar src={example.avatar ? example.avatar : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" >
+                    <Avatar src={example.avatar ? `${HOST}${example.avatar}` : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size="small" >
                     </Avatar>
                 </Dropdown>
               </div>
               :
-              <span>
+              <div className={cx(l.spans)}>
                 <a href="#/login">登录</a>
                 <span className="ant-divider" style={{backgroundColor: '#000'}}/>
                 <a href={`#/login?type=register`}>注册</a>
-              </span>
+              </div>
             }
           </Col>
         </Row>

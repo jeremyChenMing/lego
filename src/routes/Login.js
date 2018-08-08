@@ -66,8 +66,7 @@ class Login extends React.Component {
           getUserToken(values).then( token => {
             this.setState({submitting: false})
             if (token && !token.code) {
-              dispatch(saveUserInfo({...token}))
-              dispatch({type: 'example/setsMes'})
+              dispatch({type: 'example/setsMes', payload: token})
               dispatch(routerRedux.replace('/main/hot'))
             }else{
               reject(new SubmissionError({_error: '123123', password: token.message}))
@@ -202,9 +201,9 @@ class Login extends React.Component {
         {
           show === 'login' ?
           <div className={cx(l.login)}>
-            {/**/}<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            {/*<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <Icon type="qrcode" className={cx(l.icons)} />
-            </div>
+            </div>*/}
             <div className={cx(l.nav)}>
               {/* ,'短信登录' */
                 ['密码登录'].map( (item,index) => {

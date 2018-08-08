@@ -96,4 +96,24 @@ export const getAuthOfProduce = (id,query = {}) => {
 
 
 
+// 评论
+// 获取评论列表
+export const getCommentsList = (id,query = {}) => {
+  return fetch.get(`/api/v1/products/${id}/comments`, query)
+}
+// 发起评论
+export const addFirComments = (id, data, query = {}) => {
+  return fetch.post(`/api/v1/products/${id}/comments`, query, data)
+}
+
+
+// 获取子评论
+export const getSonComments = (id, query = {}) => {
+  return fetch.get(`/api/v1/products/comments/${id}`, query)
+}
+// 增加子评论
+export const addSonComments = (id, data, query = {}) => {
+  return fetch.patch(`/api/v1/products/comments/${id}`, query, data)
+}
+
 

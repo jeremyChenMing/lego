@@ -3,10 +3,8 @@
 
 .boxes{
   width: 100%;
-  // height: 200px;
-  margin: 70px auto 50px;
   position: relative;
-  padding: 0 100px;
+  padding: 50px 100px;
   .proBox{
     height: 12px;
     width: 100%;
@@ -23,14 +21,13 @@
   .pro{
     padding: 0 60px;
   }
-  .mar{
-    margin-left: ~'calc(100% - 480px)'; 
-    margin-left: 146.66px; 
-  }
   .con{
     margin-top: -36px;
+    display: flex;
+    .mou{
+      flex: 1;
+    }
     .cell{
-      // width: 120px;
       text-align: center;
       display: inline-block;
       & > i{
@@ -208,7 +205,8 @@
       border-bottom: 1px solid rgba(230,230,230,1);
       margin-bottom: 20px;
       img{
-        height: 60px
+        height: 60px;
+        border-radius: 50%;
       }
       .avarBox{
         padding-right: 16px;
@@ -277,7 +275,7 @@
 
 .more{
   display: block;
-  margin: 20px auto;
+  padding: 20px 0;
   text-align: center;
   font-size: 16px;
   letter-spacing: 2px;

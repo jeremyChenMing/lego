@@ -1,7 +1,7 @@
 import { USER } from '../constants/ActionTypes'
 import { LOCAL_STORAGE } from '../constants/Constants'
 import { Storage } from '../utils/common'
-import { getProfile } from '../services/common'
+import { getProfile, getUsers } from '../services/common'
 import { Modal } from 'antd'
 import moment from 'moment'
 
@@ -9,7 +9,9 @@ export default {
 
   namespace: USER.ROOT,
 
-  state: {},
+  state: {
+    
+  },
 
   subscriptions: {
     setup({dispatch, history}) {  // eslint-disable-line
@@ -25,12 +27,11 @@ export default {
   },
 
   effects: {
-    *fetch({payload}, {call, put}) {  // eslint-disable-line
-      yield put({type: 'save'})
-    },
     *setsMes({payload}, {call, put, select}) {
       const auths = yield call(getProfile);
-      yield put({type: 'sets', payload: auths});
+      console.log(payload, '1')
+      console.log(auths, '2')
+      yield put({type: 'sets', payload: {example: {...payload, ...auths}}});
     },
     *checkLogin({payload}, {call, put, select}) {
       const mes = yield select(state => state.example);
@@ -66,17 +67,6 @@ export default {
   },
 
   reducers: {
-
-    [USER.SAVE_USERINFO] (state, {payload}) {
-      const example = {
-        ...state,
-        ...payload
-      }
-      Storage.setItem(LOCAL_STORAGE, {example})
-      // document.cookie = `id=Bearer ${payload.access_token}`
-      return example
-    },
-
     [USER.CLEAR_USERINFO] () {
       // Storage.clear()
       Storage.removeItem(LOCAL_STORAGE)
@@ -86,12 +76,13 @@ export default {
       Storage.removeItem(LOCAL_STORAGE)
       return {}
     },
+    
     sets(state, {payload}) {
       const example = {
         ...state,
-        ...payload
+        ...payload.example
       }
-      Storage.setItem(LOCAL_STORAGE, {example})
+      Storage.setItem(LOCAL_STORAGE, {example: payload.example})
       return example
     }
   }

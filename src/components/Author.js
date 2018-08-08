@@ -178,7 +178,7 @@ class Cell extends React.Component {
     return (
       <div className={cx(l.cellBoxes)}>
         <div span={8} className={cx(l.left)}>
-          <div><img onClick={this.linkPerson.bind(null, list.id)} src={list.avatar ? list.avatar : "/img/touxiang.png"} alt=""/></div>
+          <div><img onClick={this.linkPerson.bind(null, list.id)} src={list.avatar ? `${HOST}${list.avatar}` : "/img/touxiang.png"} alt=""/></div>
           <div className={cx(l.cons)}>
             <h2>{list.nickname} <Icon type="star" /></h2>
             <p>简介：{list.intro ? list.intro : '暂无'}</p>

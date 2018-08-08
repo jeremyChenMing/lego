@@ -33,7 +33,6 @@ const app = dva({
   }
 })
 
-// const app = dva();
 app.use(createLoading())
 
 app.use({
@@ -45,6 +44,7 @@ app.use({
 
 // 3. Model
 app.model(require('./models/example'));
+app.model(require('./models/env'));
 //  上述在 陆游中实现了动态的加载
 // 4. Router
 app.router(require('./router'))

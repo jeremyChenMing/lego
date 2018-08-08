@@ -7,7 +7,7 @@ import MainLayout from '../components/MainLayout/MainLayout'
 import { getProfile, uploaderFile, patchProfile } from '../services/common'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
-import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase } from '../utils/common'
+import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase, HOST } from '../utils/common'
 
 import { Input, Radio, Button, Modal, notification } from 'antd'
 const RadioGroup = Radio.Group;
@@ -113,13 +113,14 @@ class Center extends React.Component {
     uploaderFile({name: 'headPng.png', file: blob}).then( data => {
       if (data && !data.code) {
         this.state.info.avatar = data.url
-        patchProfile({avatar: data.url}).then( data => {
+        patchProfile({avatar: `${data.url}`}).then( data => {
           if (data && !data.code) {
             this.setState({
               cover: false,
               headData: result
             })
             dispatch({type: 'example/setsMes'})
+            dispatch({type: 'example/allAthors'})
           }else{
 
           }
@@ -151,13 +152,16 @@ class Center extends React.Component {
     })
   }
   save = () => {
+    const { dispatch } = this.props;
     const { info } = this.state;
     console.log(info)
-    patchProfile({...info}).then( data => {
+    patchProfile({...info, avatar: `${HOST}${info.avatar}`}).then( data => {
       if (data && !data.code) {
         this.setState({
           show: true
         }, this.getInformation)
+        dispatch({type: 'example/setsMes'})
+        dispatch({type: 'example/allAthors'})
         notification.success({
           message: `保存成功`
         })
@@ -179,7 +183,7 @@ class Center extends React.Component {
     const { location } = this.props;
     const { show, info, cover, urlData, headData, confirmLoading } = this.state;
     const renderHead = (data) => {
-      return data ? {backgroundImage: `url(${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
+      return data ? {backgroundImage: `url(${HOST}${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
     return (
       <MainLayout location={location}>

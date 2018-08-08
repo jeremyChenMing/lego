@@ -19,6 +19,7 @@ export const syncStateToFetch = (app, initialState) => {
 }
 
 const checkStatus = (response) => {
+
   switch (response.status) {
     case 200:
       return response

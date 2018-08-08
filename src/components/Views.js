@@ -7,7 +7,7 @@ import { Pagination, Icon, Avatar  } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
 import { getProducts, getUsersOfDetail } from '../services/common'
 import _ from 'lodash'
-import { deepClone } from '../utils/common'
+import { deepClone, HOST } from '../utils/common'
 
 const dutArr = (num) => {
   let temp = [];
@@ -141,7 +141,7 @@ class Views extends React.Component {
               produce.map( (item,index) => {
                 const perMes = authMes[item.author_id] ? authMes[item.author_id] : {};
                 return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                  <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ""} avatar={perMes.avatar ? perMes.avatar : "/img/touxiang.png"}/>
+                  <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ""} avatar={perMes.avatar ? `${HOST}${perMes.avatar}` : "/img/touxiang.png"}/>
                 </div>
                 
               })
