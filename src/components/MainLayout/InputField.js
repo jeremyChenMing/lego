@@ -1,6 +1,6 @@
-import React from 'react';
-import { Field } from 'redux-form';
-import { Input, Form } from 'antd';
+import React from 'react'
+import { Field } from 'redux-form'
+import { Input, Form } from 'antd'
 const FormItem = Form.Item
 
 class InputField extends React.Component {
@@ -11,11 +11,11 @@ class InputField extends React.Component {
     onKeyUp: () => {},
     onPressEnter: () => {},
     onBlur: () => {},
-    size: "large",
+    size: 'large',
     defaultValue: undefined
   }
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       needReload: false
     }
@@ -50,7 +50,7 @@ class InputField extends React.Component {
     }
   }
   renderField = (field) => {
-    const { formItemLayout, label, disabled, placeholder, type, inputStyle, onKeyUp, onPressEnter, onBlur, defaultValue, size } = this.props;
+    const { formItemLayout, label, disabled, placeholder, type, inputStyle, onKeyUp, onPressEnter, onBlur, defaultValue, size } = this.props
     return (
       <FormItem
         {...formItemLayout}
@@ -88,7 +88,7 @@ class InputField extends React.Component {
       </FormItem>
     )
   }
-  render() {
+  render () {
     const {label, name, type, validate} = this.props
     const {needReload} = this.state
     if (needReload) {
@@ -105,5 +105,4 @@ class InputField extends React.Component {
   }
 }
 
-
-export default InputField;
+export default InputField

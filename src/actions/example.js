@@ -12,4 +12,3 @@ export const clearUserInfo = () => {
     type: `${USER.ROOT}/${USER.CLEAR_USERINFO}`
   }
 }
-

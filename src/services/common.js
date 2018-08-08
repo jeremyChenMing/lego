@@ -1,7 +1,5 @@
 import * as fetch from '../utils/fetch'
 
-
-
 // 1、获取用户token
 export const getUserToken = (data) => {
   return fetch.post(`/api/v1/auth/access_token`, {}, data)
@@ -23,14 +21,10 @@ export const registerUser = (data) => {
   return fetch.post(`/api/v1/auth/register`, {}, data)
 }
 
-
-
 // 6、上传文件
 export const uploaderFile = (data) => {
   return fetch.postFormData(`/api/v1/file/upload`, {}, data)
 }
-
-
 
 // 7、获取产品列表
 export const getProducts = (query = {}) => {
@@ -47,21 +41,19 @@ export const getProductsOfDetail = (id, query = {}) => {
 
 // 。。。。。。。。。？
 // 10、更新产品
-export const putProduce = (id, data) => { // 未完成
+export const putProduce = (id, data, query = {}) => { // 未完成
   return fetch.put(`/api/v1/products/${id}`, query, data)
 }
 // 11、
-export const patchProduce = (id, data) => { // 未完成
+export const patchProduce = (id, data, query = {}) => { // 未完成
   return fetch.put(`/api/v1/products/${id}`, query, data)
 }
 // 。。。。。。。。。？
-
 
 // 13、点赞
 export const givePraise = (id, data) => {
   return fetch.post(`/api/v1/products/${id}/votes`, {}, data)
 }
-
 
 // 。。。。。。。。。？
 // 14、获取作者简介
@@ -78,34 +70,28 @@ export const patchProfile = (data, query = {}) => {
 }
 // 。。。。。。。。。？
 
-
-
 // 17、获取作者
 export const getUsers = (query = {}) => {
   return fetch.get(`/api/v1/users`, query)
 }
 // 18、作者详情
-export const getUsersOfDetail = (id,query = {}) => {
+export const getUsersOfDetail = (id, query = {}) => {
   return fetch.get(`/api/v1/users/${id}`, query)
 }
 // 19、获取作者的作品
-export const getAuthOfProduce = (id,query = {}) => {
+export const getAuthOfProduce = (id, query = {}) => {
   return fetch.get(`/api/v1/users/${id}/products`, query)
 }
 
-
-
-
 // 评论
 // 获取评论列表
-export const getCommentsList = (id,query = {}) => {
+export const getCommentsList = (id, query = {}) => {
   return fetch.get(`/api/v1/products/${id}/comments`, query)
 }
 // 发起评论
 export const addFirComments = (id, data, query = {}) => {
   return fetch.post(`/api/v1/products/${id}/comments`, query, data)
 }
-
 
 // 获取子评论
 export const getSonComments = (id, query = {}) => {
@@ -115,5 +101,3 @@ export const getSonComments = (id, query = {}) => {
 export const addSonComments = (id, data, query = {}) => {
   return fetch.patch(`/api/v1/products/comments/${id}`, query, data)
 }
-
-

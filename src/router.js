@@ -35,11 +35,11 @@ function RouterConfig ({ history, app }) {
   return (
     <Router history={history}>
       <Switch>
-        <Route path='/' exact render={() => <Redirect to="/main/hot"/>}  />
-        <Route path='/main'  component={Main} />
-        <Route path='/login'  component={Login} />
-        <Route path='/person/:id'  component={Person} />
-        <Route path='/shop'  component={Shopping} />
+        <Route path='/' exact render={() => <Redirect to='/main/hot' />} />
+        <Route path='/main' component={Main} />
+        <Route path='/login' component={Login} />
+        <Route path='/person/:id' component={Person} />
+        <Route path='/shop' component={Shopping} />
         <Route path='/us' component={Users} />
         <Route path='/upload' component={Upload} />
         <Route path='/center' component={Center} />

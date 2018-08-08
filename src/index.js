@@ -14,8 +14,8 @@ import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 notification.config({
   placement: 'topRight',
-  top: 55,
-});
+  top: 55
+})
 
 let initialState = Storage.getItem(LOCAL_STORAGE)
 
@@ -43,8 +43,8 @@ app.use({
 // app.use({});
 
 // 3. Model
-app.model(require('./models/example'));
-app.model(require('./models/env'));
+app.model(require('./models/example'))
+app.model(require('./models/env'))
 //  上述在 陆游中实现了动态的加载
 // 4. Router
 app.router(require('./router'))

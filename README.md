@@ -4,11 +4,6 @@ dva-cli
 ## 1、dva-cli 生成项目工具
 
 
-看过大部分的文档，花了半天的时间造了一个小项目！感觉挺好用的！配置也简单！可配置也还行！
-
-
-
-
 蓝湖 https://lanhuapp.com/web/#/item/board?pid=ab35febc-f0a2-441e-afa9-1f1c30fa97dc
 一、个人信息页面 以及编辑接口
 二、图片链接没有权限

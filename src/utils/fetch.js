@@ -2,24 +2,22 @@ import 'es6-promise'
 import fetch from 'isomorphic-fetch'
 import qs from 'qs'
 import _ from 'lodash'
-import { message } from 'antd'
 import { Storage } from '../utils/common'
 import { LOCAL_STORAGE } from '../constants/Constants'
-let initial= Storage.getItem(LOCAL_STORAGE)
+let initial = Storage.getItem(LOCAL_STORAGE)
 
 let rootState = {...initial}
 
 const requestTimeOut = 1000 * 600
 
 export const syncStateToFetch = (app, initialState) => {
-  rootState = app._store.getState();
+  rootState = app._store.getState()
   if (_.isEmpty(rootState)) {
     rootState = initialState
   }
 }
 
 const checkStatus = (response) => {
-
   switch (response.status) {
     case 200:
       return response
@@ -28,11 +26,6 @@ const checkStatus = (response) => {
     case 400:
       return response
     case 403:
-      // message.error("身份认证信息未提供，即将跳转登录！")
-      // setTimeout(function () {
-      //   window.location.href = '#/login'
-      // },2000)
-      // break;
       return response
     case 302:
       return response
@@ -52,24 +45,10 @@ const parseJSON = (response) => {
   })
 }
 
-function getCookie(name){
-  var strcookie = document.cookie;//获取cookie字符串
-  var arrcookie = strcookie.split("; ");//分割
-  console.log(strcookie)
-  //遍历匹配
-  for ( var i = 0; i < arrcookie.length; i++) {
-  var arr = arrcookie[i].split("=");
-  if (arr[0] == name){
-  return arr[1];
-  }
-  }
-  return "";
-}
-// console.log(getCookie('id'))
 const completeHeader = (header) => {
   const state = (rootState || {}).example || {}
 
-  const { access_token } = state
+  const { access_token: accessToken } = state
   const result = {
     ...header,
     ...{
@@ -77,11 +56,11 @@ const completeHeader = (header) => {
       'Content-Type': 'application/json',
       'credentials': 'include',
       // 'credentials': 'same-origin',
-      Authorization: access_token ? `Bearer ${access_token}` : ''
+      Authorization: accessToken ? `Bearer ${accessToken}` : ''
     }
   }
 
-  if (!access_token) delete result.Authorization
+  if (!accessToken) delete result.Authorization
   return result
 }
 

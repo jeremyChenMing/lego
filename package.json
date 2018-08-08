@@ -3,7 +3,7 @@
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
-    "autofixs": "standard --fix",
+    "autofix": "standard --fix",
     "check": "echo 'start checking codes place waiting.....' && standard"
   },
   "engines": {
@@ -39,8 +39,10 @@
     "redbox-react": "^1.4.3",
     "roadhog": "^1.2.1",
     "standard": "^10.0.3",
+    "pre-commit": "^1.2.2",
     "uglifyjs-webpack-plugin": "^1.1.6"
   },
+  "precommit": "check",
   "standard": {
     "parser": "babel-eslint",
     "ignore": [

@@ -10,7 +10,7 @@ export default {
   namespace: USER.ROOT,
 
   state: {
-    
+
   },
 
   subscriptions: {
@@ -23,30 +23,29 @@ export default {
         // }
       // })
       dispatch({type: 'checkLogin', payload: history.location.pathname})
-    },
+    }
   },
 
   effects: {
-    *setsMes({payload}, {call, put, select}) {
-      const auths = yield call(getProfile);
+    * setsMes ({payload}, {call, put, select}) {
+      const auths = yield call(getProfile)
       console.log(payload, '1')
       console.log(auths, '2')
-      yield put({type: 'sets', payload: {example: {...payload, ...auths}}});
+      yield put({type: 'sets', payload: {example: {...payload, ...auths}}})
     },
-    *checkLogin({payload}, {call, put, select}) {
-      const mes = yield select(state => state.example);
-      const bool = mes.expires_at ? moment().isBefore(mes.expires_at) : false;
+    * checkLogin ({payload}, {call, put, select}) {
+      const mes = yield select(state => state.example)
+      const bool = mes.expires_at ? moment().isBefore(mes.expires_at) : false
       if (payload === '/login' || payload === '/center') {
 
-      }else{
+      } else {
         if (bool) {
           console.log('现在没有的时间没有过期')
-        }else{
-          yield put({type: 'clear'});
+        } else {
+          yield put({type: 'clear'})
           console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge')
         }
       }
-      
 
       // if (payload === '/login' || payload === '/center') {
 
@@ -61,8 +60,6 @@ export default {
       //   }
 
       // }
-
-
     }
   },
 
@@ -72,12 +69,12 @@ export default {
       Storage.removeItem(LOCAL_STORAGE)
       return {}
     },
-    clear(state, action) {
+    clear (state, action) {
       Storage.removeItem(LOCAL_STORAGE)
       return {}
     },
-    
-    sets(state, {payload}) {
+
+    sets (state, {payload}) {
       const example = {
         ...state,
         ...payload.example

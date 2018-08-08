@@ -1,27 +1,27 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'dva'
-import MainLayout from './MainLayout/MainLayout';
-import moment from 'moment';
-import cx from 'classnames';
-import l from './Detail.less';
+import MainLayout from './MainLayout/MainLayout'
+import moment from 'moment'
+import cx from 'classnames'
+import l from './Detail.less'
 import pathToRegexp from 'path-to-regexp'
 import { getProductsOfDetail, givePraise, getUsersOfDetail,
-getCommentsList, 
-addFirComments, //添加评论
-addSonComments, //获取子评论
-getSonComments, //add子评论
+getCommentsList,
+addFirComments, // 添加评论
+addSonComments, // 获取子评论
+getSonComments // add子评论
 } from '../services/common'
 import { getSearchObj, HOST } from '../utils/common'
-import { Icon, Button, Input, notification, Carousel, Modal } from 'antd';
+import { Icon, Button, Input, notification, Carousel, Modal } from 'antd'
 import { deepClone } from '../utils/common'
-import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group';
-import { UnmountClosed} from 'react-collapse';
-const { TextArea } = Input;
+import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group'
+import { UnmountClosed} from 'react-collapse'
+const { TextArea } = Input
 
-const width = 140;
+const width = 140
 class Detail extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       list: [
         {name: '投票阶段', num: '1000/5000', status: '完成'},
@@ -30,7 +30,7 @@ class Detail extends React.Component {
         {name: 'mou'},
         {name: '生产优化', num: '众筹完成一周内', status: '0%'},
         {name: 'mou'},
-        {name: '生产中', num: '优化完成2周内生产完成', status: '0%'},
+        {name: '生产中', num: '优化完成2周内生产完成', status: '0%'}
       ],
       id: undefined,
       commentsValue: undefined,
@@ -50,24 +50,24 @@ class Detail extends React.Component {
     }
   }
   getAuthMes = async() => {
-    const { authId } = this.state;
-    try{
-      const result = await getUsersOfDetail(authId);
+    const { authId } = this.state
+    try {
+      const result = await getUsersOfDetail(authId)
       if (result && !result.code) {
         this.setState({
           authMes: result
         })
-      }else{
+      } else {
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
   getDetail = async() => {
-    const { authors } = this.props;
-    const { id } = this.state;
-    try{
-      const result = await getProductsOfDetail(id);
+    const { authors } = this.props
+    const { id } = this.state
+    try {
+      const result = await getProductsOfDetail(id)
       if (result && !result.code) {
         this.setState({
           detailObj: result,
@@ -75,46 +75,45 @@ class Detail extends React.Component {
           authMes: authors[result.author_id] ? authors[result.author_id] : {}
         }, this.getComments)
         // this.getComments();
-      }else{
+      } else {
         notification.error({
           message: `获取产品详情失败！`
         })
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
   getComments = async() => {
-    const { id, limit } = this.state;
-    const that = this;
-    try{
-      const result = await getCommentsList(id, {limit, offset: 0});
+    const { id, limit } = this.state
+    const that = this
+    try {
+      const result = await getCommentsList(id, {limit, offset: 0})
       // setTimeout(function () {
-        if (result && !result.code) {
-          let arr = [];
-          result.results.map( item => {
-            item.show = false
-            arr.push(item)
-          })
-          that.setState({
-            comments: arr,
-            commentsCount: result.count,
-            more: false
-          })
-        }else{
-          that.setState({
-            more: false
-          })
-        }  
+      if (result && !result.code) {
+        let arr = []
+        result.results.map(item => {
+          item.show = false
+          arr.push(item)
+        })
+        that.setState({
+          comments: arr,
+          commentsCount: result.count,
+          more: false
+        })
+      } else {
+        that.setState({
+          more: false
+        })
+      }
       // },2000)
-      
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
-  componentDidMount() {
-    const { location } = this.props;
-    const query = getSearchObj(location);
+  componentDidMount () {
+    const { location } = this.props
+    const query = getSearchObj(location)
     if (query.id) {
       this.setState({
         id: query.id
@@ -122,16 +121,13 @@ class Detail extends React.Component {
     }
   }
 
-
-
-
   // 给某个人评论
   showLeaveMes = (type, k, n) => {
-    const { comments } = this.state;
+    const { comments } = this.state
     const copyData = deepClone(comments)
     if (type === 'down') {
       copyData[n].show = true
-    }else if (type === 'up') {
+    } else if (type === 'up') {
       copyData[n].show = false
     }
     this.setState({
@@ -139,18 +135,17 @@ class Detail extends React.Component {
     })
   }
 
-
   // 投票
   handleVote = (vote) => {
-    const { id } = this.state;
-    givePraise(id).then( data => {
+    const { id } = this.state
+    givePraise(id).then(data => {
       if (data && !data.code) {
         this.state.detailObj.num_votes = this.state.detailObj.num_votes + 1
         this.setState({
           vote: !vote
         })
         // },this.getDetail)
-      }else{
+      } else {
         notification.error({
           message: `${data.message}`
         })
@@ -158,9 +153,6 @@ class Detail extends React.Component {
     }).catch(err => {
       console.log(err)
     })
-    
-
-
   }
   onVoteExited = () => {
     this.setState({
@@ -168,15 +160,13 @@ class Detail extends React.Component {
     })
   }
 
-
   // 点赞
   handleStar = (star) => {
     if (this.state.starClass) {
       this.setState({
         star: !star
-      }) 
+      })
     }
-    
   }
   onExited = () => {
     this.setState({
@@ -185,20 +175,12 @@ class Detail extends React.Component {
   }
 
   renderBack = (data) => {
-    let temp = {};
+    let temp = {}
     if (data) {
       temp = {backgroundImage: `url(${HOST}${data})`}
     }
-    return temp;
+    return temp
   }
-
-
-
-
-
-
-
-
 
   changeComments = (e) => {
     this.setState({
@@ -208,21 +190,20 @@ class Detail extends React.Component {
 
   takeComment = async() => {
       // 检测是否登录了
-    const { commentsValue, id } = this.state;
-    try{
-      const result = addFirComments(id, {content: commentsValue});
+    const { commentsValue, id } = this.state
+    try {
+      const result = addFirComments(id, {content: commentsValue})
       if (result && !result.code) {
         console.log(result, '****')
         this.setState({
           commentsValue: undefined
         }, this.getComments)
-      }else{
+      } else {
 
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
-    
   }
   showModal = () => {
     Modal.confirm({
@@ -233,48 +214,45 @@ class Detail extends React.Component {
       onOk: function () {
         document.location.href = '#/login'
       }
-    });
+    })
   }
   showTime = (data) => {
-    let temp = '';
+    let temp = ''
     if (data.create_at) {
       temp = moment().from(data.create_at)
     }
-    return temp;
+    return temp
   }
 
   getSons = async(id) => {
-    try{
-      const sons = getSonComments(id);
+    try {
+      const sons = getSonComments(id)
       console.log(sons, '-----')
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
 
-
-
-
   changeSons = (e) => {
-    const value = e.target.value;
+    const value = e.target.value
     this.setState({
       sonsValue: value
     })
   }
-  addSons = (k,n) => {
-    const { sonsValue, id } = this.state;
-    console.log(k,n, sonsValue)
+  addSons = (k, n) => {
+    const { sonsValue, id } = this.state
+    console.log(k, n, sonsValue)
 
-    addFirComments(id, {content: sonsValue, ref_id: k.id}).then( data => {
+    addFirComments(id, {content: sonsValue, ref_id: k.id}).then(data => {
       console.log(data)
       if (data && !data.code) {
         this.setState({
-          sonsValue: undefined,
+          sonsValue: undefined
         }, () => {
           // this.showLeaveMes('up', k, n);
           this.getComments()
         })
-      }else{
+      } else {
 
       }
     }).catch(err => {
@@ -282,49 +260,43 @@ class Detail extends React.Component {
     })
   }
 
-
-
-
-
-
-
   loadMore = () => {
     this.setState({
       limit: 20,
       more: true
-    },this.getComments)
+    }, this.getComments)
   }
-  render() {
-    const { list, detailObj, comments, star, starClass, vote, authMes, commentsCount, commentsValue, sonsValue, limit, more } = this.state;
-    const { location, authors, access_token } = this.props;
-    const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)';
-    const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)';
+  render () {
+    const { list, detailObj, comments, star, starClass, vote, authMes, commentsCount, commentsValue, sonsValue, limit, more } = this.state
+    const { location, authors, access_token } = this.props
+    const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
+    const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     return (
       <MainLayout location={location}>
         <div className={cx('main_container')}>
           <div className={cx(l.boxes)}>
             <div style={{padding: '0 70px'}}>
               <div className={cx(l.proBox)}>
-                <div style={{width: '32%'}} className={cx(l.progress)}></div>
+                <div style={{width: '32%'}} className={cx(l.progress)} />
               </div>
             </div>
             <div className={cx(l.con)}>
               {
-                list.map( (item,index) => {
+                list.map((item, index) => {
                   if (item.name === 'mou') {
-                    return <div key={index} className={cx(l.mou)}></div>
-                  }else{
-                    return(
+                    return <div key={index} className={cx(l.mou)} />
+                  } else {
+                    return (
                       <div style={{width: width}} className={cx(l.cell)} key={index}>
-                          <i className={cx(l.dot, l[item.status === '完成' ? 'complate' : ''])}>
-                            {
-                              item.status === '完成' ? <Icon type="check" style={{color: '#fff', fontSize: '40px', marginTop: '10px'}} /> : <i>{item.status}</i>
+                        <i className={cx(l.dot, l[item.status === '完成' ? 'complate' : ''])}>
+                          {
+                              item.status === '完成' ? <Icon type='check' style={{color: '#fff', fontSize: '40px', marginTop: '10px'}} /> : <i>{item.status}</i>
                             }
-                          </i>
-                          <i className={cx(l.h1)}>{item.name}</i>
-                          <i className={cx(l.num)}>{item.num}</i>
+                        </i>
+                        <i className={cx(l.h1)}>{item.name}</i>
+                        <i className={cx(l.num)}>{item.num}</i>
                       </div>
-                    )  
+                    )
                   }
                 })
               }
@@ -332,11 +304,11 @@ class Detail extends React.Component {
           </div>
           <div className={cx(l.headerBox)}>
             <div className={cx(l.left)}>
-            {
-              detailObj.images && detailObj.images.length ?
-              <Carousel autoplay={true} dots={true} effect="fade">
+              {
+              detailObj.images && detailObj.images.length
+              ? <Carousel autoplay dots effect='fade'>
                 {
-                  detailObj.images.map( (item,index) => {
+                  detailObj.images.map((item, index) => {
                     return <div key={index} style={this.renderBack(item.url)} className={cx(l.bgs)}><h3>1</h3></div>
                   })
                 }
@@ -347,13 +319,13 @@ class Detail extends React.Component {
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>
                 <div className={cx(l.imgs)}>
-                  <img src={authMes.avatar ? `${HOST}${authMes.avatar}` : "/img/touxiang.png"} alt=""/>
+                  <img src={authMes.avatar ? `${HOST}${authMes.avatar}` : '/img/touxiang.png'} alt='' />
                 </div>
-                
-                <h3>{authMes.nickname ? authMes.nickname : ''} <Icon type="star" /></h3>
+
+                <h3>{authMes.nickname ? authMes.nickname : ''} <Icon type='star' /></h3>
                 <div style={{fontSize: '12px', color: '#585858', margin: '5px 0 10px'}}>简介：{authMes.info ? authMes.info : '暂无'}</div>
                 <div style={{fontSize: '12px', color: '#c9c9c9'}}>创作：{authMes.num_products ? authMes.num_products : 0}</div>
-                {/*<div className={cx(l.txt)} style={{fontSize: '12px', color: '#585858'}}>
+                {/* <div className={cx(l.txt)} style={{fontSize: '12px', color: '#585858'}}>
                   <div className={cx(l.l_label)} style={{paddingRight: '10px'}}>上海</div>
                   <div className={cx(l.line, l.pd)}><i style={{backgroundColor: '#585858'}}></i></div>
                   <div className={cx(l.r_label)} style={{paddingLeft: '10px'}}>创库4年</div>
@@ -362,20 +334,20 @@ class Detail extends React.Component {
                   <div className={cx(l.l_label)} style={{paddingRight: '30px'}}>创作 87</div>
                   <div className={cx(l.line, l.pd)}><i></i></div>
                   <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
-                </div>*/}
+                </div> */}
               </div>
               <div className={cx(l.btm)}>
                 <h1>{detailObj.title ? detailObj.title : ''}</h1>
                 <div className={cx(l.love)}>
-                  <CSSTransition in={vote} timeout={300} classNames="star" onExited={this.onVoteExited}>
-                    <Icon type="heart" className={cx(l.red)} />
+                  <CSSTransition in={vote} timeout={300} classNames='star' onExited={this.onVoteExited}>
+                    <Icon type='heart' className={cx(l.red)} />
                   </CSSTransition>
-                  
+
                   &nbsp;{detailObj.num_votes}票
                 </div>
                 <div>
-                  <Button onClick={this.handleVote} className={cx(l.btn)} type="primary" size="large" style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
-                  <Button className={cx(l.btn)} disabled type="primary" size="large">众筹产品</Button>
+                  <Button onClick={this.handleVote} className={cx(l.btn)} type='primary' size='large' style={{marginRight: '15px', color: '#000'}}>给他投票</Button>
+                  <Button className={cx(l.btn)} disabled type='primary' size='large'>众筹产品</Button>
                 </div>
               </div>
             </div>
@@ -387,24 +359,24 @@ class Detail extends React.Component {
               <p style={{textAlign: 'right', color: '#c9c9c9'}}>作品上传：{detailObj ? moment(detailObj.create_at).format('YYYY/MM/DD') : ''}</p>
             </div>
             <div className={cx(l.cons)}>
-              <TextArea value={commentsValue} onChange={this.changeComments} placeholder="说点什么..." rows={4} style={{resize: 'none'}}/>
-              <Button disabled={commentsValue ? false : true} onClick={access_token ? this.takeComment : this.showModal} type="primary" style={{marginTop: '16px', color: color}}>评论</Button>
+              <TextArea value={commentsValue} onChange={this.changeComments} placeholder='说点什么...' rows={4} style={{resize: 'none'}} />
+              <Button disabled={!commentsValue} onClick={access_token ? this.takeComment : this.showModal} type='primary' style={{marginTop: '16px', color: color}}>评论</Button>
             </div>
 
             <h3 className={cx(l.total)}>全部评论： <span style={{color: '#c9c9c9'}}>{commentsCount}</span></h3>
             <ul className={cx(l.commentList)}>
               {
-                comments.map( (k,n) => {
-                  // console.log(this.getSons(k.id)) 
-                  return(
+                comments.map((k, n) => {
+                  // console.log(this.getSons(k.id))
+                  return (
                     <li className={cx(l.list)} key={n}>
                       <div className={cx(l.avarBox)}>
-                        <img src={authors[k.author_id] ? `${HOST}${authors[k.author_id].avatar}` : "/img/touxiang.png"} alt=""/>
+                        <img src={authors[k.author_id] ? `${HOST}${authors[k.author_id].avatar}` : '/img/touxiang.png'} alt='' />
                       </div>
                       <div className={cx(l.con)}>
                         <p className={cx(l.name)}>{authors[k.author_id] ? authors[k.author_id].nickname : ' '} <span className={cx(l.time)}>{this.showTime(k)}</span></p>
                         <p>{k.content}</p>
-                        {/*<div className={cx(l.contain)}>
+                        {/* <div className={cx(l.contain)}>
                           {
                             [].map( (item,index) => {
                               return(
@@ -415,28 +387,27 @@ class Detail extends React.Component {
                               )
                             })
                           }
-                        </div>*/}
+                        </div> */}
                         <div className={cx(l.iconList)}>
                           {
-                           k.show ? <Icon onClick={this.showLeaveMes.bind(null, 'up', k, n)} className={cx(l.ii)} type="up-circle" />
-                           :
-                           <Icon onClick={this.showLeaveMes.bind(null, 'down', k, n)} type="message" className={cx(l.ii)} />
+                           k.show ? <Icon onClick={this.showLeaveMes.bind(null, 'up', k, n)} className={cx(l.ii)} type='up-circle' />
+                           : <Icon onClick={this.showLeaveMes.bind(null, 'down', k, n)} type='message' className={cx(l.ii)} />
                           }
-                          {/*<span className={cx(l.star)}>
+                          {/* <span className={cx(l.star)}>
                             <CSSTransition in={star} timeout={300} classNames="star" onExited={this.onExited.bind(null, k, n)} unmountOnExit>
                               <Icon type="like-o" className={cx(l.ii)} />
                             </CSSTransition>
                             <Icon onClick={this.handleStar.bind(null, star)} type="like-o" className={cx(l.ii, l[starClass ? 'ce' : null])} />
                           </span>
-                          <span style={{padding: '0 0 0 10px'}}>10</span>*/}
+                          <span style={{padding: '0 0 0 10px'}}>10</span> */}
                         </div>
-                        
-                          <UnmountClosed isOpened={k.show}  >
-                            <div className={cx(l.leaveMesBox)}>
-                              <TextArea value={sonsValue} onChange={this.changeSons}  rows={3} style={{resize: 'none'}} placeholder="请输入要回复的内容" />
-                              <Button disabled={sonsValue ? false : true} onClick={this.addSons.bind(null, k, n)} type="primary" style={{marginTop: '5px', color: colorSon}}>发表评论</Button>
-                            </div> 
-                          </UnmountClosed>
+
+                        <UnmountClosed isOpened={k.show} >
+                          <div className={cx(l.leaveMesBox)}>
+                            <TextArea value={sonsValue} onChange={this.changeSons} rows={3} style={{resize: 'none'}} placeholder='请输入要回复的内容' />
+                            <Button disabled={!sonsValue} onClick={this.addSons.bind(null, k, n)} type='primary' style={{marginTop: '5px', color: colorSon}}>发表评论</Button>
+                          </div>
+                        </UnmountClosed>
                       </div>
                     </li>
                   )
@@ -446,27 +417,25 @@ class Detail extends React.Component {
 
             <div className={cx(l.more)}>
               {
-                comments.length < commentsCount && <a onClick={this.loadMore} href="javascript:;">
-                  { more && <Icon type="loading" />}
+                comments.length < commentsCount && <a onClick={this.loadMore} href='javascript:;'>
+                  { more && <Icon type='loading' />}
                   加载更多...
                 </a>
               }
             </div>
-            
+
           </div>
         </div>
       </MainLayout>
-    );
+    )
   }
 }
 const mapState = state => {
-  const { example: { access_token} } = state;
-  const { env: {authors} } = state;
+  const { example: { access_token} } = state
+  const { env: {authors} } = state
   return {
     authors, access_token
   }
 }
 
-export default connect(mapState)(Detail) 
-
-
+export default connect(mapState)(Detail)

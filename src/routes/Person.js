@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'dva'
-import cx from 'classnames';
+import cx from 'classnames'
 import l from './Person.less'
 import MainLayout from '../components/MainLayout/MainLayout'
 import { getUsersOfDetail, getAuthOfProduce } from '../services/common'
@@ -8,44 +8,44 @@ import { HOST } from '../utils/common'
 import { Model } from '../components/HotWorks'
 import { Pagination } from 'antd'
 const dutArr = (num) => {
-  let temp = [];
-  for(let n=0; n < num; n++){
+  let temp = []
+  for (let n = 0; n < num; n++) {
     temp.push(n + 1)
   }
-  return temp;
+  return temp
 }
 class PersonProduce extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       produce: [],
       total: 0,
       page: 1,
-      pageSize: 20,
+      pageSize: 20
     }
   }
   getProducts = async(id) => {
-    const { page, pageSize } = this.state;
-    try{
-      const result = await getAuthOfProduce(id, {limit: pageSize, offset: (page - 1) * pageSize});
+    const { page, pageSize } = this.state
+    try {
+      const result = await getAuthOfProduce(id, {limit: pageSize, offset: (page - 1) * pageSize})
       if (result && !result.code) {
         this.setState({
           total: result.count,
           produce: result.results
         })
-      }else{
+      } else {
 
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
-  componentDidMount() {
+  componentDidMount () {
     if (this.props.id) {
       this.getProducts(this.props.id)
     }
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     const { id } = nextProps
     if (nextProps.id !== this.props.id && nextProps.id) {
       this.getProducts(nextProps.id)
@@ -56,32 +56,31 @@ class PersonProduce extends React.Component {
       page: page
     }, this.getProducts)
   }
-  render() {
-    const { info } = this.props;
-    const { produce, page, total, pageSize } = this.state;
+  render () {
+    const { info } = this.props
+    const { produce, page, total, pageSize } = this.state
     return (
       <div>
         <div className={cx(l.hots)}>
           {
-             produce.map( (item,index) => {
-              return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : "/img/touxiang.png"} name={info.nickname ? info.nickname : ''}/>
-              </div>
-            })
+             produce.map((item, index) => {
+               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
+                 <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : '/img/touxiang.png'} name={info.nickname ? info.nickname : ''} />
+               </div>
+             })
           }
         </div>
         <div className={cx(l.pageBox, 'pageBox')}>
-          <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage}/>
+          <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage} />
         </div>
       </div>
-    );
+    )
   }
 }
 
-
 class Person extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       active: 0,
       id: undefined,
@@ -89,22 +88,22 @@ class Person extends React.Component {
     }
   }
   getPersonDetail = async() => {
-    const { id } = this.state;
-    try{
-      const result = await getUsersOfDetail(id);
+    const { id } = this.state
+    try {
+      const result = await getUsersOfDetail(id)
       if (result && !result.code) {
         this.setState({
           mess: result
         })
-      }else{
+      } else {
 
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
-  componentDidMount() {
-    const { match: {params} } = this.props;
+  componentDidMount () {
+    const { match: {params} } = this.props
     if (params.id) {
       this.setState({
         id: params.id
@@ -118,16 +117,16 @@ class Person extends React.Component {
       active: num
     })
   }
-  render() {
-    const { location } = this.props;
-    const { active, id, mess } = this.state;
+  render () {
+    const { location } = this.props
+    const { active, id, mess } = this.state
     return (
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
           <div className={cx(l.avartBox)}>
-            <img src={mess.avatar ? `${HOST}${mess.avatar}` : "/img/touxiang.png"} alt=""/>
+            <img src={mess.avatar ? `${HOST}${mess.avatar}` : '/img/touxiang.png'} alt='' />
             <h3 style={{height: '42px'}}>{mess.nickname}</h3>
-            {/*<div className={cx(l.txt)}>
+            {/* <div className={cx(l.txt)}>
               <div className={cx(l.l_label)} style={{paddingRight: '5px'}}>创作 87</div>
               <div className={cx(l.line, l.pd)}><i></i></div>
               <div className={cx(l.r_label)} style={{paddingLeft: '5px'}}>粉丝 88</div>
@@ -138,15 +137,14 @@ class Person extends React.Component {
         </div>
         <div className={cx(l.tabBox)}>
           <span onClick={this.handle.bind(null, 0)} className={cx(l.nav, l[active === 0 ? 'active' : ''])}>个人作品</span>
-          <span onClick={this.handle.bind(null, 1)} className={cx(l.nav,l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>
+          <span onClick={this.handle.bind(null, 1)} className={cx(l.nav, l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>
         </div>
         <div className={cx(l.tabContent, 'main_container')}>
-          <PersonProduce id={id} info={{avatar: `${HOST}${mess.avatar}`, nickname: mess.nickname}}/>
+          <PersonProduce id={id} info={{avatar: `${HOST}${mess.avatar}`, nickname: mess.nickname}} />
         </div>
       </MainLayout>
-    );
+    )
   }
 }
 
-
-export default Person;
+export default Person

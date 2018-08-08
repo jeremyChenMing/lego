@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { connect } from 'dva'
 import cx from 'classnames'
 import l from './Center.less'
@@ -10,17 +10,17 @@ import 'cropperjs/dist/cropper.css'
 import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase, HOST } from '../utils/common'
 
 import { Input, Radio, Button, Modal, notification } from 'antd'
-const RadioGroup = Radio.Group;
-const { TextArea } = Input;
+const RadioGroup = Radio.Group
+const { TextArea } = Input
 
 const SEX = {
-  "M": "男",
-  "F": "女",
+  'M': '男',
+  'F': '女'
 }
 
 class Center extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       show: true,
       cover: false,
@@ -28,37 +28,34 @@ class Center extends React.Component {
       info: {},
       urlData: null,
       headData: null,
-      file: null,
+      file: null
     }
   }
   getInformation = async() => {
-    try{
-      const result = await getProfile();
+    try {
+      const result = await getProfile()
       if (result && !result.code) {
         this.setState({
           info: result,
           headData: result.avatar
         })
-      }else{
+      } else {
         Modal.confirm({
           title: '登录失效',
           content: '登录凭证过期, 请重新登录！',
           okText: '确认',
           cancelText: '取消',
-          onOk: () => { document.location.href = '#/login'},
-          onCancel: () => {document.location.href = '#/'}
-        });
+          onOk: () => { document.location.href = '#/login' },
+          onCancel: () => { document.location.href = '#/' }
+        })
       }
-    }catch(err) {
+    } catch (err) {
       console.log(err)
     }
   }
-  componentDidMount() {
-    this.getInformation();
+  componentDidMount () {
+    this.getInformation()
   }
-
-
-
 
   edit = () => {
     this.setState({
@@ -66,22 +63,20 @@ class Center extends React.Component {
     })
   }
 
-
-
   // 头像区域
   loadFile = (file, urlData) => {
     if (urlData) {
       this.setState({
         cover: true,
         urlData,
-        file,
+        file
       }, () => {
         this.cropper = new Cropper(this.img, {
           viewMode: 1,
           autoCrop: true,
           aspectRatio: 1 / 1,
-          preview: ".small",
-          autoCropArea: 0.75,
+          preview: '.small',
+          autoCropArea: 0.75
         })
       })
     }
@@ -91,29 +86,28 @@ class Center extends React.Component {
       cover: false
     }, () => {
       if (this.cropper) {
-        this.cropper.destroy();
+        this.cropper.destroy()
       }
     })
   }
 
-
   okCover = () => {
-    const { file } = this.state;
+    const { file } = this.state
     if (this.cropper) {
       this.setState({
         confirmLoading: true
       })
       // 另外一种方法
-      const dataUrls = this.cropper.getCroppedCanvas({fillColor: '#fff'}).toDataURL(file.type);
-      this.callback(dataURLtoFile(dataUrls, `head${timeBase()}.png`) ,dataUrls)
+      const dataUrls = this.cropper.getCroppedCanvas({fillColor: '#fff'}).toDataURL(file.type)
+      this.callback(dataURLtoFile(dataUrls, `head${timeBase()}.png`), dataUrls)
     }
   }
   callback = (blob, result) => {
-    const { dispatch } = this.props;
-    uploaderFile({name: 'headPng.png', file: blob}).then( data => {
+    const { dispatch } = this.props
+    uploaderFile({name: 'headPng.png', file: blob}).then(data => {
       if (data && !data.code) {
         this.state.info.avatar = data.url
-        patchProfile({avatar: `${data.url}`}).then( data => {
+        patchProfile({avatar: `${data.url}`}).then(data => {
           if (data && !data.code) {
             this.setState({
               cover: false,
@@ -121,14 +115,13 @@ class Center extends React.Component {
             })
             dispatch({type: 'example/setsMes'})
             dispatch({type: 'example/allAthors'})
-          }else{
+          } else {
 
           }
         }).catch(err => {
           console.log(err)
         })
-        
-      }else{
+      } else {
         notification.error({
           message: `上传失败,${data.msg}`
         })
@@ -136,26 +129,21 @@ class Center extends React.Component {
     }).catch(err => {
       console.log(err)
     })
-    
   }
-
-
-
-
 
   changeValue = (type, e) => {
     const copyData = deepClone(this.state.info)
-    const value = e.target.value;
+    const value = e.target.value
     copyData[type] = value
     this.setState({
       info: copyData
     })
   }
   save = () => {
-    const { dispatch } = this.props;
-    const { info } = this.state;
+    const { dispatch } = this.props
+    const { info } = this.state
     console.log(info)
-    patchProfile({...info, avatar: `${HOST}${info.avatar}`}).then( data => {
+    patchProfile({...info, avatar: `${HOST}${info.avatar}`}).then(data => {
       if (data && !data.code) {
         this.setState({
           show: true
@@ -165,7 +153,7 @@ class Center extends React.Component {
         notification.success({
           message: `保存成功`
         })
-      }else{
+      } else {
         notification.success({
           message: `保存失败`
         })
@@ -179,16 +167,16 @@ class Center extends React.Component {
       show: true
     })
   }
-  render() {
-    const { location } = this.props;
-    const { show, info, cover, urlData, headData, confirmLoading } = this.state;
+  render () {
+    const { location } = this.props
+    const { show, info, cover, urlData, headData, confirmLoading } = this.state
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${HOST}${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
     return (
       <MainLayout location={location}>
         <Modal
-          title="请选择合适的区域作为头像"
+          title='请选择合适的区域作为头像'
           visible={cover}
           onCancel={this.cancelCover}
           onOk={this.okCover}
@@ -198,7 +186,7 @@ class Center extends React.Component {
           confirmLoading={confirmLoading}
         >
           <div className={cx(l.cropperBox)}>
-            {urlData && <img src={urlData} ref={(img) => this.img = img} alt=""/>} 
+            {urlData && <img src={urlData} ref={(img) => this.img = img} alt='' />}
           </div>
         </Modal>
         <div className={cx(l.centerBox, 'main_container')}>
@@ -212,22 +200,22 @@ class Center extends React.Component {
           <div className={cx(l.headTxt)}>头像</div>
           <div className={cx(l.tableBox)}>
             <div className={cx(l.editBtn)}>
-              <Button onClick={this.edit} type="primary" icon="edit"></Button>
+              <Button onClick={this.edit} type='primary' icon='edit' />
             </div>
             <div className={l.px}>
               昵称：
               {
-                show ? `${info.nickname ? info.nickname : ''}` 
-                : <Input onChange={this.changeValue.bind(null, 'nickname')} value={info.nickname ? info.nickname : undefined} placeholder="请输入" style={{width: '80%'}} />
+                show ? `${info.nickname ? info.nickname : ''}`
+                : <Input onChange={this.changeValue.bind(null, 'nickname')} value={info.nickname ? info.nickname : undefined} placeholder='请输入' style={{width: '80%'}} />
               }
             </div>
             <div className={l.px}>
                 性别：
                 {
-                  show ? `${info.gender ? SEX[info.gender] : ""}`
-                  : <RadioGroup onChange={this.changeValue.bind(null, 'gender')}  value={info.gender ? info.gender : undefined} >
-                    <Radio value="M">男</Radio>
-                    <Radio value="F">女</Radio>
+                  show ? `${info.gender ? SEX[info.gender] : ''}`
+                  : <RadioGroup onChange={this.changeValue.bind(null, 'gender')} value={info.gender ? info.gender : undefined} >
+                    <Radio value='M'>男</Radio>
+                    <Radio value='F'>女</Radio>
                   </RadioGroup>
                 }
             </div>
@@ -235,18 +223,18 @@ class Center extends React.Component {
               <span>简介：</span>
               {
                 show ? `${info.intro ? info.intro : ''}`
-                : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}}/>
+                : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}} />
               }
             </div>
             <div className={cx(l.btnBox)}>
               { !show && <Button onClick={this.cancel} style={{marginRight: '15px'}}>取消</Button>}
-              { !show && <Button onClick={this.save} type="primary">保存</Button>}
+              { !show && <Button onClick={this.save} type='primary'>保存</Button>}
             </div>
-            
+
           </div>
         </div>
       </MainLayout>
-    );
+    )
   }
 }
 
