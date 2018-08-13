@@ -110,9 +110,9 @@ class Center extends React.Component {
         patchProfile({avatar: `${data.url}`}).then(data => {
           if (data && !data.code) {
             this.setState({
-              cover: false,
-              headData: result
-            })
+              cover: false
+              // headData: result
+            }, this.getInformation)
             dispatch({type: 'example/setsMes'})
             dispatch({type: 'example/allAthors'})
           } else {
@@ -143,7 +143,7 @@ class Center extends React.Component {
     const { dispatch } = this.props
     const { info } = this.state
     console.log(info)
-    patchProfile({...info, avatar: `${HOST}${info.avatar}`}).then(data => {
+    patchProfile({...info, avatar: `${info.avatar}`}).then(data => {
       if (data && !data.code) {
         this.setState({
           show: true
