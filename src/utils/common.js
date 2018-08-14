@@ -3,8 +3,8 @@
 import _ from 'lodash'
 
 // export const HOST = ''
-export const HOST = document.location.hostname === 'localhost' ? 'http://bricks.upvi.com' : '';
-console.log(HOST, '&&&&&&')
+// export const HOST = document.location.hostname === 'localhost' ? 'http://bricks.upvi.com' : '';
+export const HOST = '';
 
 const storage = window.localStorage
 

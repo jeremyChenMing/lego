@@ -23,7 +23,13 @@ module.exports = {
       "target": "http://bricks.upvi.com/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api/" : "" }
-    }
+    },
+    "/public/": {
+      // "target": "http://api.d.51bricks.com/api/",
+      "target": "http://bricks.upvi.com/",
+      "changeOrigin": true,
+      // "pathRewrite": { "^/public/" : "" }
+    },
   },
   "hash": true,
   "theme": {
