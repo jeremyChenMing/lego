@@ -1,7 +1,7 @@
 import React from 'react'
 import cx from 'classnames'
 import l from './Author.less'
-import { Pagination, Icon, Avatar, Row, Col, Button } from 'antd'
+import { Pagination, Icon, Avatar, Row, Col, Button, Spin } from 'antd'
 import MainLayout from './MainLayout/MainLayout'
 import { getUsers, getAuthOfProduce } from '../services/common'
 import { HOST } from '../utils/common'
@@ -22,7 +22,8 @@ class Author extends React.Component {
       pageSize: 5,
       filType: 1,
       recom: false, // 推荐度  false === '从高到低'， true 与其相反
-      follow: false // 关注度 ,
+      follow: false, // 关注度 ,
+      spinning: false // 关注度 ,
     }
   }
   addNum = (arr = []) => {
@@ -45,12 +46,14 @@ class Author extends React.Component {
   }
   users = async() => {
     const { page, pageSize } = this.state
+    this.setState({spinning: true})
     try {
       const result = await getUsers({limit: pageSize, offset: (page - 1) * pageSize})
       if (result && !result.code) {
         this.dealData(result.results, result.count)
       }
     } catch (err) {
+      this.setState({spinning: false})
       console.log(err)
     }
   }
@@ -66,6 +69,8 @@ class Author extends React.Component {
     }
     this.setState({
       userList: temp
+    }, () => {
+      this.setState({spinning: false})
     })
   }
   componentDidMount () {
@@ -103,7 +108,7 @@ class Author extends React.Component {
   }
   render () {
     const { location } = this.props
-    const { nav, active, userList, follow, recom, page, total, pageSize, filType } = this.state
+    const { nav, active, userList, follow, recom, page, total, pageSize, filType, spinning } = this.state
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
@@ -142,21 +147,22 @@ class Author extends React.Component {
             </Col> */}
           </Row>
         </div>
-
-        <div className={cx('main_container')}>
-          <ul className={cx(l.cellList)}>
-            {
-            userList.map((item, index) => {
-              return <li key={index} className={cx(l[index !== userList.length - 1 ? 'border' : null])}>
-                <Cell list={item} />
-              </li>
-            })
-          }
-          </ul>
-          <div className={cx(l.pageBox, 'pageBox')}>
-            <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage} />
+        <Spin tip='正在加载。。。' spinning={spinning} size='large'>
+          <div className={cx('main_container')}>
+            <ul className={cx(l.cellList)}>
+              {
+              userList.map((item, index) => {
+                return <li key={index} className={cx(l[index !== userList.length - 1 ? 'border' : null])}>
+                  <Cell list={item} />
+                </li>
+              })
+            }
+            </ul>
+            <div className={cx(l.pageBox, 'pageBox')}>
+              <Pagination current={page} total={total} pageSize={pageSize} onChange={this.changePage} />
+            </div>
           </div>
-        </div>
+        </Spin>
       </MainLayout>
     )
   }
@@ -181,8 +187,8 @@ class Cell extends React.Component {
             <h2>{list.nickname} <Icon type='star' /></h2>
             <p>简介：{list.intro ? list.intro : '暂无'}</p>
             <p style={{fontSize: '16px', color: '#282828', marginBottom: '5px'}}>创作 {list.num_products ? list.num_products : 0} {/* &nbsp;&nbsp;|&nbsp;&nbsp; 关注 29937 */}</p>
-            <p style={{marginBottom: '0px'}}>{list.intro ? list.intro : '暂无'}</p>
-            {/* <Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button> */}
+            {/* <p style={{marginBottom: '0px'}}>{list.intro ? list.intro : '暂无'}</p>
+             <Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button> */}
             <div style={{height: '32px'}} />
           </div>
         </div>

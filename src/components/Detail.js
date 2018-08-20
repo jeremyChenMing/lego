@@ -368,10 +368,12 @@ class Detail extends React.Component {
               {
                 comments.map((k, n) => {
                   // console.log(this.getSons(k.id))
+                  console.log(k.author_id)
+                  console.log(authors[k.author_id])
                   return (
                     <li className={cx(l.list)} key={n}>
                       <div className={cx(l.avarBox)}>
-                        <img src={authors[k.author_id] ? `${HOST}${authors[k.author_id].avatar}` : '/img/touxiang.png'} alt='' />
+                        <img src={(authors[k.author_id] && authors[k.author_id].avatar) ? `${HOST}${authors[k.author_id].avatar}` : '/img/touxiang.png'} alt='' />
                       </div>
                       <div className={cx(l.con)}>
                         <p className={cx(l.name)}>{authors[k.author_id] ? authors[k.author_id].nickname : ' '} <span className={cx(l.time)}>{this.showTime(k)}</span></p>

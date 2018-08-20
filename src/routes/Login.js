@@ -15,7 +15,6 @@ const required = (value) => {
   return typeof (value) === 'number' || value ? undefined : '此项是必填项'
 }
 
-// http%3a%2f%2fconsole.upvi.com
 class Login extends React.Component {
   constructor (props) {
     super(props)
@@ -104,6 +103,7 @@ class Login extends React.Component {
   }
   renderInput = (active) => {
     const { runCount, countTime, checked } = this.state
+    const { handleSubmit } = this.props
     if (active) {
       return <div className={cx(l.code)}>
         <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
@@ -120,6 +120,7 @@ class Login extends React.Component {
         placeholder='密码'
         name='password'
         type='password'
+        onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
         validate={[required]} />
     }
   }
@@ -209,7 +210,7 @@ class Login extends React.Component {
                   inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
                   validate={[required]}
                   size='large'
-                  // onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
+                  onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
                 />
                 {this.renderInput(active)}
                 <Button

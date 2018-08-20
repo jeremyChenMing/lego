@@ -1,21 +1,10 @@
 
-// import _ from 'underscore'
 import _ from 'lodash'
 
-// export const HOST = ''
 // export const HOST = document.location.hostname === 'localhost' ? 'http://bricks.upvi.com' : '';
-export const HOST = '';
+export const HOST = ''
 
 const storage = window.localStorage
-
-export const open = (url) => {
-  const iframe = document.createElement('iframe')
-  iframe.src = url
-  document.body.appendChild(iframe)
-  setTimeout(() => {
-    document.body.removeChild(iframe)
-  }, 1000)
-}
 
 export const download = (url) => {
   const a = document.createElement('a')
