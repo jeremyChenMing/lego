@@ -11,7 +11,7 @@
     height: 120px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 60px auto 0;
+    margin: 0 auto;
     background-color: #fff;
     cursor: pointer;
     position: relative;
@@ -49,9 +49,9 @@
 
 
   .tableBox{
-    margin: 40px auto;
     text-align: left;
-    width: 400px;
+    width: 100%;
+    min-height: 300px;
     .editBtn{
       text-align: right;
     }
@@ -86,8 +86,64 @@
 }
 
 
+.lays{
+  position: relative;
+  padding-left: 244px;
+  .myMes{
+    width: 224px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    .tops{
+      width: 100%;
+      // height: 270px;
+      background-color: #fff;
+      text-align: center;
+      padding-top: 45px;
+      padding-bottom: 20px;
+      & > h3{
+        font-size: 16px;
+        height: 24px;
+        line-height: 24px;
+        margin-bottom: 20px;
+      }
+      & > button{
+        width: 80%;
+      }
+    }
+    .headBox{
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-position: center center;
+      background-size: 100% 100%;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .bottoms{
+      width: 100%;
+      margin-top: 20px;
+      background-color: #fff;
+    }
+
+  }
+
+  .laycon{
+    width: 100%;
+    background-color: #fff;
+    min-height: 200px;
+  }
+}
 
 
+:global{
+  .btms{
+    .ant-menu-inline, .ant-menu-vertical{
+      border: none;
+    }
+  }
+};
 
 
 

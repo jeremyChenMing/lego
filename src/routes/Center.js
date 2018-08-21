@@ -5,11 +5,12 @@ import l from './Center.less'
 import UploadFile from '../components/MainLayout/UploadFile'
 import MainLayout from '../components/MainLayout/MainLayout'
 import { getProfile, uploaderFile, patchProfile } from '../services/common'
+import { routerRedux } from 'dva/router'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase, HOST } from '../utils/common'
 
-import { Input, Radio, Button, Modal, notification } from 'antd'
+import { Input, Radio, Button, Modal, notification, Menu, Card } from 'antd'
 const RadioGroup = Radio.Group
 const { TextArea } = Input
 
@@ -167,6 +168,11 @@ class Center extends React.Component {
       show: true
     })
   }
+
+  upload = () => {
+    const { dispatch } = this.props
+    dispatch(routerRedux.push('/upload'))
+  }
   render () {
     const { location } = this.props
     const { show, info, cover, urlData, headData, confirmLoading } = this.state
@@ -189,49 +195,77 @@ class Center extends React.Component {
             {urlData && <img src={urlData} ref={(img) => this.img = img} alt='' />}
           </div>
         </Modal>
-        <div className={cx(l.centerBox, 'main_container')}>
-          <div className={cx(l.head)} style={renderHead(headData)}>
-            <div className={cx(l.btns)}>
-              <UploadFile loadFile={this.loadFile} ajaxBool={false} spin={false} upStyle={{display: 'inline-block', width: '100%'}}>
-                <div className={cx(l.tt)}>上传头像</div>
-              </UploadFile>
-            </div>
-          </div>
-          <div className={cx(l.headTxt)}>头像</div>
-          <div className={cx(l.tableBox)}>
-            <div className={cx(l.editBtn)}>
-              <Button onClick={this.edit} type='primary' icon='edit' />
-            </div>
-            <div className={l.px}>
-              昵称：
-              {
-                show ? `${info.nickname ? info.nickname : ''}`
-                : <Input onChange={this.changeValue.bind(null, 'nickname')} value={info.nickname ? info.nickname : undefined} placeholder='请输入' style={{width: '80%'}} />
-              }
-            </div>
-            <div className={l.px}>
-                性别：
-                {
-                  show ? `${info.gender ? SEX[info.gender] : ''}`
-                  : <RadioGroup onChange={this.changeValue.bind(null, 'gender')} value={info.gender ? info.gender : undefined} >
-                    <Radio value='M'>男</Radio>
-                    <Radio value='F'>女</Radio>
-                  </RadioGroup>
-                }
-            </div>
-            <div className={l.px}>
-              <span>简介：</span>
-              {
-                show ? `${info.intro ? info.intro : ''}`
-                : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}} />
-              }
-            </div>
-            <div className={cx(l.btnBox)}>
-              { !show && <Button onClick={this.cancel} style={{marginRight: '15px'}}>取消</Button>}
-              { !show && <Button onClick={this.save} type='primary'>保存</Button>}
-            </div>
 
+        <div className={cx(l.centerBox, 'main_container')}>
+          <div className={cx(l.lays)}>
+            <div className={cx(l.myMes)}>
+              <div className={cx(l.tops)}>
+                <div className={cx(l.headBox)} style={renderHead(headData)} />
+                <h3>{info.nickname ? info.nickname : ''}</h3>
+                <Button onClick={this.upload} type='primary' style={{color: 'rgba(0,0,0,.65)'}}>上传作品</Button>
+              </div>
+              <div className={cx(l.bottoms, 'btms')}>
+                <Menu selectedKeys={['2']}>
+                  <Menu.Item key='0'>
+                    <a href={`#/person/${info.id}`}>我的作品</a>
+                  </Menu.Item>
+                  <Menu.Item key='1'>
+                    <a href={`#/person/${info.id}`}>喜欢作品</a>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item key='2'>
+                    <a>个人资料</a>
+                  </Menu.Item>
+                </Menu>
+              </div>
+            </div>
+            <div className={cx(l.laycon)}>
+              <Card title='个人资料' bordered={false}>
+                <div className={cx(l.head)} style={renderHead(headData)}>
+                  <div className={cx(l.btns)}>
+                    <UploadFile loadFile={this.loadFile} ajaxBool={false} spin={false} upStyle={{display: 'inline-block', width: '100%'}}>
+                      <div className={cx(l.tt)}>上传头像</div>
+                    </UploadFile>
+                  </div>
+                </div>
+                <div className={cx(l.headTxt)}>头像</div>
+                <div className={cx(l.tableBox)}>
+                  <div className={cx(l.editBtn)}>
+                    <Button onClick={this.edit} type='primary' icon='edit' />
+                  </div>
+                  <div className={l.px}>
+                    昵称：
+                    {
+                      show ? `${info.nickname ? info.nickname : ''}`
+                      : <Input onChange={this.changeValue.bind(null, 'nickname')} value={info.nickname ? info.nickname : undefined} placeholder='请输入' style={{width: '80%'}} />
+                    }
+                  </div>
+                  <div className={l.px}>
+                      性别：
+                      {
+                        show ? `${info.gender ? SEX[info.gender] : ''}`
+                        : <RadioGroup onChange={this.changeValue.bind(null, 'gender')} value={info.gender ? info.gender : undefined} >
+                          <Radio value='M'>男</Radio>
+                          <Radio value='F'>女</Radio>
+                        </RadioGroup>
+                      }
+                  </div>
+                  <div className={l.px}>
+                    <span>简介：</span>
+                    {
+                      show ? `${info.intro ? info.intro : ''}`
+                      : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}} />
+                    }
+                  </div>
+                  <div className={cx(l.btnBox)}>
+                    { !show && <Button onClick={this.cancel} style={{marginRight: '15px'}}>取消</Button>}
+                    { !show && <Button onClick={this.save} type='primary'>保存</Button>}
+                  </div>
+                </div>
+              </Card>
+            </div>
           </div>
+
         </div>
       </MainLayout>
     )

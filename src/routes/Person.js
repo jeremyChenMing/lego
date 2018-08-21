@@ -110,6 +110,16 @@ class Person extends React.Component {
       }, this.getPersonDetail)
     }
   }
+  componentWillReceiveProps (nextProps) {
+    const { match: {params} } = this.props
+    console.log(nextProps, 'nextProps')
+    if (nextProps.match.params && nextProps.match.params.id !== this.props.match.params.id) {
+      console.log('wo xuyao gengxin le   -=-=p-=-=-=-')
+      this.setState({
+        id: nextProps.match.params.id
+      }, this.getPersonDetail)
+    }
+  }
 
   handle = (num) => {
     console.log(num)

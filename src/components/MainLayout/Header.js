@@ -59,6 +59,8 @@ class Header extends React.Component {
       dispatch(routerRedux.push('/center'))
     } else if (key === '1') {
       this.quiteSys()
+    } else if (key === '2') {
+      this.uploadLink()
     }
   }
   linkPath = (item) => {
@@ -80,8 +82,27 @@ class Header extends React.Component {
   render () {
     const { location, example } = this.props
     const { nav, active } = this.state
+    // console.log(example)
     const menu = (
-      <Menu onClick={this.clickMore}>
+      <Menu onClick={this.clickMore} style={{width: 110}}>
+        {
+          example && example.nickname &&
+          <Menu.Item key='-1'>
+            <a>{example.nickname}</a>
+          </Menu.Item>
+        }
+        {
+          example && example.nickname && <Menu.Divider />
+        }
+        <Menu.Item key='2'>
+          <a>上传作品</a>
+        </Menu.Item>
+        <Menu.Item key='3'>
+          <a href={`#/person/${example.id}`}>我的作品</a>
+        </Menu.Item>
+        <Menu.Item key='4'>
+          <a href={`#/person/${example.id}`}>喜欢作品</a>
+        </Menu.Item>
         <Menu.Item key='0'>
           <a>个人中心</a>
         </Menu.Item>
