@@ -29,7 +29,8 @@ class Center extends React.Component {
       info: {},
       urlData: null,
       headData: null,
-      file: null
+      file: null,
+      values: {}
     }
   }
   getInformation = async() => {
@@ -38,6 +39,7 @@ class Center extends React.Component {
       if (result && !result.code) {
         this.setState({
           info: result,
+          values: result,
           headData: result.avatar
         })
       } else {
@@ -133,18 +135,18 @@ class Center extends React.Component {
   }
 
   changeValue = (type, e) => {
-    const copyData = deepClone(this.state.info)
+    const copyData = deepClone(this.state.values)
     const value = e.target.value
     copyData[type] = value
     this.setState({
-      info: copyData
+      values: copyData
     })
   }
   save = () => {
     const { dispatch } = this.props
-    const { info } = this.state
-    console.log(info)
-    patchProfile({...info, avatar: `${info.avatar}`}).then(data => {
+    const { info, values } = this.state
+    console.log(values, 'values')
+    patchProfile({...values, avatar: `${info.avatar}`}).then(data => {
       if (data && !data.code) {
         this.setState({
           show: true
@@ -165,7 +167,8 @@ class Center extends React.Component {
   }
   cancel = () => {
     this.setState({
-      show: true
+      show: true,
+      values: this.state.info
     })
   }
 
@@ -175,7 +178,7 @@ class Center extends React.Component {
   }
   render () {
     const { location } = this.props
-    const { show, info, cover, urlData, headData, confirmLoading } = this.state
+    const { show, info, cover, urlData, headData, confirmLoading, values } = this.state
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${HOST}${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
@@ -210,7 +213,7 @@ class Center extends React.Component {
                     <a href={`#/person/${info.id}`}>我的作品</a>
                   </Menu.Item>
                   <Menu.Item key='1'>
-                    <a href={`#/person/${info.id}`}>喜欢作品</a>
+                    <a href={`#/person/${info.id}?type=like`}>喜欢作品</a>
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item key='2'>
@@ -228,7 +231,7 @@ class Center extends React.Component {
                     </UploadFile>
                   </div>
                 </div>
-                <div className={cx(l.headTxt)}>头像</div>
+                <div className={cx(l.headTxt)}>{info.nickname ? info.nickname : ''}</div>
                 <div className={cx(l.tableBox)}>
                   <div className={cx(l.editBtn)}>
                     <Button onClick={this.edit} type='primary' icon='edit' />
@@ -236,15 +239,15 @@ class Center extends React.Component {
                   <div className={l.px}>
                     昵称：
                     {
-                      show ? `${info.nickname ? info.nickname : ''}`
-                      : <Input onChange={this.changeValue.bind(null, 'nickname')} value={info.nickname ? info.nickname : undefined} placeholder='请输入' style={{width: '80%'}} />
+                      show ? `${values.nickname ? values.nickname : ''}`
+                      : <Input onChange={this.changeValue.bind(null, 'nickname')} value={values.nickname ? values.nickname : undefined} placeholder='请输入' style={{width: '80%'}} />
                     }
                   </div>
                   <div className={l.px}>
                       性别：
                       {
-                        show ? `${info.gender ? SEX[info.gender] : ''}`
-                        : <RadioGroup onChange={this.changeValue.bind(null, 'gender')} value={info.gender ? info.gender : undefined} >
+                        show ? `${values.gender ? SEX[values.gender] : ''}`
+                        : <RadioGroup onChange={this.changeValue.bind(null, 'gender')} value={values.gender ? values.gender : undefined} >
                           <Radio value='M'>男</Radio>
                           <Radio value='F'>女</Radio>
                         </RadioGroup>
@@ -253,8 +256,8 @@ class Center extends React.Component {
                   <div className={l.px}>
                     <span>简介：</span>
                     {
-                      show ? `${info.intro ? info.intro : ''}`
-                      : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={info.intro ? info.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}} />
+                      show ? `${values.intro ? values.intro : ''}`
+                      : <TextArea onChange={this.changeValue.bind(null, 'intro')} value={values.intro ? values.intro : undefined} rows={4} style={{width: '80%', resize: 'none'}} />
                     }
                   </div>
                   <div className={cx(l.btnBox)}>

@@ -101,7 +101,7 @@ class Header extends React.Component {
           <a href={`#/person/${example.id}`}>我的作品</a>
         </Menu.Item>
         <Menu.Item key='4'>
-          <a href={`#/person/${example.id}`}>喜欢作品</a>
+          <a href={`#/person/${example.id}?type=like`}>喜欢作品</a>
         </Menu.Item>
         <Menu.Item key='0'>
           <a>个人中心</a>
@@ -138,7 +138,7 @@ class Header extends React.Component {
               example.id
               ? <div className={cx(l.secDiv)}>
                 <Dropdown overlay={menu} trigger={['hover']}>
-                  <Avatar src={example.avatar ? `${HOST}${example.avatar}` : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} size='small' />
+                  <Avatar src={example.avatar ? `${HOST}${example.avatar}` : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} />
                 </Dropdown>
               </div>
               : <div className={cx(l.spans)}>

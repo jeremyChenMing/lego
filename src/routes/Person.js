@@ -4,7 +4,7 @@ import cx from 'classnames'
 import l from './Person.less'
 import MainLayout from '../components/MainLayout/MainLayout'
 import { getUsersOfDetail, getAuthOfProduce } from '../services/common'
-import { HOST } from '../utils/common'
+import { HOST, getSearchObj } from '../utils/common'
 import { Model } from '../components/HotWorks'
 import { Pagination } from 'antd'
 const dutArr = (num) => {
@@ -103,16 +103,17 @@ class Person extends React.Component {
     }
   }
   componentDidMount () {
-    const { match: {params} } = this.props
+    const { match: {params}, location } = this.props
+    const search = getSearchObj(location)
     if (params.id) {
       this.setState({
-        id: params.id
+        id: params.id,
+        active: search && search.type === 'like' ? 1 : 0
       }, this.getPersonDetail)
     }
   }
   componentWillReceiveProps (nextProps) {
     const { match: {params} } = this.props
-    console.log(nextProps, 'nextProps')
     if (nextProps.match.params && nextProps.match.params.id !== this.props.match.params.id) {
       console.log('wo xuyao gengxin le   -=-=p-=-=-=-')
       this.setState({
