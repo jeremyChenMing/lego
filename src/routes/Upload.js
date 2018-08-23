@@ -200,12 +200,13 @@ class Upload extends React.Component {
         message: `请上传作品封面`
       })
       return
-    } else if (!draws.length) {
-      notification.info({
-        message: `请至少上传一张图纸！`
-      })
-      return
     }
+    // else if (!draws.length) {
+    //   notification.info({
+    //     message: `请至少上传一张图纸！`
+    //   })
+    //   return
+    // }
     let arrs = [covers].concat(imgs)
     const para = {
       title,
