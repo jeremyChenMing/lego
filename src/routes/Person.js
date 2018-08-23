@@ -144,8 +144,10 @@ class Person extends React.Component {
             </div>
             */}
             <div>创作 {mess.num_products ? mess.num_products : 0}</div>
+            <div style={{marginTop: "10px"}}>{mess.intro ? mess.intro : ''}</div>
           </div>
         </div>
+
         <div className={cx(l.tabBox)}>
           <span onClick={this.handle.bind(null, 0)} className={cx(l.nav, l[active === 0 ? 'active' : ''])}>个人作品</span>
           <span onClick={this.handle.bind(null, 1)} className={cx(l.nav, l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>

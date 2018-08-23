@@ -55,7 +55,7 @@ class Cell extends React.Component {
             <div className={cx(l.line, l.pd)}><i></i></div>
             <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
           </div> */}
-          <div style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)', margin: '10px 0'}}>{data.intro ? `简介：${data.intro}` : '简介：暂无'}</div>
+          <div className={cx(l.word)} style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)', margin: '10px 0'}}>{data.intro ? `简介：${data.intro}` : '简介：暂无'}</div>
           <div style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)'}}>创作 {data.num_products ? data.num_products : 0}</div>
           {/* <Button
             onClick={this.handle.bind(null, this.state.type)}
