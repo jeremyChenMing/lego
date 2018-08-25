@@ -29,9 +29,13 @@ export default {
   effects: {
     * setsMes ({payload}, {call, put, select}) {
       const auths = yield call(getProfile)
-      console.log(payload, '1')
-      console.log(auths, '2')
-      yield put({type: 'sets', payload: {example: {...payload, ...auths}}})
+      // payload.callback(auths)
+      // if (auths.code) {
+      //   payload.callback(auths)
+      // }else{
+        yield put({type: 'sets', payload: {...auths}})
+      // }
+      
     },
     * checkLogin ({payload}, {call, put, select}) {
       const mes = yield select(state => state.example)
@@ -64,6 +68,14 @@ export default {
   },
 
   reducers: {
+    [USER.SAVE_USERINFO](state, {payload}) {
+      const user = {
+        ...state,
+        ...payload
+      }
+      Storage.setItem(LOCAL_STORAGE, {example: user})
+      return user
+    },
     [USER.CLEAR_USERINFO] () {
       // Storage.clear()
       Storage.removeItem(LOCAL_STORAGE)
@@ -77,9 +89,9 @@ export default {
     sets (state, {payload}) {
       const example = {
         ...state,
-        ...payload.example
+        ...payload
       }
-      Storage.setItem(LOCAL_STORAGE, {example: payload.example})
+      Storage.setItem(LOCAL_STORAGE, {example: example})
       return example
     }
   }

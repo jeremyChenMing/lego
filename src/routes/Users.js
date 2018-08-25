@@ -48,9 +48,9 @@ class Users extends React.Component {
         <div className={cx(l.historyClass, 'main_container')}>
           <div className={cx(l.cons)}>
           <div className="fooRevealF">
-            <h1 className="fooReveal">品牌故事</h1>
-            <h4 className="fooReveal">造一个世界，有你也有我</h4>
-            <p className="fooReveal">积木大概是每个孩子童年最难忘的玩具，在积木搭就的世界里，我们是“造物主”，而在这里，有着无限可能。</p>
+            <h1>品牌故事</h1>
+            <h4>造一个世界，有你也有我</h4>
+            <p>积木大概是每个孩子童年最难忘的玩具，在积木搭就的世界里，我们是“造物主”，而在这里，有着无限可能。</p>
           </div>
           <div className="fooRevealS" style={{marginBottom: '20px'}}>
             <h3>【积木，也可以一起玩】</h3>
@@ -66,15 +66,15 @@ class Users extends React.Component {
             <p>带着这样的愿景，我们把品牌命名为“也造”，“也”寓意着“有你也有我”，真正实现众创，而“造”则代表着一个从无到有的过程，创造我们的所思所要。</p>
           </div>
             <ul className="fooRevealFout" style={{marginBottom: '20px'}}>
-              <li className="fooReveal">在这里，我们会帮助有想法、有创造能力的玩家实现创意变现；</li>
-              <li className="fooReveal">在这里，原创积木文化将传递给更多家庭，让“原创精神”点亮孩子的心；</li>
-              <li className="fooReveal">在这里，无论是孩子还是成人，都能在快餐式即时享乐的移动互联网时代，找回内心的纯粹和热爱。</li>
+              <li>在这里，我们会帮助有想法、有创造能力的玩家实现创意变现；</li>
+              <li>在这里，原创积木文化将传递给更多家庭，让“原创精神”点亮孩子的心；</li>
+              <li>在这里，无论是孩子还是成人，都能在快餐式即时享乐的移动互联网时代，找回内心的纯粹和热爱。</li>
             </ul>
 
             <ul className="fooRevealFive" style={{marginBottom: '20px'}}>
-              <li className="fooReveal">积木对我们意味着什么？</li>
-              <li className="fooReveal">是梦想，也是快乐，是想象通往现实的一道桥。</li>
-              <li className="fooReveal">让我们一起创造属于你我的积木新国货。</li>
+              <li>积木对我们意味着什么？</li>
+              <li>是梦想，也是快乐，是想象通往现实的一道桥。</li>
+              <li>让我们一起创造属于你我的积木新国货。</li>
             </ul>
           </div>
         </div>

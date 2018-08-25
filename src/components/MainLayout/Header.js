@@ -82,7 +82,7 @@ class Header extends React.Component {
   render () {
     const { location, example } = this.props
     const { nav, active } = this.state
-    // console.log(example)
+    console.log(example, '*&^%$##')
     const menu = (
       <Menu onClick={this.clickMore} style={{width: 110}}>
         {

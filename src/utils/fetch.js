@@ -4,9 +4,10 @@ import qs from 'qs'
 import _ from 'lodash'
 import { Storage } from '../utils/common'
 import { LOCAL_STORAGE } from '../constants/Constants'
-let initial = Storage.getItem(LOCAL_STORAGE)
+// let initial = Storage.getItem(LOCAL_STORAGE)
 
-let rootState = {...initial}
+// let rootState = {...initial}
+let rootState = {}
 
 const requestTimeOut = 1000 * 600
 
@@ -47,7 +48,7 @@ const parseJSON = (response) => {
 
 const completeHeader = (header) => {
   const state = (rootState || {}).example || {}
-
+  console.log(state, '*--------------------------')
   const { access_token: accessToken } = state
   const result = {
     ...header,

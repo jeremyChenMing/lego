@@ -51,6 +51,8 @@ class Login extends React.Component {
       active: index
     })
   }
+
+ 
   handleSubmit = (values) => {
     const { dispatch } = this.props
     console.log(values)
@@ -59,10 +61,22 @@ class Login extends React.Component {
       loginUser(values).then(result => {
         if (result && !result.code) {
           getUserToken(values).then(token => {
+            
             this.setState({submitting: false})
             if (token && !token.code) {
-              dispatch({type: 'example/setsMes', payload: token})
-              dispatch(routerRedux.replace('/main/hot'))
+              // dispatch({type: 'example/setsMes', payload: {callback: this.back}})
+              // dispatch(routerRedux.replace('/main/hot'))
+              dispatch(saveUserInfo(token))
+              getProfile().then( data => {
+                if (data && !data.code) {
+                  dispatch(routerRedux.replace('/main/hot'))
+                  dispatch({type: 'example/sets', payload: {...data}})
+                }else{
+                  reject(new SubmissionError({_error: '123123', password: data.message}))
+                }
+              })
+
+
             } else {
               reject(new SubmissionError({_error: '123123', password: token.message}))
             }
@@ -171,8 +185,18 @@ class Login extends React.Component {
       registerUser(values).then(token => {
         this.setState({submitting: false})
         if (token && !token.code) {
-          dispatch(saveUserInfo({...token, ...values}))
-          dispatch(routerRedux.replace('/main/hot'))
+
+          dispatch(saveUserInfo(token))
+          getProfile().then( data => {
+            if (data && !data.code) {
+              dispatch(routerRedux.replace('/main/hot'))
+              dispatch({type: 'example/sets', payload: {...data}})
+            }else{
+              reject(new SubmissionError({_error: '123123', password: data.message}))
+            }
+          })
+
+
         } else {
           reject(new SubmissionError({_error: '123123', password: token.message}))
         }
