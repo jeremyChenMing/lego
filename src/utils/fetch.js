@@ -48,7 +48,6 @@ const parseJSON = (response) => {
 
 const completeHeader = (header) => {
   const state = (rootState || {}).example || {}
-  console.log(state, '*--------------------------')
   const { access_token: accessToken } = state
   const result = {
     ...header,

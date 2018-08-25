@@ -33,7 +33,8 @@ class Views extends React.Component {
       old: [],
       produce: [],
       ids: [],
-      authMes: {}
+      authMes: {},
+      order: 'hot'
     }
   }
   getMes = async() => {
@@ -54,22 +55,19 @@ class Views extends React.Component {
     }
   }
   getList = async() => {
-    const { page, pageSize } = this.state
+    const { page, pageSize, order } = this.state
     try {
-      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize})
+      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize, order})
       if (result && !result.code) {
         let ids = result.results.map(item => {
           return item.author_id
         })
         this.setState({
           total: result.count,
-          old: result.results,
-          // produce: this.sort(result.results),
+          // old: result.results,
+          produce: result.results,
           ids
-        }, () => {
-          this.getMes()
-          this.sort()
-        })
+        },this.getMes)
       } else {
 
       }
@@ -89,29 +87,14 @@ class Views extends React.Component {
     // }, 50);
   }
 
-  link = (index) => {
-    const { produce } = this.state
+  link = (index, type) => {
+    const { produce, active } = this.state
     this.setState({
-      active: index
-    }, this.sort)
+      active: index,
+      order: type
+    }, this.getList)
   }
-  sort = () => {
-    const { active, old } = this.state
-    let temp = []
-    if (active === 0) {
-      temp = _.sortBy(old, function (o) {
-        return -o.num_votes
-      })
-    } else if (active === 1) {
-      // 时间
-      temp = _.orderBy(deepClone(old), ['create_at'], ['desc'])
-    } else {
-      temp = _.orderBy(deepClone(old), ['title'], ['asc'])
-    }
-    this.setState({
-      produce: temp
-    })
-  }
+  
 
   changePage = (page, pageSize) => {
     this.setState({
@@ -122,13 +105,14 @@ class Views extends React.Component {
   render () {
     const { location } = this.props
     const { nav, active, page, pageSize, total, produce, authMes } = this.state
-
+    const type = ['hot','time','auto']
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>
           {
             nav.map((item, index) => {
-              return <span onClick={this.link.bind(null, index)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</span>
+              const ese = type[index]
+              return <span onClick={this.link.bind(null, index, ese)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</span>
             })
           }
         </div>

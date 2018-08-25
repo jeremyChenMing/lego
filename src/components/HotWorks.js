@@ -110,14 +110,15 @@ class HotWorks extends React.Component {
   getList = async() => {
     const { page, pageSize } = this.state
     try {
-      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize})
+      const result = await getProducts({limit: pageSize, offset: (page - 1) * pageSize, order: 'hot'})
       if (result && !result.code) {
         let ids = result.results.map(item => {
           return item.author_id
         })
         this.setState({
           total: result.count,
-          produce: _.sortBy(result.results, function (o) { return -o.num_votes }),
+          // produce: _.sortBy(result.results, function (o) { return -o.num_votes }),
+          produce: result.results,
           ids
         }, this.getMes)
       } else {

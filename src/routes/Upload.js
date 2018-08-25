@@ -208,13 +208,15 @@ class Upload extends React.Component {
     //   return
     // }
     let arrs = [covers].concat(imgs)
+
+
     const para = {
       title,
       description,
-      images: arrs,
-      ideas: draws
+      images: arrs.map(item =>  ({url: item.url, caption: item.caption ? item.caption : '' })),
+      ideas: draws.map(item => ({url: item.url, caption: item.caption ? item.caption : ''}))
     }
-    // console.log(para, 'para')
+    console.log(para, 'para')
     this.setState({saveLoading: true})
     try {
       const result = await creatProduce(para)
@@ -353,6 +355,7 @@ class Upload extends React.Component {
       coverUrlData, info, saveLoading, prew, draws, drawing,
       explain, explainVisible
     } = this.state
+    // console.log(imgs, '****')
     return (
       <MainLayout location={location}>
         <Spin tip='正在上传...' size='large' spinning={saveLoading} wrapperClassName='spinClass'>
