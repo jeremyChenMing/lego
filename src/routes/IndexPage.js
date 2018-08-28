@@ -113,8 +113,7 @@ class IndexPage extends React.Component {
       <MainLayout location={location}>
         <div className={cx(l.head)}>
           <div className='main_container'>
-            <Carousel autoplay>
-              <div className={cx(l.bgs, l.lun3)}><h3>3</h3></div>
+            <Carousel autoplay autoplaySpeed={8000} speed={1000}>
               <div className={cx(l.bgs, l.lun1)}><h3>1</h3></div>
               <div className={cx(l.bgs, l.lun2)}><h3>2</h3></div>
               {/* <div className={cx(l.bgs)}><h3>4</h3></div> */}
