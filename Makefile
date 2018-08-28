@@ -13,6 +13,8 @@ endif
 image="ccr.ccs.tencentyun.com/$(IMG_NS)/brickfun:ui$(IMG_TAG)"
 base="ccr.ccs.tencentyun.com/$(IMG_NS)/brickfun:node"
 
+all: image push
+
 env:
 	@echo building $(base) ...
 	@docker build -t $(base) -f env.Dockerfile .
@@ -28,6 +30,3 @@ image:
 push:
 	@echo pushing $(image) ...
 	@docker push $(image)
-
-
-all: image push
