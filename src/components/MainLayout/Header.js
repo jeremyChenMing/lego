@@ -85,7 +85,6 @@ class Header extends React.Component {
   render () {
     const { location, example } = this.props
     const { nav, active } = this.state
-    console.log(example, '*&^%$##')
     const menu = (
       <Menu onClick={this.clickMore} style={{width: 110}}>
         {
@@ -155,7 +154,7 @@ class Header extends React.Component {
           <a href='#/'>
             <img className={cx(l.logos)} src='/img/50.png' alt='logo' />
           </a>
-          <span style={{color: '#000'}}>&nbsp;我造生活，也造梦想</span>
+          <span style={{color: '#000'}}>&nbsp;“——造生活，也造梦想”</span>
           <div className={cx(l.nav)}>
             {
               nav.map((item, index) => {

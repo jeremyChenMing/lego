@@ -114,9 +114,9 @@ class IndexPage extends React.Component {
         <div className={cx(l.head)}>
           <div className='main_container'>
             <Carousel autoplay autoplaySpeed={8000} speed={1000}>
-              <div className={cx(l.bgs, l.lun1)}><h3>1</h3></div>
-              <div className={cx(l.bgs, l.lun2)}><h3>2</h3></div>
-              <div className={cx(l.bgs, l.lun3)}><h3>3</h3></div>
+              <div className={cx(l.bgs, l.lun1)}><a href="#/upload">1</a></div>
+              <div className={cx(l.bgs, l.lun2)}><a>2</a></div>
+              <div className={cx(l.bgs, l.lun3)}><a>3</a></div>
               {/* <div className={cx(l.bgs)}><h3>4</h3></div> */}
             </Carousel>
             <Row className={cx(l.hotBox)}>
