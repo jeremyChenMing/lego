@@ -33,9 +33,8 @@ export default {
       // if (auths.code) {
       //   payload.callback(auths)
       // }else{
-        yield put({type: 'sets', payload: {...auths}})
+      yield put({type: 'sets', payload: {...auths}})
       // }
-      
     },
     * checkLogin ({payload}, {call, put, select}) {
       const mes = yield select(state => state.example)
@@ -44,7 +43,7 @@ export default {
 
       } else {
         if (bool) {
-          console.log('现在时间没有过期',bool, moment().format('YYYY-MM-DD HH:mm:ss'), mes.expires_at)
+          console.log('现在时间没有过期', bool, moment().format('YYYY-MM-DD HH:mm:ss'), mes.expires_at)
         } else {
           yield put({type: 'clear'})
           console.log('登录已经过期了---现在的时间过期了，需要清楚localStroge', bool, moment().format('YYYY-MM-DD HH:mm:ss'), mes.expires_at)
@@ -68,7 +67,7 @@ export default {
   },
 
   reducers: {
-    [USER.SAVE_USERINFO](state, {payload}) {
+    [USER.SAVE_USERINFO] (state, {payload}) {
       const user = {
         ...state,
         ...payload

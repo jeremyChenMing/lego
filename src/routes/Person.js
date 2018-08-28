@@ -144,7 +144,7 @@ class Person extends React.Component {
             </div>
             */}
             <div>创作 {mess.num_products ? mess.num_products : 0}</div>
-            <div style={{marginTop: "10px"}}>{mess.intro ? mess.intro : ''}</div>
+            <div style={{marginTop: '10px'}}>{mess.intro ? mess.intro : ''}</div>
           </div>
         </div>
 

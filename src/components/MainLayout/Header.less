@@ -11,6 +11,11 @@
   .header{
     line-height: 55px;
   }
+  .imgs{
+    height: 30px * 1.5;
+    width: 59px * 1.5;
+    cursor: pointer;
+  }
   .left{
     position: relative;
     height: 100%;
@@ -119,27 +124,51 @@
 }
 
 
+.newH{
+  display: flex;
+  align-items: center;
+  height: 100%;
+  .logos{
+    width: 592px / 8;
+    height: 304px / 8;
+    cursor: pointer;
+  }
 
-.ani{
-  animation: swing 2s linear infinite alternate;
-}
+  .nav{
+    flex: 1;
+    text-align: right;
+    padding-right: 20px;
+    & > a{
+      display: inline-block;
+      height: 100%;
+      padding: 0 20px;
+      font-weight: bold;
+    }
+    a:hover{
+      color: #000;
+    };
+  }
 
-
-@keyframes swing {
-  0%   {
-    transform: rotate(0deg);
-  }
-  25%  {
-    transform: rotate(-20deg) scale(1,1);
-  }
-  50%  {
-    transform: rotate(0deg) scale(1.5,1.5);
-  }
-  75%  {
-    transform: rotate(20deg) scale(1,1);
-  }
-  100% {
-    transform: rotate(0deg);
+  .avartBox{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    a{
+      color: rgba(0, 0, 0, .9);
+    }
+    a:hover{
+      color: rgba(0, 0, 0, 1);
+      font-weight: bold;
+    };
+    .ups{
+      font-size: 20px;
+    }
+    .spans{
+      padding-left: 40px;
+    }
+    .secDiv{
+      padding-left: 40px;
+    }
   }
 }
 

@@ -55,7 +55,7 @@ class Cell extends React.Component {
             <div className={cx(l.line, l.pd)}><i></i></div>
             <div className={cx(l.r_label)} style={{paddingLeft: '30px'}}>粉丝 88</div>
           </div> */}
-          <div className={cx(l.word)} style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)', margin: '10px 0'}}>{data.intro ? `简介：${data.intro}` : '简介：暂无'}</div>
+          <div className={cx(l.word)} style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)', margin: '10px 0', height: '18px'}}>{data.intro ? `${data.intro}` : '暂无简介'}</div>
           <div style={{fontSize: '12px', color: 'rgba(255, 255, 255, .7)'}}>创作 {data.num_products ? data.num_products : 0}</div>
           {/* <Button
             onClick={this.handle.bind(null, this.state.type)}
@@ -114,10 +114,10 @@ class IndexPage extends React.Component {
         <div className={cx(l.head)}>
           <div className='main_container'>
             <Carousel autoplay>
-              <div className={cx(l.bgs)}><h3>1</h3></div>
-              <div className={cx(l.bgs)}><h3>2</h3></div>
-              <div className={cx(l.bgs)}><h3>3</h3></div>
-              <div className={cx(l.bgs)}><h3>4</h3></div>
+              <div className={cx(l.bgs, l.lun3)}><h3>3</h3></div>
+              <div className={cx(l.bgs, l.lun1)}><h3>1</h3></div>
+              <div className={cx(l.bgs, l.lun2)}><h3>2</h3></div>
+              {/* <div className={cx(l.bgs)}><h3>4</h3></div> */}
             </Carousel>
             <Row className={cx(l.hotBox)}>
               <Col span={12} className={cx(l.l_hot)}>热门作者</Col>

@@ -86,9 +86,9 @@ class Upload extends React.Component {
 
   loadFile = (file, urlData, data) => {
     let copyData = deepClone(this.state.imgs)
-    if (copyData.length > 5) {
+    if (copyData.length > 9) {
       notification.info({
-        message: `最多只能上传6张图片！`
+        message: `最多只能上传10张图片！`
       })
     } else {
       copyData.push({...data, urlData, caption: ''})
@@ -171,7 +171,7 @@ class Upload extends React.Component {
 
   changeName = (type, e) => {
     const value = e.target.value
-    const num = type === 'title' ? 20 : 200
+    const num = type === 'title' ? 30 : 300
     if (value.length > num) {
       notification.info({
         message: `文字超出范围！`
@@ -209,11 +209,10 @@ class Upload extends React.Component {
     // }
     let arrs = [covers].concat(imgs)
 
-
     const para = {
       title,
       description,
-      images: arrs.map(item =>  ({url: item.url, caption: item.caption ? item.caption : '' })),
+      images: arrs.map(item => ({url: item.url, caption: item.caption ? item.caption : '' })),
       ideas: draws.map(item => ({url: item.url, caption: item.caption ? item.caption : ''}))
     }
     console.log(para, 'para')
@@ -366,19 +365,19 @@ class Upload extends React.Component {
                 <Col span={1} className={cx(l.label)}>*</Col>
                 <Col span={23} className={cx(l.con)}>
                   <Input value={title} size='large' placeholder='请输入作品名称' onChange={this.changeName.bind(null, 'title')} />
-                  <span className={cx(l.num)}>{title ? title.length : 0}/20</span>
+                  <span className={cx(l.num)}>{title ? title.length : 0}/30</span>
                 </Col>
               </Row>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)} />
                 <Col span={23} className={cx(l.con)}>
                   <TextArea value={description} onChange={this.changeName.bind(null, 'description')} size='large' placeholder='请输入作品说明' rows={4} style={{resize: 'none'}} />
-                  <span className={cx(l.num)}>{description ? description.length : 0}/200</span>
+                  <span className={cx(l.num)}>{description ? description.length : 0}/300</span>
                 </Col>
               </Row>
             </Card>
 
-            <Card title={this.renderTitle('上传作品', '注：不要在图片上放置广告信息，图片暂定不超过6张')} bordered={false} style={{marginBottom: '20px'}}>
+            <Card title={this.renderTitle('上传作品', '注：不要在图片上放置广告信息，图片暂定不超过10张')} bordered={false} style={{marginBottom: '20px'}}>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)}>*</Col>
                 <Col span={23} >

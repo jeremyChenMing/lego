@@ -13,7 +13,8 @@ class Header extends React.Component {
     super(props)
     this.state = {
       nav: [
-        {name: '作品', path: '/main/hot'},
+        {name: '首页', path: '/main/hot'},
+        {name: '作品', path: '/main/view'},
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/us'}
       ],
@@ -23,12 +24,14 @@ class Header extends React.Component {
   componentDidMount () {
     const { location: {pathname} } = this.props
     let num = -1
-    if (pathname.indexOf('main') !== -1) {
+    if (pathname.indexOf('main/hot') !== -1) {
       num = 0
-    } else if (pathname.indexOf('shop') !== -1) {
+    } else if (pathname.indexOf('main/view') !== -1) {
       num = 1
-    } else if (pathname.indexOf('us') !== -1) {
+    } else if (pathname.indexOf('shop') !== -1) {
       num = 2
+    } else if (pathname.indexOf('us') !== -1) {
+      num = 3
     }
     this.setState({
       active: num
@@ -112,13 +115,11 @@ class Header extends React.Component {
         </Menu.Item>
       </Menu>
     )
-    // <Icon onClick={this.upload} className={cx(l.upload)} style={{fontSize: '25px'}} type="cloud-upload-o" />
     return (
       <div className={cx(l.headerBox)}>
-        <Row className={cx(l.header, 'main_container')}>
+        <Row className={cx(l.header, 'main_container')} style={{display: 'none'}}>
           <Col span={4} >
             <a href='#/' className={cx(l.left)}>
-              {/* <img src="/img/brickFUN.png" alt=""/> */}
               <span>brickFUN</span>
               <span>筑乐 <i className={cx(l.dot)}>。</i></span>
             </a>
@@ -149,6 +150,36 @@ class Header extends React.Component {
             }
           </Col>
         </Row>
+
+        <div className={cx(l.newH, 'main_container')}>
+          <a href='#/'>
+            <img className={cx(l.logos)} src='/img/50.png' alt='logo' />
+          </a>
+          <span style={{color: '#000'}}>&nbsp;我造生活，也造梦想</span>
+          <div className={cx(l.nav)}>
+            {
+              nav.map((item, index) => {
+                return <a onClick={this.linkPath.bind(null, item)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</a>
+              })
+            }
+          </div>
+          <div className={l.avartBox}>
+            <a onClick={this.uploadLink} className={cx('myself-icon', l.ups)}>&#xe61e;</a>
+            {
+              example.id
+              ? <div className={cx(l.secDiv)}>
+                <Dropdown overlay={menu} trigger={['hover']}>
+                  <Avatar src={example.avatar ? `${HOST}${example.avatar}` : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} />
+                </Dropdown>
+              </div>
+              : <div className={cx(l.spans)}>
+                <a href='#/login'>登录</a>
+                <span className='ant-divider' style={{backgroundColor: '#000'}} />
+                <a href={`#/login?type=register`}>注册</a>
+              </div>
+            }
+          </div>
+        </div>
       </div>
 
     )

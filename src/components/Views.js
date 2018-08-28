@@ -22,9 +22,9 @@ class Views extends React.Component {
     super(props)
     this.state = {
       nav: [
-        {name: '热度排序'},
-        {name: '时间排序'},
-        {name: '智能排序'}
+        {name: '热门'},
+        {name: '最新'},
+        {name: '综合'}
       ],
       active: 0,
       total: 0,
@@ -67,7 +67,7 @@ class Views extends React.Component {
           // old: result.results,
           produce: result.results,
           ids
-        },this.getMes)
+        }, this.getMes)
       } else {
 
       }
@@ -94,7 +94,6 @@ class Views extends React.Component {
       order: type
     }, this.getList)
   }
-  
 
   changePage = (page, pageSize) => {
     this.setState({
@@ -105,7 +104,7 @@ class Views extends React.Component {
   render () {
     const { location } = this.props
     const { nav, active, page, pageSize, total, produce, authMes } = this.state
-    const type = ['hot','time','auto']
+    const type = ['hot', 'time', 'auto']
     return (
       <MainLayout location={location}>
         <div className={cx(l.navs)}>

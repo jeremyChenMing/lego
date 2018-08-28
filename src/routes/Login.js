@@ -52,7 +52,6 @@ class Login extends React.Component {
     })
   }
 
- 
   handleSubmit = (values) => {
     const { dispatch } = this.props
     console.log(values)
@@ -61,22 +60,19 @@ class Login extends React.Component {
       loginUser(values).then(result => {
         if (result && !result.code) {
           getUserToken(values).then(token => {
-            
             this.setState({submitting: false})
             if (token && !token.code) {
               // dispatch({type: 'example/setsMes', payload: {callback: this.back}})
               // dispatch(routerRedux.replace('/main/hot'))
               dispatch(saveUserInfo(token))
-              getProfile().then( data => {
+              getProfile().then(data => {
                 if (data && !data.code) {
                   dispatch(routerRedux.replace('/main/hot'))
                   dispatch({type: 'example/sets', payload: {...data}})
-                }else{
+                } else {
                   reject(new SubmissionError({_error: '123123', password: data.message}))
                 }
               })
-
-
             } else {
               reject(new SubmissionError({_error: '123123', password: token.message}))
             }
@@ -185,18 +181,15 @@ class Login extends React.Component {
       registerUser(values).then(token => {
         this.setState({submitting: false})
         if (token && !token.code) {
-
           dispatch(saveUserInfo(token))
-          getProfile().then( data => {
+          getProfile().then(data => {
             if (data && !data.code) {
               dispatch(routerRedux.replace('/main/hot'))
               dispatch({type: 'example/sets', payload: {...data}})
-            }else{
+            } else {
               reject(new SubmissionError({_error: '123123', password: data.message}))
             }
           })
-
-
         } else {
           reject(new SubmissionError({_error: '123123', password: token.message}))
         }
@@ -208,7 +201,7 @@ class Login extends React.Component {
     const { active, checked, show, submitting } = this.state
     return (
       <div className={cx(l.loginBox)}>
-        <span onClick={this.linkIndex} className={cx(l.logo)}>brickFUN筑乐</span>
+        <img onClick={this.linkIndex} src='/img/W80.1.png' alt='logo' className={cx(l.lo)} />
         <p>登陆筑乐与10万+积木爱好者一起交流设计 分享快乐吧！</p>
         {
           show === 'login'
