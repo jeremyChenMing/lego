@@ -6,7 +6,8 @@
   min-height: 400px;
   .bgs{
     background-color: #fff;
-    height: 332px!important;
+    // height: 332px!important;
+    height: 100%;
     overflow: hidden;
     background-repeat: no-repeat;
     background-size: cover;
@@ -14,10 +15,18 @@
       color: transparent;
       display: block;
       width: 100%;
-      height: 100%;
+      height: 332px;
     }
   }
 }
+
+:global{
+  .lun{
+    .ant-carousel .slick-slide{
+      height: 332px
+    }
+  }
+};
 
 
 .lun1{
