@@ -15,7 +15,9 @@ base="ccr.ccs.tencentyun.com/$(IMG_NS)/brickfun:node"
 
 all: image push
 
-env:
+env: build-env push-env
+
+build-env:
 	@echo building $(base) ...
 	@docker build -t $(base) -f env.Dockerfile .
 
