@@ -106,6 +106,16 @@ class IndexPage extends React.Component {
   componentDidMount () {
     this.users()
   }
+
+  link = () => {
+    // href="#/upload"
+    const { example: {id}, dispatch } = this.props
+    if (id) {
+      dispatch(routerRedux.push('/upload'))
+    } else {
+      dispatch(routerRedux.push('/login'))
+    }
+  }
   render () {
     const { userList } = this.state
     const { location, dispatch } = this.props
@@ -114,7 +124,7 @@ class IndexPage extends React.Component {
         <div className={cx(l.head)}>
           <div className='main_container lun'>
             <Carousel autoplay autoplaySpeed={8000} speed={1000}>
-              <div className={cx(l.bgs, l.lun1)}><a href="#/upload">1</a></div>
+              <div className={cx(l.bgs, l.lun1)}><a onClick={this.link}>1</a></div>
               <div className={cx(l.bgs, l.lun2)}><a>2</a></div>
               <div className={cx(l.bgs, l.lun3)}><a target="blank" href="https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g">3</a></div>
               {/* <div className={cx(l.bgs)}><h3>4</h3></div> */}
@@ -152,4 +162,10 @@ class IndexPage extends React.Component {
   }
 }
 
-export default connect()(IndexPage)
+const mapState = state => {
+  const { example } = state
+  return {
+    example
+  }
+}
+export default connect(mapState)(IndexPage)
