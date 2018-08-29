@@ -43,8 +43,10 @@ class Detail extends React.Component {
       more: false,
       authId: null,
       authMes: {},
+      authors: {},
 
       comments: [],
+      commentsId: {},
       commentsCount: 0,
       limit: 5
     }
@@ -72,9 +74,10 @@ class Detail extends React.Component {
         this.setState({
           detailObj: result,
           authId: result.author_id,
-          authMes: authors[result.author_id] ? authors[result.author_id] : {}
-        }, this.getComments)
-        // this.getComments();
+        }, () => {
+          this.getComments()
+          this.getAuthMes()
+        })
       } else {
         notification.error({
           message: `获取产品详情失败！`
@@ -91,16 +94,20 @@ class Detail extends React.Component {
       const result = await getCommentsList(id, {limit, offset: 0})
       // setTimeout(function () {
       if (result && !result.code) {
-        let arr = []
+        let arr = [];
+        let commentsId = {};
         result.results.map(item => {
           item.show = false
           arr.push(item)
+          commentsId[item.author_id] = 'ids'
         })
         that.setState({
           comments: arr,
           commentsCount: result.count,
-          more: false
+          more: false,
         })
+        //   commentsId
+        // }, this.getCommentIdMes)
       } else {
         that.setState({
           more: false
@@ -111,6 +118,25 @@ class Detail extends React.Component {
       console.log(err)
     }
   }
+  getCommentIdMes = async() => {
+    const { commentsId, authors } = this.state;
+    const copyData = deepClone(authors);
+    const arr = Object.keys(commentsId);
+    try{
+      for(let i = 0; i< arr.length; i++) {
+        const result = await getUsersOfDetail(arr[i]);
+        if (!result.code) {
+          copyData[result.id] = result
+        }
+      }
+      this.setState({
+        authors: copyData
+      })
+    }catch(err) {
+      console.log(err)
+    }
+  }
+
   componentDidMount () {
     const { location } = this.props
     const query = getSearchObj(location)
@@ -194,7 +220,6 @@ class Detail extends React.Component {
     try {
       const result = addFirComments(id, {content: commentsValue})
       if (result && !result.code) {
-        console.log(result, '****')
         this.setState({
           commentsValue: undefined
         }, this.getComments)
@@ -227,7 +252,6 @@ class Detail extends React.Component {
   getSons = async(id) => {
     try {
       const sons = getSonComments(id)
-      console.log(sons, '-----')
     } catch (err) {
       console.log(err)
     }
@@ -241,8 +265,6 @@ class Detail extends React.Component {
   }
   addSons = (k, n) => {
     const { sonsValue, id } = this.state
-    console.log(k, n, sonsValue)
-
     addFirComments(id, {content: sonsValue, ref_id: k.id}).then(data => {
       console.log(data)
       if (data && !data.code) {
@@ -267,8 +289,8 @@ class Detail extends React.Component {
     }, this.getComments)
   }
   render () {
-    const { list, detailObj, comments, star, starClass, vote, authMes, commentsCount, commentsValue, sonsValue, limit, more } = this.state
-    const { location, authors, access_token } = this.props
+    const { list, detailObj, comments, star, starClass, vote, authMes, commentsCount, commentsValue, sonsValue, limit, more, authors } = this.state
+    const { location, access_token } = this.props
     const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     return (
@@ -290,8 +312,8 @@ class Detail extends React.Component {
                       <div style={{width: width}} className={cx(l.cell)} key={index}>
                         <i className={cx(l.dot, l[item.status === '完成' ? 'complate' : ''])}>
                           {
-                              item.status === '完成' ? <Icon type='check' style={{color: '#fff', fontSize: '40px', marginTop: '10px'}} /> : <i>{item.status}</i>
-                            }
+                            item.status === '完成' ? <Icon type='check' style={{color: '#fff', fontSize: '40px', marginTop: '10px'}} /> : <i>{item.status}</i>
+                          }
                         </i>
                         <i className={cx(l.h1)}>{item.name}</i>
                         <i className={cx(l.num)}>{item.num}</i>
@@ -342,7 +364,6 @@ class Detail extends React.Component {
                   <CSSTransition in={vote} timeout={300} classNames='star' onExited={this.onVoteExited}>
                     <Icon type='heart' className={cx(l.red)} />
                   </CSSTransition>
-
                   &nbsp;{detailObj.num_votes}票
                 </div>
                 <div>
@@ -367,16 +388,13 @@ class Detail extends React.Component {
             <ul className={cx(l.commentList)}>
               {
                 comments.map((k, n) => {
-                  // console.log(this.getSons(k.id))
-                  console.log(k.author_id)
-                  console.log(authors[k.author_id])
                   return (
                     <li className={cx(l.list)} key={n}>
                       <div className={cx(l.avarBox)}>
-                        <img src={(authors[k.author_id] && authors[k.author_id].avatar) ? `${HOST}${authors[k.author_id].avatar}` : '/img/touxiang.png'} alt='' />
+                        <img src={(k.author && k.author.avatar) ? `${HOST}${k.author.avatar}` : '/img/touxiang.png'} alt='' />
                       </div>
                       <div className={cx(l.con)}>
-                        <p className={cx(l.name)}>{authors[k.author_id] ? authors[k.author_id].nickname : ' '} <span className={cx(l.time)}>{this.showTime(k)}</span></p>
+                        <p className={cx(l.name)}>{(k.author && k.author.nickname) ? k.author.nickname : ' '} <span className={cx(l.time)}>{this.showTime(k)}</span></p>
                         <p>{k.content}</p>
                         {/* <div className={cx(l.contain)}>
                           {
@@ -434,9 +452,9 @@ class Detail extends React.Component {
 }
 const mapState = state => {
   const { example: { access_token} } = state
-  const { env: {authors} } = state
+  // const { env: {authors} } = state
   return {
-    authors, access_token
+    access_token
   }
 }
 
