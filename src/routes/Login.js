@@ -23,7 +23,7 @@ class Login extends React.Component {
       countTime: 60,
       runCount: false,
       checked: true,
-      show: 'qr',
+      show: 'login',
       submitting: false,
       eye: false
     }
@@ -211,10 +211,10 @@ class Login extends React.Component {
           show === 'login'
           ? <div className={cx(l.login)}>
             {/**/}<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
-              <Icon type="qrcode" className={cx(l.icons)} />
+              <span className={cx(l.icons, 'myself-icon')}>&#xe615;</span>
             </div> 
-            <div className={cx(l.nav)}>
-              {/* ,'短信登录' */
+            <div className={cx(l.nav)} style={{display: 'none'}}>
+              {
                 ['密码登录'].map((item, index) => {
                   return (
                     <span onClick={this.handlNav.bind(null, index)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item}</span>
@@ -222,6 +222,7 @@ class Login extends React.Component {
                 })
               }
             </div>
+            <div className={cx(l.titles)}>账号登录</div>
             {/* 密码登录和短信登录 */}
             
             <div>
@@ -280,7 +281,8 @@ class Login extends React.Component {
             </div>
           : <div className={cx(l.login)}>
             <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
-              <Icon type='rollback' className={cx(l.icons)} />
+              {/*<Icon type='rollback' className={cx(l.icons)} />*/}
+              <span className={cx(l.icons, 'myself-icon')}>&#xe614;</span>
             </div>
 
             <QR />
