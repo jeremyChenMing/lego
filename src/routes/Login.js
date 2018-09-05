@@ -307,57 +307,12 @@ class QR extends React.Component {
   constructor (props) {
     super(props)
   }
-  UrlEncode = (str) => {      
-    var ret="";      
-    var strSpecial="!\"#$%&'()*+,/:;<=>?[]^`{|}~%";      
-    var tt= "";     
-
-    for(var i=0;i<str.length;i++){      
-     var chr = str.charAt(i);      
-      var c=str2asc(chr);      
-      tt += chr+":"+c+"n";      
-      if(parseInt("0x"+c) > 0x7f){      
-        ret+="%"+c.slice(0,2)+"%"+c.slice(-2);      
-      }else{      
-        if(chr==" ")      
-          ret+="+";      
-        else if(strSpecial.indexOf(chr)!=-1)      
-          ret+="%"+c.toString(16);      
-        else      
-          ret+=chr;      
-      }      
-    }      
-    return ret;      
-  } 
-  UrlDecode = (str) =>{      
-    var ret="";      
-    for(var i=0;i<str.length;i++){      
-     var chr = str.charAt(i);      
-      if(chr == "+"){      
-        ret+=" ";      
-      }else if(chr=="%"){      
-       var asc = str.substring(i+1,i+3);      
-       if(parseInt("0x"+asc)>0x7f){      
-        ret+=asc2str(parseInt("0x"+asc+str.substring(i+4,i+6)));      
-        i+=5;      
-       }else{      
-        ret+=asc2str(parseInt("0x"+asc));      
-        i+=2;      
-       }      
-      }else{      
-        ret+= chr;      
-      }      
-    }      
-    return ret;      
-  } 
+  
   componentDidMount () {
     const host = document.location.origin
-    // console.log(host)
     // 也造
 
     // const str = 'https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
-    // https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login
-    // const host = 'https://bricks.upvi.com';
     const name = `https://api.51bricks.com/api/v1/wechat/callback?next=${host}/api/v1/auth/wechat_login`
     this.obj = new WxLogin({
       self_redirect: false,
@@ -372,7 +327,6 @@ class QR extends React.Component {
     })
   }
   // 扫描完也造后返回的url如下
-  // https://bricks.upvi.com/#/main/hot?token=adde10d417acfece30f95cca683e316433a5b8fd
   // state 用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），
   // 建议第三方带上该参数，可设置为简单的随机数加session进行校验
   render () {
