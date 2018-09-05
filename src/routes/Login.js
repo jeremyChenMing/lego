@@ -36,6 +36,8 @@ class Login extends React.Component {
         show: query.type
       })
     }
+    console.log(this.props.location)
+
   }
   componentWillUnmount () {
     if (this.timer) {
@@ -305,17 +307,65 @@ class QR extends React.Component {
   constructor (props) {
     super(props)
   }
-  componentDidMount () {
-    // https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect
+  UrlEncode = (str) => {      
+    var ret="";      
+    var strSpecial="!\"#$%&'()*+,/:;<=>?[]^`{|}~%";      
+    var tt= "";     
 
+    for(var i=0;i<str.length;i++){      
+     var chr = str.charAt(i);      
+      var c=str2asc(chr);      
+      tt += chr+":"+c+"n";      
+      if(parseInt("0x"+c) > 0x7f){      
+        ret+="%"+c.slice(0,2)+"%"+c.slice(-2);      
+      }else{      
+        if(chr==" ")      
+          ret+="+";      
+        else if(strSpecial.indexOf(chr)!=-1)      
+          ret+="%"+c.toString(16);      
+        else      
+          ret+=chr;      
+      }      
+    }      
+    return ret;      
+  } 
+  UrlDecode = (str) =>{      
+    var ret="";      
+    for(var i=0;i<str.length;i++){      
+     var chr = str.charAt(i);      
+      if(chr == "+"){      
+        ret+=" ";      
+      }else if(chr=="%"){      
+       var asc = str.substring(i+1,i+3);      
+       if(parseInt("0x"+asc)>0x7f){      
+        ret+=asc2str(parseInt("0x"+asc+str.substring(i+4,i+6)));      
+        i+=5;      
+       }else{      
+        ret+=asc2str(parseInt("0x"+asc));      
+        i+=2;      
+       }      
+      }else{      
+        ret+= chr;      
+      }      
+    }      
+    return ret;      
+  } 
+  componentDidMount () {
+    const host = document.location.origin
+    // console.log(host)
     // 也造
-    https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect
+
+    // const str = 'https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
+    // https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login
+    // const host = 'https://bricks.upvi.com';
+    const name = `https://api.51bricks.com/api/v1/wechat/callback?next=${host}/api/v1/auth/wechat_login`
     this.obj = new WxLogin({
       self_redirect: false,
       id: 'login_container',
       appid: 'wx3f3312ce0a356c1a',
       scope: 'snsapi_login',
-      redirect_uri: 'https%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login', // http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
+      // redirect_uri: 'https%3a%2f%2fapi.51bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login', // http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
+      redirect_uri: encodeURI(name),
       state: 'STATE',
       style: '',
       href: ''
