@@ -23,7 +23,7 @@ class Login extends React.Component {
       countTime: 60,
       runCount: false,
       checked: true,
-      show: 'login',
+      show: 'qr',
       submitting: false,
       eye: false
     }
@@ -210,7 +210,7 @@ class Login extends React.Component {
         {
           show === 'login'
           ? <div className={cx(l.login)}>
-            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            {/**/}<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <Icon type="qrcode" className={cx(l.icons)} />
             </div> 
             <div className={cx(l.nav)}>
@@ -223,6 +223,7 @@ class Login extends React.Component {
               }
             </div>
             {/* 密码登录和短信登录 */}
+            
             <div>
               <div className={cx(l.login_form)}>
                 <InputField
@@ -250,15 +251,8 @@ class Login extends React.Component {
                   {/* <a>忘记密码</a> | */}<a onClick={this.linkRegister}>注册</a>
                 </Col>
               </Row>
-              {/*
-              <h3>第三方账号登录</h3>
-              <div className={cx(l.log)}>
-                <span className={cx('myself-icon', l.icon)}>&#xe65b;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span className={cx('myself-icon', l.icon)}>&#xe65a;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span className={cx('myself-icon', l.icon)}>&#xe66a;</span>
-              </div>
-            */}
             </div>
+            
           </div>
           : show === 'register'
             ? <div className={cx(l.login)}>
@@ -288,14 +282,7 @@ class Login extends React.Component {
             <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
               <Icon type='rollback' className={cx(l.icons)} />
             </div>
-            {/* <h2>微信二维码登录</h2>
-            <div className={cx(l.qr)}>
-              <div id="login_container" className={cx(l.qrImg)}></div>
-              <p>请使用微信扫描二维码登陆“筑乐”</p>
-            </div>
-            <div className={cx(l.txt)}>
-              <a>密码登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a>注册新的账号</a>
-            </div> */}
+
             <QR />
           </div>
         }
