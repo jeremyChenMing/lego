@@ -3,13 +3,15 @@ import { connect } from 'dva'
 import cx from 'classnames'
 import l from './IndexPage.less'
 import MainLayout from '../components/MainLayout/MainLayout'
-import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect } from 'dva/router'
+import { Router, Route, Switch, BrowserRouter, HashRouter, Redirect, Link } from 'dva/router'
 import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
 import { routerRedux } from 'dva/router'
-import { getUsers, getProfile } from '../services/common'
-import { HOST } from '../utils/common'
+import { getUsers, getProfile, getRefreshToken } from '../services/common'
+import { HOST, getSearchObj } from '../utils/common'
+import { saveUserInfo } from '../actions/example'
+
 import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout
 
@@ -104,11 +106,83 @@ class IndexPage extends React.Component {
     }
   }
   componentDidMount () {
+    const that = this;
     this.users()
+    this.mySwiper = new Swiper(this.refs.lun, {
+      // slidesPerView : 3,
+      // spaceBetween : 20,
+      autoplay: {
+        delay: 5000,
+      },
+      loop: true,
+      pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        // nextEl: '<div>123</div>',
+        prevEl: '.swiper-button-prev',
+      },
+    })
+    this.mySwiper.on('click', function (e) {
+      if (e.target.id) {
+        console.log('点击链接')
+        switch(e.target.id){
+          case '1':
+            that.link()
+          break;
+          case '3':
+            const w = window.open('about:blank');
+            w.location.href = 'https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g';
+          break;
+        }
+      }
+    });
+
+
+
+
+    // 查看微信登录接口
+    const { location, params } = this.props;
+    if (location.search) {
+      this.wxlogin(getSearchObj(location))
+    }
+
   }
 
+  // wxlogin function
+  wxlogin = (params) => {
+    const { dispatch } = this.props;
+    getRefreshToken({refresh_token: params.token}).then( token => {
+      console.log(token, '*****')
+      if (token && !token.code) {
+        dispatch(saveUserInfo(token))
+        getProfile().then(data => {
+          if (data && !data.code) {
+            dispatch(routerRedux.replace('/main/hot'))
+            dispatch({type: 'example/sets', payload: {...data}})
+          } else {
+
+          }
+        })
+
+
+      }else{
+
+      }
+    }).catch(err => {
+      console.log(err)
+    }) 
+  }
+
+  componentWillUnmount() {
+    if (this.mySwiper) {
+      this.mySwiper.destroy()
+    }
+  }
   link = () => {
-    // href="#/upload"
+
     const { example: {id}, dispatch } = this.props
     if (id) {
       dispatch(routerRedux.push('/upload'))
@@ -123,15 +197,33 @@ class IndexPage extends React.Component {
       <MainLayout location={location}>
         <div className={cx(l.head)}>
           <div className='main_container lun'>
-            <Carousel autoplay autoplaySpeed={8000} speed={1000}>
+           {/* <Carousel autoplay autoplaySpeed={8000} speed={1000}>
               <div className={cx(l.bgs, l.lun1)}><a onClick={this.link}>1</a></div>
               <div className={cx(l.bgs, l.lun2)}><a>2</a></div>
               <div className={cx(l.bgs, l.lun3)}><a target="blank" href="https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g">3</a></div>
-              {/* <div className={cx(l.bgs)}><h3>4</h3></div> */}
             </Carousel>
+          */}
+            <div className={cx(l.newSlider)}>
+              <div className="swiper-container" ref="lun">
+
+                <div className="swiper-wrapper">
+                    <div className={cx("swiper-slide", l.lun1)} id='1'></div>
+                    <div className={cx("swiper-slide", l.lun2)} id='2'></div>
+                    <div className={cx("swiper-slide", l.lun3)} id='3'></div>
+                </div>
+                <div className="swiper-pagination"></div>
+                <div className={cx("swiper-button-prev", 'myself-icon', l.prev)}>&#xe636;</div>
+                <div className={cx("swiper-button-next", 'myself-icon', l.next)}>&#xe6dc;</div>
+
+                {/*<div className="swiper-button-prev"></div>
+                <div className="swiper-button-next"></div>
+                <div className={cx("swiper-button-next", l.next)}></div>*/}
+
+            </div>
+            </div>
             <Row className={cx(l.hotBox)}>
               <Col span={12} className={cx(l.l_hot)}>热门作者</Col>
-              <Col span={12} className={cx(l.r_hot)}><a href='#/main/author'>查看总榜</a></Col>
+              <Col span={12} className={cx(l.r_hot)}><Link to='/main/author'>查看总榜</Link></Col>
             </Row>
             <div className={cx(l.gutterBox)}>
               {
@@ -145,15 +237,18 @@ class IndexPage extends React.Component {
               }
             </div>
             <div className={cx(l.tabLink)}>
-              <a href='#/main/hot' className={cx(l[location.pathname === '/main/hot' ? 'ac' : null])}>热门作品</a>
-              <a href='#/main/view' className={cx(l[location.pathname === '/main/total' ? 'ac' : null])}>查看总榜</a>
+              <Link to='/main/hot' className={cx(l[location.pathname === '/main/hot' ? 'ac' : null])}>热门作品</Link>
+              <Link to='/main/view' className={cx(l[location.pathname === '/main/total' ? 'ac' : null])}>查看总榜</Link>
+              {/*<a href='#/' className={cx(l[location.pathname === '/' ? 'ac' : null])}>热门作品</a>
+              <a href='#/main/view' className={cx(l[location.pathname === '/main/total' ? 'ac' : null])}>查看总榜</a>*/}
             </div>
           </div>
         </div>
         <div style={{minHeight: '600px'}}>
           <Switch>
-            <Route path='/main/hot' component={HotWorks} list={['']} />
+            <Route path='/main/hot' component={HotWorks} />
             <Route path='/main/total' component={TotalWorks} />
+           {/* <Route path='/' component={HotWorks} />*/}
           </Switch>
         </div>
 

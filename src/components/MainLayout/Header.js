@@ -37,9 +37,6 @@ class Header extends React.Component {
       active: num
     })
   }
-  upload = () => {
-    document.location.href = `#/upload`
-  }
 
   quiteSys = async() => {
     // 退出登录
@@ -100,10 +97,10 @@ class Header extends React.Component {
           <a>上传作品</a>
         </Menu.Item>
         <Menu.Item key='3'>
-          <a href={`#/person/${example.id}`}>我的作品</a>
+          <Link to={`/person/${example.id}`}>我的作品</Link>
         </Menu.Item>
         <Menu.Item key='4'>
-          <a href={`#/person/${example.id}?type=like`}>喜欢作品</a>
+          <Link to={`/person/${example.id}?type=like`}>喜欢作品</Link>
         </Menu.Item>
         <Menu.Item key='0'>
           <a>个人中心</a>
@@ -118,7 +115,7 @@ class Header extends React.Component {
       <div className={cx(l.headerBox)}>
         <Row className={cx(l.header, 'main_container')} style={{display: 'none'}}>
           <Col span={4} >
-            <a href='#/' className={cx(l.left)}>
+            <a href='/' className={cx(l.left)}>
               <span>brickFUN</span>
               <span>筑乐 <i className={cx(l.dot)}>。</i></span>
             </a>
@@ -151,9 +148,9 @@ class Header extends React.Component {
         </Row>
 
         <div className={cx(l.newH, 'main_container')}>
-          <a href='#/'>
+          <Link to="/">
             <img className={cx(l.logos)} src='/img/50.png' alt='logo' />
-          </a>
+          </Link>
           <span style={{color: '#000'}}>&nbsp;“——造生活，也造梦想”</span>
           <div className={cx(l.nav)}>
             {
@@ -172,9 +169,9 @@ class Header extends React.Component {
                 </Dropdown>
               </div>
               : <div className={cx(l.spans)}>
-                <a href='#/login'>登录</a>
+                <Link to="/login">登录</Link>
                 <span className='ant-divider' style={{backgroundColor: '#000'}} />
-                <a href={`#/login?type=register`}>注册</a>
+                <Link to={`/login?type=register`}>注册</Link>
               </div>
             }
           </div>

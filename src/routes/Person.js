@@ -6,6 +6,8 @@ import MainLayout from '../components/MainLayout/MainLayout'
 import { getUsersOfDetail, getAuthOfProduce } from '../services/common'
 import { HOST, getSearchObj } from '../utils/common'
 import { Model } from '../components/HotWorks'
+import Models from '../components/Model'
+
 import { Pagination } from 'antd'
 const dutArr = (num) => {
   let temp = []
@@ -65,7 +67,7 @@ class PersonProduce extends React.Component {
           {
              produce.map((item, index) => {
                return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                 <Model keys={index + 1} data={item} avatar={info.avatar ? info.avatar : '/img/touxiang.png'} name={info.nickname ? info.nickname : ''} />
+                 <Models keys={index + 1} data={item} avatar={info.avatar ? info.avatar : '/img/touxiang.png'} name={info.nickname ? info.nickname : ''} />
                </div>
              })
           }

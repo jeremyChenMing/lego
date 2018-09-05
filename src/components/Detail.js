@@ -77,6 +77,7 @@ class Detail extends React.Component {
         }, () => {
           this.getComments()
           this.getAuthMes()
+          this.initSwiper()
         })
       } else {
         notification.error({
@@ -137,6 +138,25 @@ class Detail extends React.Component {
     }
   }
 
+
+
+  initSwiper = () => {
+    this.mySwiper = new Swiper(this.refs.lun, {
+      autoplay: {
+        delay: 5000,
+      },
+      loop: true,
+      pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        // nextEl: '<div>123</div>',
+        prevEl: '.swiper-button-prev',
+      },
+    })
+  }
   componentDidMount () {
     const { location } = this.props
     const query = getSearchObj(location)
@@ -326,8 +346,8 @@ class Detail extends React.Component {
           </div>
           <div className={cx(l.headerBox)}>
             <div className={cx(l.left)}>
-              {
-              detailObj.images && detailObj.images.length
+            {
+              detailObj.images && detailObj.images.length && false
               ? <Carousel autoplay dots effect='fade'>
                 {
                   detailObj.images.map((item, index) => {
@@ -335,6 +355,26 @@ class Detail extends React.Component {
                   })
                 }
               </Carousel>
+              : true ? 
+
+              <div className={cx(l.newSlider)}>
+                <div className="swiper-container" ref="lun">
+
+                  <div className="swiper-wrapper">
+                      {
+                        detailObj.images && detailObj.images.map( (item,index) => {
+                          return(<div key={index} className={cx("swiper-slide", l.bgs)} style={this.renderBack(item.url)} id='1'>
+                             <div className={cx(l.mark)}>{item.caption ? item.caption : '暂无注释'}</div>}
+                            </div>)
+                        })
+                      }
+                  </div>
+                  <div className="swiper-pagination"></div>
+
+                  <div className={cx("swiper-button-prev", 'myself-icon', l.prev)}>&#xe636;</div>
+                  <div className={cx("swiper-button-next", 'myself-icon', l.next)}>&#xe6dc;</div>
+                </div>
+              </div>
               : null
             }
             </div>
@@ -359,7 +399,7 @@ class Detail extends React.Component {
                 </div> */}
               </div>
               <div className={cx(l.btm)}>
-                <h1>{detailObj.title ? detailObj.title : ''}</h1>
+                <h1 title={detailObj.title}>{detailObj.title ? detailObj.title : ''}</h1>
                 <div className={cx(l.love)}>
                   <CSSTransition in={vote} timeout={300} classNames='star' onExited={this.onVoteExited}>
                     <Icon type='heart' className={cx(l.red)} />
@@ -443,7 +483,6 @@ class Detail extends React.Component {
                 </a>
               }
             </div>
-
           </div>
         </div>
       </MainLayout>

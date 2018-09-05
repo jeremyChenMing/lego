@@ -1,19 +1,25 @@
 import React from 'react'
 import cx from 'classnames'
 import l from './HotWorks.less'
+import { connect } from 'dva'
+import { Link, routerRedux } from 'dva/router'
 import ScrollReveal from 'scrollreveal'
 import { Pagination, Icon, Avatar } from 'antd'
 import { getProducts, getUsersOfDetail } from '../services/common'
 import { HOST } from '../utils/common'
 import moment from 'moment'
 import _ from 'lodash'
+import Models from '../components/Model'
+
 
 export class Model extends React.Component {
   constructor (props) {
     super(props)
   }
   link = (id, type) => {
-    document.location.href = `#/main/detail?id=${id}`
+    // const { dispatch } = this.props;
+    document.location.href = `/main/detail?id=${id}`
+    // dispatch(routerRedux.push(`#/main/detail?id=${id}`))
   }
 
   componentDidMount () {
@@ -58,6 +64,7 @@ export class Model extends React.Component {
     )
   }
 }
+
 
 const dutArr = (num) => {
   let temp = []
@@ -143,7 +150,7 @@ class HotWorks extends React.Component {
             produce.map((item, index) => {
               const perMes = authMes[item.author_id] ? authMes[item.author_id] : {}
               return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                <Model keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ''} avatar={perMes.avatar ? `${HOST}${perMes.avatar}` : '/img/touxiang.png'} />
+                <Models keys={index + 1} data={item} name={perMes.nickname ? perMes.nickname : ''} avatar={perMes.avatar ? `${HOST}${perMes.avatar}` : '/img/touxiang.png'} />
               </div>
             })
           }

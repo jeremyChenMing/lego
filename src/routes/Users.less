@@ -1,12 +1,21 @@
 
 .historyClass{
-  padding-top: 20px;
+  background-color: #fff;
+
+  .bgs{
+    width: 100%;
+    height: 270px;
+    background: url('../assets/zhong.png') no-repeat center center;
+    background-size: cover;
+    position: relative;
+  }
   .cons{
     background-color: rgba(255, 209, 0, .1);
     // background: radial-gradient(rgba(255, 209, 0, .4),rgba(255, 209, 0, .1));
     // background: linear-gradient(rgba(255, 209, 0, .4),rgba(255, 209, 0, .1));
     min-height: 1000px;
     padding: 40px 40px 80px;
+    display: none;
     .inter{
       margin-bottom: 20px;
     }
@@ -34,3 +43,79 @@
     }
   }
 }
+
+.topBox{
+  width: 100%;
+  height: 300px;
+  background: url('../assets/top.png') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  text-align: center;
+  color: #fff;
+  .shadow{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .3);
+    & > img{
+      width: 167px;
+      margin-top: 60px;
+    }
+    & > h1{
+      font-size: 32px;
+      color: #fff;
+      font-weight: normal;
+    }  
+  }
+  
+}
+.logoTitle{
+  padding-top: 53px;
+  text-align: center;
+  background-color: #fff;
+  padding-bottom: 10px;
+  & > span{
+    padding: 0 10px 10px;
+    font-size: 19px;
+    border-bottom: 2px solid #000;
+    color: #000;
+  }
+}
+
+.content{
+  padding: 40px 0;
+  width: 700px;
+  margin: 0 auto;
+  & > h1{
+    font-size: 26px;
+    color: #000;
+    margin: 0;
+    margin-bottom: 15px;
+  }
+  p{
+    line-height: 28px;
+    font-size: 16px;
+  }
+  ul{
+    li{
+      line-height: 28px;
+      font-size: 16px;
+    }
+  }
+}
+.logoT{
+  margin-top: 20px;
+  text-align: center;
+  background-color: #fff;
+  padding: 45px 0;
+  width: 1200px;
+  margin: 20px auto;
+  & > h1{
+    font-size: 26px;
+    margin: 0;
+  }
+  & > h2{
+    font-size: 22px;
+    margin: 0;
+  }
+}
+

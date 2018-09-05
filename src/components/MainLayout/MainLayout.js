@@ -1,6 +1,7 @@
 
 import React from 'react'
 import Header from './Header'
+import Footer from './Footer'
 import l from './MainLayout.less'
 function MainLayout ({ children, location }) {
   return (
@@ -11,6 +12,7 @@ function MainLayout ({ children, location }) {
           {children}
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

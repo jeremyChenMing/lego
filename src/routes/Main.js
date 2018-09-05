@@ -29,6 +29,7 @@ class Main extends React.Component {
           <Route path='/main/detail' component={Detail} />
           <Route path='/main/view' component={Views} />
           <Route path='/main/author' component={Author} />
+          {/*<Route path='/' component={IndexPage} />*/}
         </Switch>
       </div>
     )

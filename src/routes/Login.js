@@ -54,6 +54,8 @@ class Login extends React.Component {
 
   handleSubmit = (values) => {
     const { dispatch } = this.props
+    const { active } = this.state; // 0 密码登录  1 短信登录
+
     console.log(values)
     this.setState({submitting: true})
     return new Promise((resolve, reject) => {
@@ -70,11 +72,11 @@ class Login extends React.Component {
                   dispatch(routerRedux.replace('/main/hot'))
                   dispatch({type: 'example/sets', payload: {...data}})
                 } else {
-                  reject(new SubmissionError({_error: '123123', password: data.message}))
+                  reject(new SubmissionError({_error: '错误信息', password: data.message}))
                 }
               })
             } else {
-              reject(new SubmissionError({_error: '123123', password: token.message}))
+              reject(new SubmissionError({_error: '错误信息', password: token.message}))
             }
           })
           // document.cookie = `id=Bearer`
@@ -84,7 +86,7 @@ class Login extends React.Component {
           // dispatch(routerRedux.replace('/main/hot'))
         } else {
           this.setState({submitting: false})
-          reject(new SubmissionError({_error: '123123', password: result.message}))
+          reject(new SubmissionError({_error: '错误信息', password: result.message}))
         }
       })
     })
@@ -187,11 +189,11 @@ class Login extends React.Component {
               dispatch(routerRedux.replace('/main/hot'))
               dispatch({type: 'example/sets', payload: {...data}})
             } else {
-              reject(new SubmissionError({_error: '123123', password: data.message}))
+              reject(new SubmissionError({_error: '错误信息', password: data.message}))
             }
           })
         } else {
-          reject(new SubmissionError({_error: '123123', password: token.message}))
+          reject(new SubmissionError({_error: '错误信息', password: token.message}))
         }
       })
     })
@@ -206,9 +208,9 @@ class Login extends React.Component {
         {
           show === 'login'
           ? <div className={cx(l.login)}>
-            {/* <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <Icon type="qrcode" className={cx(l.icons)} />
-            </div> */}
+            </div> 
             <div className={cx(l.nav)}>
               {/* ,'短信登录' */
                 ['密码登录'].map((item, index) => {
@@ -306,17 +308,21 @@ class QR extends React.Component {
   componentDidMount () {
     // https://open.weixin.qq.com/connect/qrconnect?appid=wxbdc5610cc59c1631&redirect_uri=https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do&response_type=code&scope=snsapi_login&state=3d6be0a4035d839573b04816624a415e#wechat_redirect
 
+    // 也造
+    https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect
     this.obj = new WxLogin({
       self_redirect: false,
       id: 'login_container',
-      appid: 'wxbdc5610cc59c1631',
+      appid: 'wx3f3312ce0a356c1a',
       scope: 'snsapi_login',
-      redirect_uri: 'https%3A%2F%2Fpassport.yhd.com%2Fwechat%2Fcallback.do', // http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
-      state: '3d6be0a4035d839573b04816624a415e',
+      redirect_uri: 'https%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login', // http%3a%2f%2fbricks.upvi.com%2f%23%2fmain%2fhot
+      state: 'STATE',
       style: '',
       href: ''
     })
   }
+  // 扫描完也造后返回的url如下
+  // https://bricks.upvi.com/#/main/hot?token=adde10d417acfece30f95cca683e316433a5b8fd
   // state 用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），
   // 建议第三方带上该参数，可设置为简单的随机数加session进行校验
   render () {
