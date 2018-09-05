@@ -151,7 +151,7 @@ class Header extends React.Component {
           <Link to="/">
             <img className={cx(l.logos)} src='/img/50.png' alt='logo' />
           </Link>
-          <span style={{color: '#000'}}>&nbsp;“——造生活，也造梦想”</span>
+          <span style={{color: '#000'}}>&nbsp; —— 造生活，也造梦想</span>
           <div className={cx(l.nav)}>
             {
               nav.map((item, index) => {

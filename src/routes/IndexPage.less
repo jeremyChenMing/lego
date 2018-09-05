@@ -43,15 +43,24 @@
 
 
 .newSlider{
-  min-height: 200px;
-  width: 100%;
+  width: 1200px;
 }
 :global{
   .lun{
     .ant-carousel .slick-slide{
       height: 332px
     }
-
+    .swiper-container {
+      width: 1200px;
+      height: 332px;
+    }
+    .swiper-wrapper{
+      & > div{
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+      }
+    }
 
 
     // 轮播图
@@ -60,17 +69,20 @@
     }
   }
 
-  .swiper-wrapper{
-    & > div{
-      background-repeat: no-repeat;
-      background-size: cover;
-      width: 100%;
-    }
-  }
-  .swiper-container {
-    width: 100%;
-    height: 332px;
-  }
+  // .swiper-wrapper{
+  //   width: 1200px;
+  //   height: 332px;
+  //   & > div{
+  //     background-repeat: no-repeat;
+  //     background-size: cover;
+  //     width: 100%;
+  //     // width: 1200px!important;
+  //   }
+  // }
+  // .swiper-container {
+  //   width: 1200px;
+  //   height: 332px;
+  // }
 
 };
 

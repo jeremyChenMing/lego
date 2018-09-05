@@ -206,7 +206,7 @@ class Login extends React.Component {
     return (
       <div className={cx(l.loginBox)}>
         <img onClick={this.linkIndex} src='/img/W80.1.png' alt='logo' className={cx(l.lo)} />
-        <p>登陆筑乐与10万+积木爱好者一起交流设计 分享快乐吧！</p>
+        <p>有料、有趣的积木玩家，在这里，一起造生活，也造梦想！</p>
         {
           show === 'login'
           ? <div className={cx(l.login)}>
