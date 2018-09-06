@@ -163,13 +163,12 @@ class IndexPage extends React.Component {
             dispatch(routerRedux.replace('/main/hot'))
             dispatch({type: 'example/sets', payload: {...data}})
           } else {
-
+            dispatch(routerRedux.replace('/main/hot'))
           }
         })
 
-
       }else{
-
+        dispatch(routerRedux.replace('/main/hot'))
       }
     }).catch(err => {
       console.log(err)

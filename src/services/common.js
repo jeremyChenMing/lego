@@ -101,3 +101,16 @@ export const getSonComments = (id, query = {}) => {
 export const addSonComments = (id, data, query = {}) => {
   return fetch.patch(`/api/v1/products/comments/${id}`, query, data)
 }
+
+
+// 获取短信
+export const getSMS = (data, query = {}) => {
+  return fetch.post(`/api/v1/auth/sms_send`, query, data)
+}
+// 修改密码
+// 
+export const changePassword = (data, query = {}) => {
+  return fetch.post(`/api/v1/user/password_renew`, query, data)
+}
+
+

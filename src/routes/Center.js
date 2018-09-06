@@ -4,20 +4,44 @@ import cx from 'classnames'
 import l from './Center.less'
 import UploadFile from '../components/MainLayout/UploadFile'
 import MainLayout from '../components/MainLayout/MainLayout'
-import { getProfile, uploaderFile, patchProfile } from '../services/common'
+import { getProfile, uploaderFile, patchProfile, changePassword, outUser } from '../services/common'
 import { routerRedux } from 'dva/router'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { deepClone, dataURLtoFile, dataURLtoBlob, blobToDataURL, timeBase, HOST } from '../utils/common'
-
-import { Input, Radio, Button, Modal, notification, Menu, Card } from 'antd'
+import { clearUserInfo } from '../actions/example'
+import { Input, Radio, Button, Modal, notification, Menu, Card, Form } from 'antd'
 const RadioGroup = Radio.Group
 const { TextArea } = Input
+const FormItem = Form.Item;
 
 const SEX = {
   'M': '男',
   'F': '女'
 }
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 14 },
+  },
+};
+const tailFormItemLayout = {
+  wrapperCol: {
+    xs: {
+      span: 24,
+      offset: 0,
+    },
+    sm: {
+      span: 14,
+      offset: 6,
+    },
+  },
+};
 
 class Center extends React.Component {
   constructor (props) {
@@ -30,7 +54,8 @@ class Center extends React.Component {
       urlData: null,
       headData: null,
       file: null,
-      values: {}
+      values: {},
+      selectedKeys: ['2']
     }
   }
   getInformation = async() => {
@@ -176,9 +201,89 @@ class Center extends React.Component {
     const { dispatch } = this.props
     dispatch(routerRedux.push('/upload'))
   }
+
+
+
+  seleteMenu = (obj) => {
+    console.log(obj)
+    this.setState({
+      selectedKeys: [obj.key]
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+  handleSubmit = (e) => {
+    const that = this;
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+        if (values.again_password !== values.new_password) {
+          console.log('buyiyang')
+          this.props.form.setFields({
+            again_password: {
+              value: values.again,
+              errors: [new Error('两次输入密码不一致')],
+            }
+          })
+        }else{
+          // console.log(values)
+          changePassword({old_password: values.old_password, new_password: values.new_password}).then( data => {
+            if (data && !data.code) {
+              // notification.success({
+              //   message: '修改密码成功！'
+              // })
+              Modal.confirm({
+                title: '修改密码成功！',
+                content: '是否立即重新登录！',
+                okText: '确认',
+                cancelText: '取消',
+                onOk: that.quiteSys,
+                onCancel: () => {}
+              })
+            }else{
+              notification.error({
+                message: data.message
+              })
+            }
+          }).catch(err => {
+            console.log(err)
+          })
+        }
+        
+      }
+    });
+  }
+  confirm = () => {
+    
+  }
+  quiteSys = async() => {
+    // 走推出登录的一套逻辑
+    // 退出登录
+    const { dispatch } = this.props
+    try {
+      const result = await outUser()
+      if (result && !result.code) {
+        dispatch(clearUserInfo())
+        // Storage.clear() `/login?type=register`
+        dispatch(routerRedux.replace('/login?type=login'))
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   render () {
+    const { getFieldDecorator } = this.props.form;
     const { location } = this.props
-    const { show, info, cover, urlData, headData, confirmLoading, values } = this.state
+    const { show, info, cover, urlData, headData, confirmLoading, values, selectedKeys } = this.state
     const renderHead = (data) => {
       return data ? {backgroundImage: `url(${HOST}${data})`} : {backgroundImage: "url('/img/touxiang.png')"}
     }
@@ -208,7 +313,7 @@ class Center extends React.Component {
                 <Button onClick={this.upload} type='primary' style={{color: 'rgba(0,0,0,.65)'}}>上传作品</Button>
               </div>
               <div className={cx(l.bottoms, 'btms')}>
-                <Menu selectedKeys={['2']}>
+                <Menu selectedKeys={selectedKeys} onClick={this.seleteMenu}>
                   <Menu.Item key='0'>
                     <a href={`#/person/${info.id}`}>我的作品</a>
                   </Menu.Item>
@@ -219,11 +324,15 @@ class Center extends React.Component {
                   <Menu.Item key='2'>
                     <a>个人资料</a>
                   </Menu.Item>
+                  <Menu.Item key='3'>
+                    <a>修改密码</a>
+                  </Menu.Item>
                 </Menu>
               </div>
             </div>
             <div className={cx(l.laycon)}>
-              <Card title='个人资料' bordered={false}>
+              { 
+                selectedKeys[0] === '2' && <Card title='个人资料' bordered={false}>
                 <div className={cx(l.head)} style={renderHead(headData)}>
                   <div className={cx(l.btns)}>
                     <UploadFile loadFile={this.loadFile} ajaxBool={false} spin={false} upStyle={{display: 'inline-block', width: '100%'}}>
@@ -254,6 +363,13 @@ class Center extends React.Component {
                       }
                   </div>
                   <div className={l.px}>
+                    手机：
+                    {
+                      show ? `${values.mobile ? values.mobile : ''}`
+                      : <Input disabled onChange={this.changeValue.bind(null, 'mobile')} value={values.mobile ? values.mobile : undefined} placeholder='请输入' style={{width: '80%'}} />
+                    }
+                  </div>
+                  <div className={l.px}>
                     <span>简介：</span>
                     {
                       show ? `${values.intro ? values.intro : ''}`
@@ -265,7 +381,46 @@ class Center extends React.Component {
                     { !show && <Button onClick={this.save} type='primary'>保存</Button>}
                   </div>
                 </div>
-              </Card>
+                </Card>
+              }
+              {
+                selectedKeys[0] === '3' && <Card title="修改密码" bordered={false}>
+                  <div className={cx(l.editPassword)}>
+                    <Form onSubmit={this.handleSubmit}>
+                      <FormItem {...formItemLayout} label="旧密码" >
+                        {getFieldDecorator('old_password', {
+                          rules: [{
+                            required: true, message: '此项必填项！',
+                          }],
+                        })(
+                          <Input />
+                        )}
+                      </FormItem>
+                      <FormItem {...formItemLayout} label="新密码">
+                        {getFieldDecorator('new_password', {
+                          rules: [{
+                            required: true, message: '此项必填项！',
+                          }],
+                        })(
+                          <Input type="password" />
+                        )}
+                      </FormItem>
+                      <FormItem {...formItemLayout} label="再次输入新密码">
+                        {getFieldDecorator('again_password', {
+                          rules: [{
+                            required: true, message: '此项必填项！',
+                          }],
+                        })(
+                          <Input type="password" />
+                        )}
+                      </FormItem>
+                      <FormItem {...tailFormItemLayout}>
+                        <Button type="primary" htmlType="submit">保存</Button>
+                      </FormItem>
+                    </Form>
+                  </div>
+                </Card>
+              }
             </div>
           </div>
 
@@ -275,4 +430,6 @@ class Center extends React.Component {
   }
 }
 
-export default connect()(Center)
+const WrappedHorizontalLoginForm = Form.create()(Center)
+
+export default connect()(WrappedHorizontalLoginForm)

@@ -4,16 +4,26 @@ import l from './Login.less'
 import { connect } from 'dva'
 import InputField from '../components/MainLayout/InputField'
 import { reduxForm, SubmissionError, formValueSelector } from 'redux-form'
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd'
-import { registerUser, loginUser, getUserToken, getProfile } from '../services/common'
+import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
+import { registerUser, loginUser, getUserToken, getProfile, getSMS } from '../services/common'
 import { getSearchObj } from '../utils/common'
 import { saveUserInfo } from '../actions/example'
 import { routerRedux } from 'dva/router'
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
+
+
 const required = (value) => {
   return typeof (value) === 'number' || value ? undefined : '此项是必填项'
 }
+const mobile = (value) => {
+  return value && !/^(17[0-9]|13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(value)
+    ? '请输入正确的手机号码' : undefined
+}
+const number = (value) => {
+  return value && isNaN(Number(value)) ? '必须是一个数字' : undefined
+}
+
 
 class Login extends React.Component {
   constructor (props) {
@@ -25,7 +35,8 @@ class Login extends React.Component {
       checked: true,
       show: 'qr',
       submitting: false,
-      eye: false
+      eye: false,
+      bool: false,
     }
   }
   componentDidMount () {
@@ -94,11 +105,111 @@ class Login extends React.Component {
     })
   }
 
+  
+  renderInput = (active) => {
+    const { runCount, countTime, checked } = this.state
+    const { handleSubmit } = this.props
+    if (active) {
+      return <div className={cx(l.code)}>
+        <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+          placeholder='验证码'
+          name='code'
+          validate={[required]} />
+        <a 
+        // onClick={this.count} 
+        // disabled={runCount}
+        >
+          获取验证码
+          {runCount ? `(${countTime}s)` : null}
+        </a>
+      </div>
+    } else {
+      return <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+        placeholder='密码'
+        name='password'
+        type='password'
+        onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
+        validate={[required]} />
+    }
+  }
+  
+  showEye = (bool) => {
+    this.setState({
+      eye: !bool
+    })
+  }
+
+  changeCheck = (e) => {
+    this.setState({
+      checked: e.target.checked
+    })
+  }
+  changeTab = (type) => {
+    this.props.reset()
+    this.setState({
+      show: type,
+      bool: false
+    })
+  }
+
+  linkIndex = () => {
+    const { dispatch } = this.props
+    dispatch(routerRedux.push('/main/hot'))
+  }
+
+  linkRegister = () => {
+    this.setState({
+      show: 'register'
+    })
+  }
+  register = () => {
+    const { dispatch, submit } = this.props
+    this.setState({
+      bool: true
+    }, () => {
+      // values.login = true
+      console.log(this.props)
+      submit()
+      // this.setState({submitting: true})
+      // return new Promise((resolve, reject) => {
+      //   registerUser(values).then(token => {
+      //     this.setState({submitting: false})
+      //     if (token && !token.code) {
+      //       dispatch(saveUserInfo(token))
+      //       getProfile().then(data => {
+      //         if (data && !data.code) {
+      //           dispatch(routerRedux.replace('/main/hot'))
+      //           dispatch({type: 'example/sets', payload: {...data}})
+      //         } else {
+      //           reject(new SubmissionError({_error: '错误信息', password: data.message}))
+      //         }
+      //       })
+      //     } else {
+      //       reject(new SubmissionError({_error: '错误信息', password: token.message}))
+      //     }
+      //   })
+      // })
+    })
+  }
+  renderRig = () => {
+    const { eye, bool } = this.state
+    return <div className={cx(l.code)}>
+      <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+        placeholder='密码'
+        name='password'
+        type={eye ? 'text' : 'password'}
+        validate={bool ? [required] : []} />
+      <Icon onClick={this.showEye.bind(null, eye)} className={cx(l.iicon, l[eye ? 'the' : null])} type='eye-o' />
+    </div>
+  }
   count = () => {
     this.setState({
       runCount: true
     }, () => {
-      this.timer = setInterval(this.sets, 1000)
+      console.log(this.props)
+      console.log({mobile: this.props.mobile, usage: 0})
+      // this.timer = setInterval(this.sets, 1000)
+      this.sendMSM({mobile: this.props.mobile, usage: 0})
     })
   }
   sets = () => {
@@ -115,94 +226,23 @@ class Login extends React.Component {
       clearInterval(this.timer)
     }
   }
-  renderInput = (active) => {
-    const { runCount, countTime, checked } = this.state
-    const { handleSubmit } = this.props
-    if (active) {
-      return <div className={cx(l.code)}>
-        <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
-          placeholder='验证码'
-          name='code'
-          validate={[required]} />
-        <a onClick={this.count} disabled={runCount}>
-          获取验证码
-          {runCount ? `(${countTime}s)` : null}
-        </a>
-      </div>
-    } else {
-      return <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
-        placeholder='密码'
-        name='password'
-        type='password'
-        onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
-        validate={[required]} />
+  sendMSM = async(data) => {
+    try{
+      const result = await getSMS(data);
+      if (result && !result.code) {
+        this.timer = setInterval(this.sets, 1000)
+      }else{
+        notification.error({
+          message: result.message
+        })
+      }
+    }catch(err) {
+      console.log(err)
     }
-  }
-  renderRig = () => {
-    const { eye } = this.state
-    return <div className={cx(l.code)}>
-      <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
-        placeholder='密码'
-        name='password'
-        type={eye ? 'text' : 'password'}
-        validate={[required]} />
-      <Icon onClick={this.showEye.bind(null, eye)} className={cx(l.iicon, l[eye ? 'the' : null])} type='eye-o' />
-    </div>
-  }
-  showEye = (bool) => {
-    this.setState({
-      eye: !bool
-    })
-  }
-
-  changeCheck = (e) => {
-    this.setState({
-      checked: e.target.checked
-    })
-  }
-  changeTab = (type) => {
-    this.setState({
-      show: type
-    })
-  }
-
-  linkIndex = () => {
-    const { dispatch } = this.props
-    dispatch(routerRedux.push('/main/hot'))
-  }
-
-  linkRegister = () => {
-    this.setState({
-      show: 'register'
-    })
-  }
-  register = (values) => {
-    const { dispatch } = this.props
-    console.log(values)
-    values.login = true
-    this.setState({submitting: true})
-    return new Promise((resolve, reject) => {
-      registerUser(values).then(token => {
-        this.setState({submitting: false})
-        if (token && !token.code) {
-          dispatch(saveUserInfo(token))
-          getProfile().then(data => {
-            if (data && !data.code) {
-              dispatch(routerRedux.replace('/main/hot'))
-              dispatch({type: 'example/sets', payload: {...data}})
-            } else {
-              reject(new SubmissionError({_error: '错误信息', password: data.message}))
-            }
-          })
-        } else {
-          reject(new SubmissionError({_error: '错误信息', password: token.message}))
-        }
-      })
-    })
   }
   render () {
     const { handleSubmit } = this.props
-    const { active, checked, show, submitting } = this.state
+    const { active, checked, show, submitting, runCount, countTime, bool } = this.state
     return (
       <div className={cx(l.loginBox)}>
         <img onClick={this.linkIndex} src='/img/W80.1.png' alt='logo' className={cx(l.lo)} />
@@ -210,7 +250,7 @@ class Login extends React.Component {
         {
           show === 'login'
           ? <div className={cx(l.login)}>
-            {/**/}<div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
+            <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <span className={cx(l.icons, 'myself-icon')}>&#xe615;</span>
             </div> 
             <div className={cx(l.nav)} style={{display: 'none'}}>
@@ -262,13 +302,23 @@ class Login extends React.Component {
               </div>
               <div className={cx(l.login_form)}>
                 <InputField
-                  name='username'
-                  placeholder='用户名'
+                  name='mobile'
+                  placeholder='电话号码'
                   inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
-                  validate={[required]}
+                  validate={[required, mobile]}
                   size='large'
                   // onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
                 />
+                <div className={cx(l.code)}>
+                  <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+                    placeholder='验证码'
+                    name='code'
+                    validate={bool ? [required,number] : [number]} />
+                  <a onClick={handleSubmit(this.count)} disabled={runCount}>
+                    获取验证码
+                    {runCount ? `(${countTime}s)` : null}
+                  </a>
+                </div>
                 {this.renderRig()}
                 <Button
                   type='primary'
@@ -276,7 +326,7 @@ class Login extends React.Component {
                   disabled={submitting}
                   style={{width: '100%', color: '#000', height: '42px', lineHeight: '42px', marginBottom: '10px'}}
                   size='large'
-                  onClick={handleSubmit(this.register)}>注册</Button>
+                  onClick={this.register}>注册</Button>
               </div>
             </div>
           : <div className={cx(l.login)}>
@@ -325,12 +375,48 @@ class QR extends React.Component {
   }
 }
 
+
+
+const submitForm = (values, dispatch) => {
+  
+  values.login = true
+  console.log(values)
+  return new Promise((resolve, reject) => {
+    registerUser(values).then(token => {
+      // this.setState({submitting: false})
+      if (token && !token.code) {
+        dispatch(saveUserInfo(token))
+        getProfile().then(data => {
+          if (data && !data.code) {
+            dispatch(routerRedux.replace('/main/hot'))
+            dispatch({type: 'example/sets', payload: {...data}})
+          } else {
+            reject(new SubmissionError({_error: '错误信息', password: data.message}))
+          }
+        })
+      } else {
+        reject(new SubmissionError({_error: '错误信息', password: token.message}))
+      }
+    })
+  })
+}
+
+const validate = (values, form) => {
+  const errors = {}
+
+  return errors
+}
+
 Login = reduxForm({ // eslint-disable-line
-  form: 'login'
+  form: 'login',
+  onSubmit: submitForm,
+  validate
 })(Login)
+
+
 
 const selector = formValueSelector('login')
 export default connect(state => {
-  const name = selector(state, 'username')
-  return {name}
+  const mobile = selector(state, 'mobile')
+  return {mobile}
 })(Login)
