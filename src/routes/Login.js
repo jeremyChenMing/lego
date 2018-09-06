@@ -23,7 +23,7 @@ class Login extends React.Component {
       countTime: 60,
       runCount: false,
       checked: true,
-      show: 'login',
+      show: 'qr',
       submitting: false,
       eye: false
     }
