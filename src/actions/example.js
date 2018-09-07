@@ -1,4 +1,4 @@
-import { USER } from '../constants/ActionTypes' // eslint-disable-line
+import { USER, ENV } from '../constants/ActionTypes' // eslint-disable-line
 
 // 保存登录信息
 export const saveUserInfo = (values) => {
@@ -12,3 +12,11 @@ export const clearUserInfo = () => {
     type: `${USER.ROOT}/${USER.CLEAR_USERINFO}`
   }
 }
+
+export const changeLoginType = (type) => {
+  return {
+    type: `${ENV.ROOT}/${ENV.CHANGE_LOGIN_TYPE}`,
+    payload: type
+  }
+}
+

@@ -7,6 +7,8 @@ export const USER = {
 }
 
 export const ENV = {
-  ROOT: 'env'
+  ROOT: 'env',
+
+  CHANGE_LOGIN_TYPE: 'CHANGE_LOGIN_TYPE'
 
 }

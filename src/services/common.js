@@ -112,5 +112,9 @@ export const getSMS = (data, query = {}) => {
 export const changePassword = (data, query = {}) => {
   return fetch.post(`/api/v1/user/password_renew`, query, data)
 }
+// 重置密码
+export const resetPassword = (data, query = {}) => {
+  return fetch.post(`/api/v1/user/password_reset`, query, data)
+}
 
 

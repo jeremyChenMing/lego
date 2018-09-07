@@ -4,7 +4,7 @@ import { Menu, Icon, Row, Col, Avatar, Dropdown, message } from 'antd'
 import { Link, routerRedux } from 'dva/router'
 import { outUser } from '../../services/common'
 import { HOST } from '../../utils/common'
-import { clearUserInfo } from '../../actions/example'
+import { clearUserInfo, changeLoginType } from '../../actions/example'
 import cx from 'classnames'
 import l from './Header.less'
 
@@ -78,6 +78,13 @@ class Header extends React.Component {
     } else {
       dispatch(routerRedux.push('/login'))
     }
+  }
+
+
+  log = (type) => {
+    const { dispatch } = this.props
+    dispatch(changeLoginType(type))
+    dispatch(routerRedux.push('/login'))
   }
   render () {
     const { location, example } = this.props
@@ -169,9 +176,9 @@ class Header extends React.Component {
                 </Dropdown>
               </div>
               : <div className={cx(l.spans)}>
-                <Link to="/login">登录</Link>
+                <a onClick={this.log.bind(null, 'eq')}>登录</a>
                 <span className='ant-divider' style={{backgroundColor: '#000'}} />
-                <Link to={`/login?type=register`}>注册</Link>
+                <a onClick={this.log.bind(null, 'register')}>注册</a>
               </div>
             }
           </div>

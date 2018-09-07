@@ -7,6 +7,7 @@ export default {
   namespace: ENV.ROOT,
 
   state: {
+    loginType: 'eq',
     authors: {}
   },
 
@@ -33,6 +34,12 @@ export default {
       return {
         ...state,
         authors: payload
+      }
+    },
+    [ENV.CHANGE_LOGIN_TYPE] (state, { payload }) {
+      return {
+        ...state,
+        loginType: payload
       }
     }
   }

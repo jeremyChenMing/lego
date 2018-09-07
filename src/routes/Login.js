@@ -5,9 +5,9 @@ import { connect } from 'dva'
 import InputField from '../components/MainLayout/InputField'
 import { reduxForm, SubmissionError, formValueSelector } from 'redux-form'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, notification } from 'antd'
-import { registerUser, loginUser, getUserToken, getProfile, getSMS } from '../services/common'
+import { registerUser, loginUser, getUserToken, getProfile, getSMS, resetPassword } from '../services/common'
 import { getSearchObj } from '../utils/common'
-import { saveUserInfo } from '../actions/example'
+import { saveUserInfo, changeLoginType } from '../actions/example'
 import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item;
@@ -32,8 +32,7 @@ class Login extends React.Component {
       active: 0,
       countTime: 60,
       runCount: false,
-      checked: true,
-      show: 'qr',
+      show: 'reset',
       submitting: false,
       eye: false,
       bool: false,
@@ -51,6 +50,8 @@ class Login extends React.Component {
 
   }
   componentWillUnmount () {
+    const { dispatch } = this.props;
+    dispatch(changeLoginType('eq'))
     if (this.timer) {
       clearInterval(this.timer)
     }
@@ -107,7 +108,7 @@ class Login extends React.Component {
 
   
   renderInput = (active) => {
-    const { runCount, countTime, checked } = this.state
+    const { runCount, countTime } = this.state
     const { handleSubmit } = this.props
     if (active) {
       return <div className={cx(l.code)}>
@@ -139,12 +140,10 @@ class Login extends React.Component {
     })
   }
 
-  changeCheck = (e) => {
-    this.setState({
-      checked: e.target.checked
-    })
-  }
+
   changeTab = (type) => {
+    const { dispatch } = this.props;
+    dispatch(changeLoginType(type))
     this.props.reset()
     this.setState({
       show: type,
@@ -158,18 +157,35 @@ class Login extends React.Component {
   }
 
   linkRegister = () => {
+    const { dispatch } = this.props;
+    dispatch(changeLoginType('register'))
     this.setState({
       show: 'register'
     })
   }
-  register = () => {
-    const { dispatch, submit } = this.props
+  linkReset = () => {
+    const { dispatch } = this.props;
+    dispatch(changeLoginType('reset'))
     this.setState({
-      bool: true
+      show: 'reset'
+    })
+  }
+  register = () => {
+    const that = this;
+    const { dispatch, submit, change } = this.props
+    this.setState({
+      bool: true,
+      submitting: true
     }, () => {
-      // values.login = true
-      console.log(this.props)
-      submit()
+
+      dispatch(change('type', 'register'))
+      setTimeout(function () {
+        submit()
+        that.setState({
+          submitting: false
+        })
+      },100)
+      
       // this.setState({submitting: true})
       // return new Promise((resolve, reject) => {
       //   registerUser(values).then(token => {
@@ -191,6 +207,23 @@ class Login extends React.Component {
       // })
     })
   }
+  resetPassword = () => {
+    console.log('重置密码')
+    const that = this;
+    const { dispatch, submit, change, handleSubmit } = this.props
+    this.setState({
+      bool: true,
+      submitting:true
+    }, () => {
+      dispatch(change('type', 'reset'))
+      setTimeout(function () {
+        submit()
+        that.setState({
+          submitting: false
+        })
+      }, 100)
+    })
+  }
   renderRig = () => {
     const { eye, bool } = this.state
     return <div className={cx(l.code)}>
@@ -203,11 +236,10 @@ class Login extends React.Component {
     </div>
   }
   count = () => {
+    const { dispatch, change, mobile } = this.props;
     this.setState({
       runCount: true
     }, () => {
-      console.log(this.props)
-      console.log({mobile: this.props.mobile, usage: 0})
       // this.timer = setInterval(this.sets, 1000)
       this.sendMSM({mobile: this.props.mobile, usage: 0})
     })
@@ -241,14 +273,14 @@ class Login extends React.Component {
     }
   }
   render () {
-    const { handleSubmit } = this.props
-    const { active, checked, show, submitting, runCount, countTime, bool } = this.state
+    const { handleSubmit, loginType } = this.props
+    const { active, show, submitting, runCount, countTime, bool } = this.state
     return (
       <div className={cx(l.loginBox)}>
         <img onClick={this.linkIndex} src='/img/W80.1.png' alt='logo' className={cx(l.lo)} />
         <p>有料、有趣的积木玩家，在这里，一起造生活，也造梦想！</p>
         {
-          show === 'login'
+          loginType === 'login'
           ? <div className={cx(l.login)}>
             <div className={cx(l.qrBox)} onClick={this.changeTab.bind(null, 'qr')}>
               <span className={cx(l.icons, 'myself-icon')}>&#xe615;</span>
@@ -286,20 +318,21 @@ class Login extends React.Component {
               </div>
               <Row>
                 <Col span={12} style={{textAlign: 'left'}}>
-                  {/* <Checkbox onChange={this.changeCheck} checked={checked}> <span style={{color: '#282828'}}>下次自动登录</span></Checkbox> */}
+                  <a onClick={this.linkReset}>重置密码</a>
                 </Col>
                 <Col span={12} style={{textAlign: 'right'}}>
-                  {/* <a>忘记密码</a> | */}<a onClick={this.linkRegister}>注册</a>
+                  <a onClick={this.linkRegister}>注册</a>
                 </Col>
               </Row>
             </div>
             
           </div>
-          : show === 'register'
+          : loginType === 'register'
             ? <div className={cx(l.login)}>
               <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
                 <Icon type='rollback' className={cx(l.icons)} />
               </div>
+              <div className={cx(l.titles)}>注册账户</div>
               <div className={cx(l.login_form)}>
                 <InputField
                   name='mobile'
@@ -329,12 +362,54 @@ class Login extends React.Component {
                   onClick={this.register}>注册</Button>
               </div>
             </div>
-          : <div className={cx(l.login)}>
+          : loginType === 'reset' ?
+          <div className={cx(l.login)}>
+            <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
+              <Icon type='rollback' className={cx(l.icons)} />
+            </div>
+            <div className={cx(l.titles)}>重置密码</div>
+            <div className={cx(l.login_form)}>
+                <InputField
+                  name='mobile'
+                  placeholder='电话号码'
+                  inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
+                  validate={[required, mobile]}
+                  size='large'
+                  // onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
+                />
+                <div className={cx(l.code)}>
+                  <InputField inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}// onKeyUp={this.handleSubmit}
+                    placeholder='验证码'
+                    name='code'
+                    validate={bool ? [required,number] : [number]} />
+                  <a onClick={handleSubmit(this.count)} disabled={runCount}>
+                    获取验证码
+                    {runCount ? `(${countTime}s)` : null}
+                  </a>
+                </div>
+                <InputField
+                  name='password'
+                  placeholder='新密码'
+                  inputStyle={{width: '100%', height: '42px', lineHeight: '42px'}}
+                  validate={bool ? [required] : []}
+                  size='large'
+                  // onPressEnter={handleSubmit(this.handleSubmit.bind(this))}
+                />
+                <Button
+                  type='primary'
+                  loading={submitting}
+                  disabled={submitting}
+                  style={{width: '100%', color: '#000', height: '42px', lineHeight: '42px', marginBottom: '10px'}}
+                  size='large'
+                  onClick={this.resetPassword}>重置</Button>
+              </div>
+          </div>
+          :
+          <div className={cx(l.login)}>
             <div className={cx(l.pcBox)} onClick={this.changeTab.bind(null, 'login')}>
               {/*<Icon type='rollback' className={cx(l.icons)} />*/}
               <span className={cx(l.icons, 'myself-icon')}>&#xe614;</span>
             </div>
-
             <QR />
           </div>
         }
@@ -350,7 +425,6 @@ class QR extends React.Component {
   componentDidMount () {
     const host = document.location.origin
     // 也造
-
     // const str = 'https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
     const name = `https://api.51bricks.com/api/v1/wechat/callback?next=${host}/api/v1/auth/wechat_login`
     this.obj = new WxLogin({
@@ -378,32 +452,45 @@ class QR extends React.Component {
 
 
 const submitForm = (values, dispatch) => {
-  
-  values.login = true
   console.log(values)
-  return new Promise((resolve, reject) => {
-    registerUser(values).then(token => {
-      // this.setState({submitting: false})
-      if (token && !token.code) {
-        dispatch(saveUserInfo(token))
-        getProfile().then(data => {
-          if (data && !data.code) {
-            dispatch(routerRedux.replace('/main/hot'))
-            dispatch({type: 'example/sets', payload: {...data}})
-          } else {
-            reject(new SubmissionError({_error: '错误信息', password: data.message}))
-          }
-        })
-      } else {
-        reject(new SubmissionError({_error: '错误信息', password: token.message}))
-      }
+  if (values.type && values.type === 'reset') {
+    return new Promise((resolve, reject) => {
+      resetPassword(values).then(token => {
+        console.log(token)
+        if (token && !token.code) {
+          notification.success({
+            message: '重置密码成功！'
+          })
+          dispatch(changeLoginType('login'))
+        } else {
+          reject(new SubmissionError({_error: '错误信息', code: token.message}))
+        }
+      })
     })
-  })
+  }else{
+    values.login = true;
+    return new Promise((resolve, reject) => {
+      registerUser(values).then(token => {
+        if (token && !token.code) {
+          dispatch(saveUserInfo(token))
+          getProfile().then(data => {
+            if (data && !data.code) {
+              dispatch(routerRedux.replace('/main/hot'))
+              dispatch({type: 'example/sets', payload: {...data}})
+            } else {
+              reject(new SubmissionError({_error: '错误信息', password: data.message}))
+            }
+          })
+        } else {
+          reject(new SubmissionError({_error: '错误信息', password: token.message}))
+        }
+      })
+    })
+  }
 }
 
 const validate = (values, form) => {
   const errors = {}
-
   return errors
 }
 
@@ -418,5 +505,6 @@ Login = reduxForm({ // eslint-disable-line
 const selector = formValueSelector('login')
 export default connect(state => {
   const mobile = selector(state, 'mobile')
-  return {mobile}
+  const { env: {loginType} } = state;
+  return {mobile, loginType}
 })(Login)
