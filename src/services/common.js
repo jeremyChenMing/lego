@@ -118,3 +118,8 @@ export const resetPassword = (data, query = {}) => {
 }
 
 
+// 我投票的产品
+export const getMyVotesProducts = (query = {}) => {
+  return fetch.get(`/api/v1/user/voted_products`, query)
+}
+
