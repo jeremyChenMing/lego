@@ -170,7 +170,10 @@ class Person extends React.Component {
     }else{
       if (num) {
         this.setState({
-          active: num
+          active: num,
+          produce: [],
+          page: 1,
+          total: 0
         }) 
       }else{
         this.setState({
