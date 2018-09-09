@@ -23,7 +23,7 @@ class Footer extends React.Component {
               <Col span={8}>
                 <div className={cx(l.con)}>
                   <p><span className={cx(l.labels, l.mb)}>联系电话：</span>15710095799</p>
-                  <p><span className={cx(l.labels, l.mb)}>在线客服：</span>15710095799</p>
+                  <p><span className={cx(l.labels, l.mb)}>在线客服：</span>13127500913</p>
                   <p><span className={cx(l.labels)}>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：</span>service@ye-zao.com</p>
                   <div className={cx(l.line, l.rg)}></div>
                 </div>
