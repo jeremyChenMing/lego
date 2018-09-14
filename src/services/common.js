@@ -38,6 +38,11 @@ export const creatProduce = (data) => {
 export const getProductsOfDetail = (id, query = {}) => {
   return fetch.get(`/api/v1/products/${id}`, query)
 }
+// 删除作品
+export const deleteProduce = (id, query = {}) => { // 未完成
+  return fetch.del(`/api/v1/products/${id}`, query)
+}
+
 
 // 。。。。。。。。。？
 // 10、更新产品

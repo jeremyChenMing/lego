@@ -9,13 +9,7 @@ import { Model } from '../components/HotWorks'
 import Models from '../components/Model'
 import _ from 'lodash'
 import { Pagination } from 'antd'
-const dutArr = (num) => {
-  let temp = []
-  for (let n = 0; n < num; n++) {
-    temp.push(n + 1)
-  }
-  return temp
-}
+
 class PersonProduce extends React.Component {
   constructor (props) {
     super(props)
@@ -23,20 +17,23 @@ class PersonProduce extends React.Component {
 
     }
   }
+  static defaultProps = {
+    callback: () => {}
+  }
   componentDidMount () {
   }
   componentWillReceiveProps (nextProps) {
 
   }
   render () {
-    const { info, produce = [], mess } = this.props
+    const { info, produce = [], mess, myself } = this.props
     return (
       <div>
         <div className={cx(l.hots)}>
           {
              produce.map((item, index) => {
                return <div className={cx(l.mark, 'vealcell', l[(index + 1) % 5 !== 0 ? 'mar' : ''])} key={index}>
-                 <Models keys={index + 1} data={item} avatar={mess[item.author_id] ? mess[item.author_id].avatar : '/img/touxiang.png'} name={mess[item.author_id] ? mess[item.author_id].nickname : ''} />
+                 <Models myself={myself} callback={this.props.callback} keys={index + 1} data={item} avatar={mess[item.author_id] ? mess[item.author_id].avatar : '/img/touxiang.png'} name={mess[item.author_id] ? mess[item.author_id].nickname : ''} />
                </div>
              })
           }
@@ -196,9 +193,14 @@ class Person extends React.Component {
     }
     
   }
+
+  refreshData = () => {
+    this.getProducts()
+  }
   render () {
     const { location } = this.props
     const { active, id, mess, produce, myself, page, total, pageSize, ids, authMes } = this.state
+    console.log(myself, active, '是不是自己')
     return (
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
@@ -221,7 +223,7 @@ class Person extends React.Component {
           <span onClick={this.handle.bind(null, 1)} className={cx(l.nav, l.mr, l[active === 1 ? 'active' : ''])}>喜欢作品</span>
         </div>
         <div className={cx(l.tabContent, 'main_container')}>
-          <PersonProduce produce={produce} mess={active ? mess : {[authMes.id ? authMes.id : '-1']: authMes}} info={{avatar: `${HOST}${mess.avatar}`, nickname: mess.nickname}} />
+          <PersonProduce myself={(!active && myself) ? true : false} callback={this.refreshData} produce={produce} mess={active ? mess : {[authMes.id ? authMes.id : '-1']: authMes}} info={{avatar: `${HOST}${mess.avatar}`, nickname: mess.nickname}} />
         </div>
         {
           total &&

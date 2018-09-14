@@ -6,6 +6,7 @@ import MainLayout from './MainLayout/MainLayout'
 import { getUsers, getAuthOfProduce } from '../services/common'
 import { HOST } from '../utils/common'
 import _ from 'lodash'
+
 class Author extends React.Component {
   constructor (props) {
     super(props)
@@ -167,6 +168,7 @@ class Author extends React.Component {
     )
   }
 }
+
 class Cell extends React.Component {
   constructor (props) {
     super(props)
@@ -195,8 +197,11 @@ class Cell extends React.Component {
         <div span={16} className={cx(l.right)}>
           {
             (list.products || []).map((item, index) => {
-              const url = item.images[0] ? {backgroundImage: `url(${HOST}${item.images[0].url})`} : {}
+              // `api/v1/file/thumbnail?size=165x100&origin=${item.images[0].url}`
+              // const url = item.images[0] ? {backgroundImage: `url(${HOST}${item.images[0].url})`} : {}
+              const url = item.images[0] ? {backgroundImage: `url(api/v1/file/thumbnail?size=165x100&origin=${item.images[0].url})`} : {}
               if (index < 4) {
+
                 return (
                   <a href={`#/main/detail?id=${item.id}`} key={index} style={url} className={cx(l.linkImg)} />
                 )

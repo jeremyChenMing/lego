@@ -10,15 +10,6 @@ import _ from 'lodash'
 import { deepClone, HOST } from '../utils/common'
 import Models from '../components/Model'
 
-
-const dutArr = (num) => {
-  let temp = []
-  for (let n = 0; n < num; n++) {
-    temp.push(n + 1)
-  }
-  return temp
-}
-
 class Views extends React.Component {
   constructor (props) {
     super(props)
@@ -93,7 +84,8 @@ class Views extends React.Component {
     const { produce, active } = this.state
     this.setState({
       active: index,
-      order: type
+      order: type,
+      page: 1
     }, this.getList)
   }
 

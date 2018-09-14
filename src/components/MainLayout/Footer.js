@@ -3,6 +3,7 @@ import cx from 'classnames';
 import l from './Footer.less'
 import { Row, Col } from 'antd'
 
+
 class Footer extends React.Component {
   constructor(props) {
     super(props);
@@ -62,6 +63,12 @@ class Footer extends React.Component {
             </div>*/}
           </Col>
         </Row>
+        <div className={cx(l.ghs)}>
+          {/*<img src="/img/ghs.png" alt="tuan"/>
+          <span>&nbsp;&nbsp;京公网安备12312号</span>
+          <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>*/}
+          <span>京ICP备18044792号</span>
+        </div>
       </div>
     );
   }

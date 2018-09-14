@@ -223,7 +223,8 @@ class Detail extends React.Component {
   renderBack = (data) => {
     let temp = {}
     if (data) {
-      temp = {backgroundImage: `url(${HOST}${data})`}
+      // temp = {backgroundImage: `url(${HOST}${data})`}
+      temp = {backgroundImage: `url(api/v1/file/thumbnail?size=500x400&origin=${data})`}
     }
     return temp
   }
@@ -364,7 +365,7 @@ class Detail extends React.Component {
                       {
                         detailObj.images && detailObj.images.map( (item,index) => {
                           return(<div key={index} className={cx("swiper-slide", l.bgs)} style={this.renderBack(item.url)} id='1'>
-                             <div className={cx(l.mark)}>{item.caption ? item.caption : '暂无注释'}</div>}
+                             <div className={cx(l.mark)}>{item.caption ? item.caption : '暂无注释'}</div>
                             </div>)
                         })
                       }
