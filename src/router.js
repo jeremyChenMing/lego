@@ -9,6 +9,7 @@ import Shopping from './routes/Shopping'
 import Users from './routes/Users'
 import Upload from './routes/Upload'
 import Center from './routes/Center'
+import NoMatch from './routes/NoMatch'
 
 function RouterConfig ({ history, app }) {
   // const Main = dynamic({
@@ -51,6 +52,7 @@ function RouterConfig ({ history, app }) {
         <Route path='/us' component={Users} />
         <Route path='/upload' component={Upload} />
         <Route path='/center' component={Center} />
+        <Route component={NoMatch}/>
       </Switch>
     </Router>
   )

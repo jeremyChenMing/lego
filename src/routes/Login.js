@@ -277,7 +277,7 @@ class Login extends React.Component {
     const { active, show, submitting, runCount, countTime, bool } = this.state
     return (
       <div className={cx(l.loginBox)}>
-        <img onClick={this.linkIndex} src='/img/W80.1.png' alt='logo' className={cx(l.lo)} />
+        <img onClick={this.linkIndex} src='/img/W80.1.png' alt='也造官网logo' className={cx(l.lo)} />
         <p>有料、有趣的积木玩家，在这里，一起造生活，也造梦想！</p>
         {
           loginType === 'login'

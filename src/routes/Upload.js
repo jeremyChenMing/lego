@@ -495,7 +495,7 @@ class Upload extends React.Component {
                 <div className={cx(l.imgsBox)}>
                   {
                     covers.urlData
-                    ? <img src={covers.urlData} ref={(img) => this.img = img} alt='' />
+                    ? <img src={covers.urlData} ref={(img) => this.img = img} alt='作品封面图' />
                     : <Spin spinning={spinning} tip='正在上传...' size='large'>
                       <UploadFile loadFile={this.loadCover} start={this.start} end={this.end} ajaxBool={false}>
                         <div className={cx(l.uploadCell)}>

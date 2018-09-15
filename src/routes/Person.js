@@ -205,7 +205,7 @@ class Person extends React.Component {
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
           <div className={cx(l.avartBox)}>
-            <img src={authMes.avatar ? `${authMes.avatar}` : '/img/touxiang.png'} alt='' />
+            <img src={authMes.avatar ? `${authMes.avatar}` : '/img/touxiang.png'} alt='也造头像' />
             <h3 style={{height: '42px'}}>{authMes.nickname}</h3>
             {/* <div className={cx(l.txt)}>
               <div className={cx(l.l_label)} style={{paddingRight: '5px'}}>创作 87</div>

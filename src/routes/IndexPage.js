@@ -43,7 +43,7 @@ class Cell extends React.Component {
       <div className={cx(l.cellBox)} style={renderBack(data)}>
         <div className={cx(l.shadow)} />
         <div onClick={this.link} className={cx(l.cons)}>
-          <img className={cx(l.avart)} src={data.avatar ? `${HOST}${data.avatar}` : '/img/touxiang.png'} alt='头像' />
+          <img className={cx(l.avart)} src={data.avatar ? `${HOST}${data.avatar}` : '/img/touxiang.png'} alt='也造头像' />
           <p>
             <span className={cx(l.name)}>{data.nickname ? data.nickname : ' '} <Icon type='star' /></span>
           </p>
@@ -136,6 +136,10 @@ class IndexPage extends React.Component {
             const w = window.open('about:blank');
             w.location.href = 'https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g';
           break;
+          case '4':
+            const s = window.open('about:blank');
+            s.location.href = 'https://mp.weixin.qq.com/s/0N65ro-bhrjiG4CgcDOSVQ';
+          break;
         }
       }
     });
@@ -206,6 +210,7 @@ class IndexPage extends React.Component {
               <div className="swiper-container" ref="lun">
 
                 <div className="swiper-wrapper">
+                    <div className={cx("swiper-slide", l.lun4)} id='4'></div>
                     <div className={cx("swiper-slide", l.lun1)} id='1'></div>
                     <div className={cx("swiper-slide", l.lun2)} id='2'></div>
                     <div className={cx("swiper-slide", l.lun3)} id='3'></div>

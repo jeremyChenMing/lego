@@ -46,7 +46,7 @@ class Users extends React.Component {
       <MainLayout location={location} >
         <div className={cx(l.topBox)}>
           {/**/}<div className={cx(l.shadow)}>
-            <img src="/img/W80.png" alt="logo"/>
+            <img src="/img/W80.png" alt="背景"/>
             <h1>" 也造 " &nbsp;诞生</h1>
           </div>
           
@@ -59,7 +59,7 @@ class Users extends React.Component {
             <h1>“也造”</h1>
             <p style={{marginBottom: '40px'}}>是一家专注服务于设计师积木原创和消费者互动体验的新型互联网社群科技公司。</p>
             <div className={cx(l.robote)}>
-              <img src="/img/logo.png" alt="robote"/>
+              <img src="/img/logo.png" alt="也造形象LOGO"/>
             </div>
             <h1>不知道从什么时候开始，越来越多的人有了“现代病”。</h1>
             <p>我们的耳朵不再灵敏。</p>
@@ -125,7 +125,7 @@ class Users extends React.Component {
           </div>
         </div>
         <div className={cx(l.logoT)}>
-          <h1>也造 ye.zao</h1>
+          <h1>也造 YE-ZAO</h1>
           <h2>造生活，也造梦想</h2>
         </div>
       </MainLayout>

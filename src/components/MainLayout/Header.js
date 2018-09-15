@@ -84,7 +84,7 @@ class Header extends React.Component {
   log = (type) => {
     const { dispatch } = this.props
     dispatch(changeLoginType(type))
-    dispatch(routerRedux.push('/login'))
+    // dispatch(routerRedux.push('/login'))
   }
   render () {
     const { location, example } = this.props
@@ -162,7 +162,7 @@ class Header extends React.Component {
           <div className={cx(l.nav)}>
             {
               nav.map((item, index) => {
-                return <a onClick={this.linkPath.bind(null, item)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</a>
+                return <a href={`#${item.path}`}  className={cx(l.menuItems, l[ active === index ? 'active' : null])} title={`也造${item.name}`} key={index}>{item.name}</a>
               })
             }
           </div>
@@ -176,9 +176,9 @@ class Header extends React.Component {
                 </Dropdown>
               </div>
               : <div className={cx(l.spans)}>
-                <a onClick={this.log.bind(null, 'eq')}>登录</a>
+                <a href="#/login" onClick={this.log.bind(null, 'eq')}>登录</a>
                 <span className='ant-divider' style={{backgroundColor: '#000'}} />
-                <a onClick={this.log.bind(null, 'register')}>注册</a>
+                <a href="#/login" onClick={this.log.bind(null, 'register')}>注册</a>
               </div>
             }
           </div>

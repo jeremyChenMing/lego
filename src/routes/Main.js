@@ -11,6 +11,7 @@ import { Button, Layout, Carousel, Row, Col, Icon, message } from 'antd'
 const { Content, Footer } = Layout
 
 import IndexPage from './IndexPage'
+import NoMatch from './NoMatch'
 import Detail from '../components/Detail'
 import Views from '../components/Views'
 import Author from '../components/Author'
@@ -29,7 +30,7 @@ class Main extends React.Component {
           <Route path='/main/detail' component={Detail} />
           <Route path='/main/view' component={Views} />
           <Route path='/main/author' component={Author} />
-          {/*<Route path='/' component={IndexPage} />*/}
+          <Route component={NoMatch}/>
         </Switch>
       </div>
     )

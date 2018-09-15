@@ -300,7 +300,7 @@ class Center extends React.Component {
           confirmLoading={confirmLoading}
         >
           <div className={cx(l.cropperBox)}>
-            {urlData && <img src={urlData} ref={(img) => this.img = img} alt='' />}
+            {urlData && <img src={urlData} ref={(img) => this.img = img} alt='也造头像' />}
           </div>
         </Modal>
 
