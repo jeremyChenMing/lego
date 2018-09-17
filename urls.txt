@@ -1,2 +1,7 @@
 https://www.51bricks.com
+https://www.51bricks.com/#/us
 https://www.51bricks.com/#/main/hot
+https://www.51bricks.com/#/main/view
+https://www.51bricks.com/#/main/author
+https://www.51bricks.com/#/person/203
+https://www.51bricks.com/#/main/detail?id=24
