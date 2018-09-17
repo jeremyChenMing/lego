@@ -156,7 +156,7 @@ class Header extends React.Component {
 
         <div className={cx(l.newH, 'main_container')}>
           <Link to="/">
-            <img className={cx(l.logos)} src='/img/50.png' alt='logo' />
+            <img className={cx(l.logos)} src='/img/50.png' alt='也造LOGO' />
           </Link>
           <span style={{color: '#000'}}>&nbsp; —— 造生活，也造梦想</span>
           <div className={cx(l.nav)}>

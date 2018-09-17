@@ -82,6 +82,15 @@ class Model extends React.Component {
     });
     
   }
+  handleAvart = (event) => {
+    const { dispatch } = this.props;
+    event.stopPropagation();
+    console.log('999', this.props.data)
+    console.log(this.props.data.author_id)
+    if (this.props.data && this.props.data.author_id) {
+      dispatch(routerRedux.push('/person/' + this.props.data.author_id))
+    }
+  }
   render () {
     const { data, myself } = this.props
     return (
@@ -100,8 +109,8 @@ class Model extends React.Component {
           </div>
         </div>
         <div className={cx(l.footBox)}>
-          <div className={cx(l.left)}>
-            <Avatar size='small' icon='user' src={this.props.avatar} />
+          <div onClick={this.handleAvart} className={cx(l.left)}>
+            <Avatar  size='small' icon='user' src={this.props.avatar} />
           </div>
           <div className={cx(l.mid)}>{this.props.name}</div>
           <div className={cx(l.right)}>{this.showTime(data)}</div>

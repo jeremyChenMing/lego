@@ -139,13 +139,15 @@ class Person extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    const { match: {params} } = this.props
-    // if (nextProps.match.params && nextProps.match.params.id !== this.props.match.params.id) {
-    //   console.log('wo xuyao gengxin le   -=-=p-=-=-=-')
-    //   this.setState({
-    //     id: nextProps.match.params.id
-    //   }, this.getPersonDetail)
-    // }
+    // const { match: {params} } = this.props
+    if (nextProps.match.params && nextProps.match.params.id !== this.props.match.params.id) {
+      console.log('wo xuyao gengxin le   -=-=p-=-=-=-')
+      this.setState({
+        id: nextProps.match.params.id,
+        active: 0,
+        myself: nextProps.match.params.id == this.props.example.id ? true : false,
+      }, this.getProducts)
+    }
   }
 
   handle = (num) => {
