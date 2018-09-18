@@ -314,6 +314,7 @@ class Detail extends React.Component {
     const { location, access_token } = this.props
     const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
+
     return (
       <MainLayout location={location}>
         <div className={cx('main_container')}>
@@ -382,7 +383,7 @@ class Detail extends React.Component {
             <div className={cx(l.right)}>
               <div className={cx(l.top)}>
                 <div className={cx(l.imgs)}>
-                  <img src={authMes.avatar ? `${HOST}${authMes.avatar}` : '/img/touxiang.png'} alt='' />
+                  <a href={`#/person/${authMes.id}`}><img src={authMes.avatar ? `${HOST}${authMes.avatar}` : '/img/touxiang.png'} alt='头像' /></a>
                 </div>
 
                 <h3>{authMes.nickname ? authMes.nickname : ''} <Icon type='star' /></h3>
