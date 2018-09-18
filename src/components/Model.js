@@ -98,7 +98,7 @@ class Model extends React.Component {
         <div className={cx(l.imgs)} style={this.renderBack(data)} />
         <div className={cx(l.con)}>
           <h4 title={data.title ? data.title : ''}>{data.title ? data.title : ''}</h4>
-          <p title={data.description ? data.description : ''}>{data.description ? data.description : ''}</p>
+          <p style={{height: '18px'}} title={data.description ? data.description : ''}>{data.description === '测试' ? data.description : ''}</p>
           {/* <span><Icon type="eye-o" />&nbsp;1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp; */}
           
