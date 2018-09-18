@@ -97,7 +97,7 @@ class Model extends React.Component {
       <div onClick={this.link.bind(null, data.id, 'hot')} className={cx(l.modelBox)}>
         <div className={cx(l.imgs)} style={this.renderBack(data)} />
         <div className={cx(l.con)}>
-          <h4>{data.title ? data.title : ''}</h4>
+          <h4 title={data.title ? data.title : ''}>{data.title ? data.title : ''}</h4>
           <p title={data.description ? data.description : ''}>{data.description ? data.description : ''}</p>
           {/* <span><Icon type="eye-o" />&nbsp;1555</span>
           &nbsp;&nbsp;&nbsp;&nbsp; */}
