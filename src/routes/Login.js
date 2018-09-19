@@ -275,6 +275,7 @@ class Login extends React.Component {
   render () {
     const { handleSubmit, loginType } = this.props
     const { active, show, submitting, runCount, countTime, bool } = this.state
+    console.log(loginType)
     return (
       <div className={cx(l.loginBox)}>
         <img onClick={this.linkIndex} src='/img/W80.1.png' alt='也造官网logo' className={cx(l.lo)} />
@@ -427,8 +428,14 @@ class QR extends React.Component {
     // 也造
     // const str = 'https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=https%3a%2f%2fapi.bricks.com%2fapi%2fv1%2fwechat%2fcallback%3fnext%3dhttps%3a%2f%2fbricks.upvi.com%2fapi%2fv1%2fauth%2fwechat_login&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect';
     const name = `https://api.51bricks.com/api/v1/wechat/callback?next=${host}/api/v1/auth/wechat_login`
+    const url = `https://open.weixin.qq.com/connect/qrconnect?appid=wx3f3312ce0a356c1a&redirect_uri=${encodeURI(name)}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`
+    // console.log(url, '---')
+    // const w = window.open('about:blank', 'height=100, width=400');
+    // w.location.href = url;
+    // document.location.href = url
+    // window.open(url, "newwindow", "height=500, width=500, top=100, left=100, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no")
     this.obj = new WxLogin({
-      self_redirect: false,
+      // self_redirect: false,
       id: 'login_container',
       appid: 'wx3f3312ce0a356c1a',
       scope: 'snsapi_login',
@@ -438,6 +445,10 @@ class QR extends React.Component {
       style: '',
       href: ''
     })
+    
+  }
+  componentWillReceiveProps(nextProps) {
+    console.log('123123')
   }
   // 扫描完也造后返回的url如下
   // state 用于保持请求和回调的状态，授权请求后原样带回给第三方。该参数可用于防止csrf攻击（跨站请求伪造攻击），

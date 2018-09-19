@@ -75,6 +75,7 @@ class Person extends React.Component {
   getMes = async() => {
     const arr = _.uniq(this.state.ids)
     let mes = {}
+    console.log(arr, '***')
     try {
       for (let i = 0; i < arr.length; i++) {
         const data = await getUsersOfDetail(arr[i])
@@ -202,7 +203,7 @@ class Person extends React.Component {
   render () {
     const { location } = this.props
     const { active, id, mess, produce, myself, page, total, pageSize, ids, authMes } = this.state
-    console.log(myself, active, '是不是自己')
+    // console.log(myself, active, mess, authMes, '是不是自己')
     return (
       <MainLayout location={location}>
         <div className={cx(l.topBox)}>
@@ -215,8 +216,8 @@ class Person extends React.Component {
               <div className={cx(l.r_label)} style={{paddingLeft: '5px'}}>粉丝 88</div>
             </div>
             */}
-            <div>创作 {mess.num_products ? mess.num_products : 0}</div>
-            <div style={{marginTop: '10px'}}>{mess.intro ? mess.intro : ''}</div>
+            <div>创作 {authMes.num_products ? authMes.num_products : 0}</div>
+            <div style={{marginTop: '10px'}}>{authMes.intro ? authMes.intro : ''}</div>
           </div>
         </div>
 
