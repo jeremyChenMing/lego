@@ -61,13 +61,14 @@ class Author extends React.Component {
   sort = () => {
     const { oldData, filType } = this.state
     let temp = []
-    if (filType === 1) {
-      console.log('推荐创客')
-      temp = _.orderBy(oldData, ['num_products'], ['desc'])
-    } else {
-      console.log('关注的人数')
-      temp = _.orderBy(oldData, ['follow'], ['desc'])
-    }
+    // if (filType === 1) {
+    //   console.log('推荐创客')
+    //   temp = _.orderBy(oldData, ['num_products'], ['desc'])
+    // } else {
+    //   console.log('关注的人数')
+    //   temp = _.orderBy(oldData, ['follow'], ['desc'])
+    // }
+    temp = oldData;
     this.setState({
       userList: temp
     }, () => {
