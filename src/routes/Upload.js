@@ -360,7 +360,7 @@ class Upload extends React.Component {
         <Spin tip='正在上传...' size='large' spinning={saveLoading} wrapperClassName='spinClass'>
           <div className={cx('main_container')}>
             <h1 className={cx(l.title)}>上传作品</h1>
-            <Card title={this.renderTitle('作品信息')} bordered={false} style={{marginBottom: '20px'}}>
+            <Card title={this.renderTitle('作品信息')} bordered={false} style={{marginBottom: '20px', borderRadius: '5px', overflow: 'hidden'}}>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)}>*</Col>
                 <Col span={23} className={cx(l.con)}>
@@ -377,7 +377,7 @@ class Upload extends React.Component {
               </Row>
             </Card>
 
-            <Card title={this.renderTitle('上传作品', '注：不要在图片上放置广告信息，图片暂定不超过10张')} bordered={false} style={{marginBottom: '20px'}}>
+            <Card title={this.renderTitle('上传作品', '注：不要在图片上放置广告信息，图片暂定不超过10张')} bordered={false} style={{marginBottom: '20px', borderRadius: '5px', overflow: 'hidden'}}>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)}>*</Col>
                 <Col span={23} >
@@ -411,7 +411,7 @@ class Upload extends React.Component {
               </Row>
             </Card>
 
-            <Card title={this.renderTitle('上传封面', '注：当前剪裁尺寸：800x600，建议尺寸：800x600或以上')} bordered={false} style={{marginBottom: '20px'}}>
+            <Card title={this.renderTitle('上传封面', '注：当前剪裁尺寸：800x600，建议尺寸：800x600或以上')} bordered={false} style={{marginBottom: '20px', borderRadius: '5px', overflow: 'hidden'}}>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)}>*</Col>
                 <Col span={23} >
@@ -427,7 +427,7 @@ class Upload extends React.Component {
                 </Col>
               </Row>
             </Card>
-            <Card title={this.renderTitle('上传图纸', '注：支持格式：.lxf .io')} bordered={false} style={{marginBottom: '20px'}}>
+            <Card title={this.renderTitle('上传图纸', '注：支持格式：.lxf .io')} bordered={false} style={{marginBottom: '20px', borderRadius: '5px', overflow: 'hidden'}}>
               <Row className={cx(l.rows)}>
                 <Col span={1} className={cx(l.label)} />
                 <Col span={23}>

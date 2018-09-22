@@ -135,7 +135,13 @@ class Person extends React.Component {
         myself: params.id == example.id ? true : false,
         active: search && search.type === 'like' ? 1 : 0
       }, () => {
-        this.getProducts()
+        
+        if (search.type === 'like') {
+          this.getVotesProducts()
+          this.getAuthMes()
+        }else{
+          this.getProducts()
+        }
       })
     }
   }

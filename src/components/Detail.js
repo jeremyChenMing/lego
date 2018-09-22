@@ -9,7 +9,8 @@ import { getProductsOfDetail, givePraise, getUsersOfDetail,
 getCommentsList,
 addFirComments, // 添加评论
 addSonComments, // 获取子评论
-getSonComments // add子评论
+getSonComments, // add子评论
+getAuthOfUV,
 } from '../services/common'
 import { getSearchObj, HOST } from '../utils/common'
 import { Icon, Button, Input, notification, Carousel, Modal } from 'antd'
@@ -24,9 +25,9 @@ class Detail extends React.Component {
     super(props)
     this.state = {
       list: [
-        {name: '投票阶段', num: '1000/5000', status: '完成'},
+        {name: '投票阶段', num: '1000/10000', status: '完成'},
         {name: 'mou'},
-        {name: '众筹阶段', num: '1000/5000', status: '80%'},
+        {name: '众筹阶段', num: '1000/30000', status: '0%'},
         {name: 'mou'},
         {name: '生产优化', num: '众筹完成一周内', status: '0%'},
         {name: 'mou'},
@@ -54,7 +55,8 @@ class Detail extends React.Component {
   getAuthMes = async() => {
     const { authId } = this.state
     try {
-      const result = await getUsersOfDetail(authId)
+      // const result = await getUsersOfDetail(authId)
+      const result = await getAuthOfUV(authId)
       if (result && !result.code) {
         this.setState({
           authMes: result
@@ -315,6 +317,7 @@ class Detail extends React.Component {
     const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
 
+    console.log(detailObj.num_votes, '000')
     return (
       <MainLayout location={location}>
         <div className={cx('main_container')}>
@@ -338,7 +341,7 @@ class Detail extends React.Component {
                           }
                         </i>
                         <i className={cx(l.h1)}>{item.name}</i>
-                        <i className={cx(l.num)}>{item.num}</i>
+                        <i className={cx(l.num)}>{index === 0 ? `${detailObj.num_votes ? detailObj.num_votes : 0}/10000` : item.num}</i>
                       </div>
                     )
                   }

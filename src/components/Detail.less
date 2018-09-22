@@ -123,14 +123,14 @@
       padding: 25px;
       background-color: #fff;
       text-align: center;
-      
+      border-radius: @border;
       .imgs{
         height: 56px;
         width: 56px;
         border-radius: 50%;
         margin: 0 auto;
         overflow: hidden;
-        & > img{
+        img{
           height: 100%;
           width: 100%;
         }
@@ -172,6 +172,7 @@
       width: 100%;
       background-color: #fff;
       text-align: center;
+      border-radius: @border;
       & > h1{
         font-size: 25px;
         margin-top: 0;
@@ -221,6 +222,7 @@
   margin-top: 40px;
   background-color: #fff;
   min-height: 800px;
+  border-radius: @border;
   .ttxt{
     padding: 36px 110px 16px;
     border-bottom: 1px solid rgba(230,230,230,1);
@@ -323,7 +325,10 @@
   letter-spacing: 2px;
 }
 
-
+.newSlider{
+  border-radius: @border;
+  overflow: hidden;
+}
 :global{
   .star {
     display: inline-block;

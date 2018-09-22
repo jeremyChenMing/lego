@@ -127,4 +127,7 @@ export const resetPassword = (data, query = {}) => {
 export const getMyVotesProducts = (query = {}) => {
   return fetch.get(`/api/v1/user/voted_products`, query)
 }
-
+// 用户详情，增加UV
+export const getAuthOfUV = (id, query = {}) => {
+  return fetch.get(`/api/v1/users/${id}/profile`, query)
+}

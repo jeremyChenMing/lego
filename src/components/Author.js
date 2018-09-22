@@ -191,7 +191,7 @@ class Cell extends React.Component {
             <p style={{fontSize: '16px', color: '#282828', marginBottom: '5px'}}>创作 {list.num_products ? list.num_products : 0} {/* &nbsp;&nbsp;|&nbsp;&nbsp; 关注 29937 */}</p>
             {/* <p style={{marginBottom: '0px'}}>{list.intro ? list.intro : '暂无'}</p>
              <Button size="large" className={cx(l.btn)} type="primary" style={true ? yes : no}>关注</Button> */}
-            <div style={{height: '32px'}} />
+            <div style={{height: '52px'}} />
           </div>
         </div>
         <div span={16} className={cx(l.right)}>
