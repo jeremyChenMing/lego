@@ -11,61 +11,74 @@
     }
     body{
       height: 100%;
-      background: #ffc;
+      background: rgba(237.15, 249.9, 51, 1);
     }
     .box{
       text-align: center;
       padding-top: 3rem;
     }
-    .logo{
-      width: 40%;
-      margin-bottom: 1rem;
-    }
+
     .text{
       font-size: .5rem;
     }
     h2{
-      font-size: .7rem;
-      margin-bottom: .5rem;
-    }
-
-    .qrcode{
-      padding:200px 0 0 200px !important;
-      margin:-200px 0 0 -200px !important;
-      position: relative;z-index: 100;
-      -webkit-user-select: none;
-    }
-    .pict{
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      height: 100%;
-      width: 100%;
+      font-size: 1rem;
+      margin-bottom: 1rem;
     }
     .shadow{
       position: absolute;
       left: 0;
       top: 0;
-      bottom: 0;
-      right: 0;
-      background-color: rgba(0,0,0,.1);
+      background-color: rgba(0,0,0,.5);
+      height: 0rem;
+      overflow: hidden;
+      transition: height ease-in .3s;
+    }
+    .row{
+      height: 3rem;
+      position: absolute;
+      right: 5px;
+      top: 0px;
     }
     .text{
-      font-size: 1rem;
+      font-size: .5rem;
       color: #fff;
+      padding: 1rem 3rem 0rem 1rem;
+      line-height: 1.2rem;
     }
+
+    .logo{
+      width: 60%;
+      margin-bottom: 1rem;
+    }
+    .robote{
+      height: 8rem;
+      display: block;
+      margin: 2rem auto 1rem;
+    }
+    .btn{
+      border-radius: 5px;
+      color: #fff;
+      text-align: center;
+      font-size: 1rem;
+      padding: .5rem;
+      width: 80%;
+      margin: 6rem auto 0;
+      background-color: #000;
+    }
+    
   </style>
 </head>
 <body>
-  <div class="box" >
-    <!-- <img class="logo" src="/img/50.png" alt="logo">
-    <h2>有料、有趣的积木玩家!</h2>
-    <h2>在这里，一起造生活，也造梦想！</h2> -->
-    <a href="javascript:;" id="down">app下载</a>
+  <div class="shadow" id="shadow">
+    <img class="row" src="/img/row.png" alt="row">
+    <p class="text">请点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装</p>
   </div>
-  <div class="shadow" id="shadow" style="display: none;">
-    <p class="text">请点击右上角，用浏览器打开</p>
+  <div class="box" >
+    <img class="logo" src="/img/50.png" alt="logo">
+    <img class="robote" src="/img/logo.png" alt="robote">
+    <h2>造生活，也造梦想！</h2>
+    <div class="btn" id="down">下载App</div>
   </div>
   <script type="text/javascript">
     // 设置rem
@@ -100,6 +113,10 @@
     console.log(getSearchObj(search))
 
 
+    function showShadow() {
+      oShadow.style.height = '4rem'
+    }
+
 
     /* 判断用户手机为安卓还是iphone */
     function checkPhone() {
@@ -115,7 +132,9 @@
     }
     let envir = checkPhone();
     const wexin = navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 ? true : false;
-
+    if (wexin) {
+      showShadow()
+    }
     /* 点击下载按钮 */
     const config = {
       androidDownloadUrl: 'https://fir.im/krhr',
@@ -157,14 +176,15 @@
 
 
     oBtn.onclick = function () {
-      console.log('123123')
-      downloadApp()
-      // showMask()
+      // downloadApp()
+      showMask()
     }
 
     function showMask() {
-      oShadow.style.display = 'block'
+      alert('请点击右上角按钮，然后在弹出的菜单中，点击在浏览器中打开，即可安装')
     }
+
+    
 
 
 
