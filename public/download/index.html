@@ -53,16 +53,13 @@
     <a href="javascript:;" id="down">app下载</a>
   </div>
   <script type="text/javascript">
-
-    let oHtml = document.getElementsByTagName('html')[0];
+    // 设置rem
+    var oHtml = document.getElementsByTagName('html')[0];
     var oBtn = document.getElementById('down');
-    console.log(oBtn)
-    
-
-
-    let doc_wid = document.getElementsByTagName('body')[0].offsetWidth;
+    var doc_wid = document.getElementsByTagName('body')[0].offsetWidth;
     oHtml.style.fontSize = doc_wid / 375 * 20 + 'px';
 
+    // 获取路由参数
     function getSearchObj(search) {
       const qs = search.length > 0 ? search.substr(1) : '';
       const args = {};
@@ -101,11 +98,7 @@
       }
     }
     let envir = checkPhone();
-    console.log(envir)
-    // alert(envir)
     const wexin = navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 ? true : false;
-    console.log(wexin)
-
 
     /* 点击下载按钮 */
     const config = {
@@ -122,6 +115,7 @@
         if (envir === 'android') {
            // 微信环境
           if (wexin) {
+            alert('android 微信环境')
             self.downloadInWeixin = true
             window.location.hash = 'download'   // 改变hash，便于浏览器打开时直接下载安卓包
             return
@@ -131,6 +125,7 @@
         } else if (envir === 'iOS') {
            // 微信环境
           if (wexin) {
+            alert('iOS 微信环境')
             self.downloadInWeixin = true
             window.location.hash = 'download'    // 改变hash，便于浏览器打开时直接跳转AppStore
             return
@@ -138,7 +133,6 @@
           // 苹果商店链接地址
           window.location.href = config.iosAppstoreUrl
         } else {
-          // this.$alert({text: ['暂不支持，敬请期待~']})
           alert('暂不支持，敬请期待~')
         }
       }
