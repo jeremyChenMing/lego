@@ -43,19 +43,35 @@
       height: 100%;
       width: 100%;
     }
+    .shadow{
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0,0,0,.1);
+    }
+    .text{
+      font-size: 1rem;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
   <div class="box" >
-    <img class="logo" src="/img/50.png" alt="logo">
+    <!-- <img class="logo" src="/img/50.png" alt="logo">
     <h2>有料、有趣的积木玩家!</h2>
-    <h2>在这里，一起造生活，也造梦想！</h2>
+    <h2>在这里，一起造生活，也造梦想！</h2> -->
     <a href="javascript:;" id="down">app下载</a>
+  </div>
+  <div class="shadow" id="shadow" style="display: none;">
+    <p class="text">请点击右上角，用浏览器打开</p>
   </div>
   <script type="text/javascript">
     // 设置rem
     var oHtml = document.getElementsByTagName('html')[0];
     var oBtn = document.getElementById('down');
+    var oShadow = document.getElementById('shadow');
     var doc_wid = document.getElementsByTagName('body')[0].offsetWidth;
     oHtml.style.fontSize = doc_wid / 375 * 20 + 'px';
 
@@ -103,7 +119,7 @@
     /* 点击下载按钮 */
     const config = {
       androidDownloadUrl: 'https://fir.im/krhr',
-      iosAppstoreUrl: 'https://fir.im/krhr'
+      iosAppstoreUrl: 'https://itunes.apple.com/us/app/%E6%98%93%E4%BC%81%E9%A3%9E/id1140779439?mt=8'
     }
     function downloadApp () {
       // 微信环境
@@ -142,9 +158,12 @@
     oBtn.onclick = function () {
       console.log('123123')
       downloadApp()
+      // showMask()
     }
 
-
+    function showMask() {
+      oShadow.style.display = 'block'
+    }
 
 
 
