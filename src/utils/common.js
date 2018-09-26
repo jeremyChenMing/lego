@@ -131,3 +131,67 @@ export const timeBase = (num = 4) => {
   const str = `${+new Date()}`
   return str.substring(str.length - num)
 }
+
+
+
+
+// 兼容图片下载
+//判断浏览器类型 
+
+{/*
+
+<div id="down">
+  <a id="download"></a>
+</div>
+
+*/}
+// var odownload = document.getElementById('download')
+
+function myBrowser(){ 
+  var userAgent = navigator.userAgent; //取得浏览器的userAgent字符串 
+  var isOpera = userAgent.indexOf("Opera") > -1; 
+  if (isOpera) { return "Opera" }; //判断是否Opera浏览器 
+  if (userAgent.indexOf("Firefox") > -1) { return "FF"; } //判断是否Firefox浏览器 
+  if (userAgent.indexOf("Chrome") > -1){ return "Chrome"; } 
+  if (userAgent.indexOf("Safari") > -1) { return "Safari"; } //判断是否Safari浏览器 
+  if (userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1 && !isOpera) { return "IE"; }; //判断是否IE浏览器 
+  if (userAgent.indexOf("Trident") > -1) { return "Edge"; } //判断是否Edge浏览器 
+}
+
+function SaveAs5(imgURL) { 
+  var oPop = window.open(imgURL,"","width=1, height=1, top=5000, left=5000"); 
+  for(; oPop.document.readyState != "complete"; ) { 
+    if (oPop.document.readyState == "complete")break; 
+  } 
+  oPop.document.execCommand("SaveAs"); 
+  oPop.close(); 
+}
+
+export function oDownload(url) {
+  let type = myBrowser();
+  console.log(type)
+  if (type === 'IE' || type === 'Edge') {
+    oA.href = '#';
+    var oImg = document.createElement('img');
+    oImg.src = url;
+    oImg.id = 'downImg';
+    var oDown = document.getElementById('down');
+    oDown.appendChild(oImg);
+    saveAs5(document.getElementById('downImg').src)
+  }else{
+    // 非IE
+    console.log('非IE', odownload)
+    odownload.href = url
+    odownload.download= true
+    odownload.click()
+  }
+
+}
+
+
+
+
+
+
+
+

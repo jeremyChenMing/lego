@@ -12,7 +12,7 @@ addSonComments, // 获取子评论
 getSonComments, // add子评论
 getAuthOfUV,
 } from '../services/common'
-import { getSearchObj, HOST } from '../utils/common'
+import { getSearchObj, HOST, oDownload } from '../utils/common'
 import { Icon, Button, Input, notification, Carousel, Modal } from 'antd'
 import { deepClone } from '../utils/common'
 import { Transition, CSSTransition, TransitionGroup } from 'react-transition-group'
@@ -158,6 +158,16 @@ class Detail extends React.Component {
         prevEl: '.swiper-button-prev',
       },
     })
+
+
+    // this.mySwiper.on('click', function (e) {
+    //   if (e.target.id) {
+    //     // 可以请求下载
+    //     oDownload('https://api.51bricks.com/public/uploads/27/2018-09/cover1137.png')
+    //     oDownload('/img/50.png')
+    //   }
+    // });
+
   }
   componentDidMount () {
     const { location } = this.props
@@ -238,7 +248,6 @@ class Detail extends React.Component {
   }
 
   takeComment = async() => {
-      // 检测是否登录了
     const { commentsValue, id } = this.state
     try {
       const result = addFirComments(id, {content: commentsValue})
@@ -317,7 +326,6 @@ class Detail extends React.Component {
     const color = commentsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
     const colorSon = sonsValue ? 'rgba(0,0,0,1)' : 'rgba(0,0,0,.5)'
 
-    console.log(detailObj.num_votes, '000')
     return (
       <MainLayout location={location}>
         <div className={cx('main_container')}>
@@ -368,7 +376,7 @@ class Detail extends React.Component {
                   <div className="swiper-wrapper">
                       {
                         detailObj.images && detailObj.images.map( (item,index) => {
-                          return(<div key={index} className={cx("swiper-slide", l.bgs)} style={this.renderBack(item.url)} id='1'>
+                          return(<div key={index} className={cx("swiper-slide", l.bgs)} id={item.url} style={this.renderBack(item.url)}>
                              <div className={cx(l.mark)}>{item.caption ? item.caption : '暂无注释'}</div>
                             </div>)
                         })
