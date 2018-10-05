@@ -140,11 +140,11 @@
     let envir = checkPhone();
     const wexin = navigator.userAgent.toLowerCase().indexOf('micromessenger') > -1 ? true : false;
     if (wexin) {
-      showShadow()
+      // showShadow()
     }
     /* 点击下载按钮 */
     const config = {
-      androidDownloadUrl: 'https://fir.im/krhr',
+      androidDownloadUrl: 'http://www.pgyer.com/JTwR',
       iosAppstoreUrl: 'https://itunes.apple.com/cn/app/yezao/id1437345282'
       // iosAppstoreUrl: 'https://itunes.apple.com/us/app/%E6%98%93%E4%BC%81%E9%A3%9E/id1140779439?mt=8'
     }
@@ -158,7 +158,7 @@
         if (envir === 'android') {
            // 微信环境
           if (wexin) {
-            alert('android 微信环境')
+            // alert('android 微信环境')
             self.downloadInWeixin = true
             window.location.hash = 'download'   // 改变hash，便于浏览器打开时直接下载安卓包
             return
@@ -168,7 +168,7 @@
         } else if (envir === 'iOS') {
            // 微信环境
           if (wexin) {
-            alert('iOS 微信环境')
+            // alert('iOS 微信环境')
             self.downloadInWeixin = true
             window.location.hash = 'download'    // 改变hash，便于浏览器打开时直接跳转AppStore
             return
