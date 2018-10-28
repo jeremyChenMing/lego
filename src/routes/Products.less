@@ -1,0 +1,134 @@
+@theme-color: #FFD100;
+
+.navs{
+  background-color: #fff;
+  text-align: center;
+  padding-top: 20px;
+  & > span{
+    display: inline-block;
+    padding: 0 10px;
+    margin-right: 10px;
+  }
+}
+
+.content{
+  padding: 20px 0;
+  li{
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  .cell{
+    display: flex;
+    position: relative;
+    .check{
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      color: @theme-color;
+    }
+    .right{
+      flex: 1;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+
+      .top{
+        display: flex;
+        & > h3{
+          flex: 1;
+          line-height: 40px;
+          font-size: 20px;
+        }
+        .peo{
+          vertical-align: middle;
+        }
+      }
+
+
+      .mid{
+        flex: 1;
+        line-height: 25px;
+        overflow: hidden;
+        padding: 10px 0;
+      }
+      .bottom{
+        color: #bbb;
+        span{
+          margin-right: 40px;
+        }
+        i > {
+          font-style: normal;
+          font-size: 16px;
+          color: #000;
+        }
+      }
+    }
+    .left{
+      width: 240px;
+      background-color: #ccf;
+      height: 200px;
+      background-image: url('../assets/gong.jpg');
+      // background-size: 100% 100%;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center center;
+      border: 1px solid #ebebeb;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+  }
+}
+
+
+
+
+
+
+.menuItems{
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    a{
+      // color: #fff;
+    }
+    
+}
+.menuItems::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 100%;
+  width: 0;
+  height: 2px;
+  border-bottom: 2px solid #000;
+  transition: all ease-in .2s;
+}
+.menuItems:hover::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.menuItems:hover ~ .menuItems::before {
+  left: 0;
+}
+.active::before{
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  transition-delay: 0.1s;
+  border-bottom-color: #000;
+}
+.active{
+  color: #000;
+}
+
+
+
+

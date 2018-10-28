@@ -15,6 +15,8 @@ class Header extends React.Component {
       nav: [
         {name: '首页', path: '/main/hot'},
         {name: '作品', path: '/main/view'},
+        {name: '产品', path: '/product'},
+        {name: '赛事', path: '/spiele'},
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/us'}
       ],
@@ -28,10 +30,14 @@ class Header extends React.Component {
       num = 0
     } else if (pathname.indexOf('main/view') !== -1) {
       num = 1
-    } else if (pathname.indexOf('shop') !== -1) {
+    } else if (pathname.indexOf('product') !== -1) {
       num = 2
-    } else if (pathname.indexOf('us') !== -1) {
+    } else if (pathname.indexOf('spiele') !== -1) {
       num = 3
+    } else if (pathname.indexOf('shop') !== -1) {
+      num = 4
+    } else if (pathname.indexOf('us') !== -1) {
+      num = 5
     }
     this.setState({
       active: num

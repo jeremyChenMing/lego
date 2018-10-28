@@ -5,6 +5,8 @@ import dynamic from 'dva/dynamic'
 import Main from './routes/Main'
 import Login from './routes/Login'
 import Person from './routes/Person'
+import Products from './routes/Products'
+import Spiele from './routes/Spiele'
 import Shopping from './routes/Shopping'
 import Users from './routes/Users'
 import Upload from './routes/Upload'
@@ -52,6 +54,8 @@ function RouterConfig ({ history, app }) {
         <Route path='/us' component={Users} />
         <Route path='/upload' component={Upload} />
         <Route path='/center' component={Center} />
+        <Route path='/product' component={Products} />
+        <Route path='/spiele' component={Spiele} />
         <Route component={NoMatch}/>
       </Switch>
     </Router>
