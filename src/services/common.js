@@ -131,3 +131,11 @@ export const getMyVotesProducts = (query = {}) => {
 export const getAuthOfUV = (id, query = {}) => {
   return fetch.get(`/api/v1/users/${id}/profile`, query)
 }
+
+
+
+
+// 获取首页轮播图
+export const pictures = (query = {}) => {
+  return fetch.get(`/api/v1/carousels`, query)
+}

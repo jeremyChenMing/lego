@@ -8,7 +8,7 @@ import HotWorks from '../components/HotWorks'
 import TotalWorks from '../components/TotalWorks'
 import _ from 'lodash'
 import { routerRedux } from 'dva/router'
-import { getUsers, getProfile, getRefreshToken } from '../services/common'
+import { getUsers, getProfile, getRefreshToken, pictures } from '../services/common'
 import { HOST, getSearchObj } from '../utils/common'
 import { saveUserInfo } from '../actions/example'
 
@@ -105,6 +105,19 @@ class IndexPage extends React.Component {
       console.log(err)
     }
   }
+
+
+  getPictures = async() => {
+    try {
+      const result = await pictures()
+      console.log(result, 'user/pictures')
+      if (result && !result.code) {
+
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
   componentDidMount () {
     const that = this;
     this.users()
@@ -152,7 +165,7 @@ class IndexPage extends React.Component {
     if (location.search) {
       this.wxlogin(getSearchObj(location))
     }
-
+    this.getPictures();
   }
 
   // wxlogin function
