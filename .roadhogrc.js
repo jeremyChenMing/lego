@@ -19,14 +19,16 @@ module.exports = {
   "publicPath": "/",
   "proxy": {
     "/api/": {
+      "target": "https://www.51bricks.com/api/",
       // "target": "http://api.d.51bricks.com/api/",
-      "target": "http://bricks.upvi.com/api/",
+      // "target": "http://bricks.upvi.com/api/",
       "changeOrigin": true,
       "pathRewrite": { "^/api/" : "" }
     },
     "/public/": {
-      // "target": "http://api.d.51bricks.com/api/",
-      "target": "http://bricks.upvi.com/",
+      "target": "https://www.51bricks.com/",
+      // "target": "http://api.d.51bricks.com/",
+      // "target": "http://bricks.upvi.com/",
       "changeOrigin": true,
       // "pathRewrite": { "^/public/" : "" }
     },

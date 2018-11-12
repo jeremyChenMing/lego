@@ -77,7 +77,8 @@ class IndexPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      userList: []
+      userList: [],
+      picturesList: []
     }
   }
 
@@ -112,15 +113,16 @@ class IndexPage extends React.Component {
       const result = await pictures()
       console.log(result, 'user/pictures')
       if (result && !result.code) {
-
+        this.setState({
+          picturesList: result
+        }, this.swiperFun)
       }
     } catch (err) {
       console.log(err)
     }
   }
-  componentDidMount () {
-    const that = this;
-    this.users()
+
+  swiperFun = () => {
     this.mySwiper = new Swiper(this.refs.lun, {
       // slidesPerView : 3,
       // spaceBetween : 20,
@@ -138,24 +140,29 @@ class IndexPage extends React.Component {
         prevEl: '.swiper-button-prev',
       },
     })
-    this.mySwiper.on('click', function (e) {
-      if (e.target.id) {
-        console.log('点击链接')
-        switch(e.target.id){
-          case '1':
-            that.link()
-          break;
-          case '3':
-            const w = window.open('about:blank');
-            w.location.href = 'https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g';
-          break;
-          case '4':
-            const s = window.open('about:blank');
-            s.location.href = 'https://mp.weixin.qq.com/s/0N65ro-bhrjiG4CgcDOSVQ';
-          break;
-        }
-      }
-    });
+    // this.mySwiper.on('click', function (e) {
+    //   if (e.target.id) {
+    //     console.log('点击链接')
+    //     switch(e.target.id){
+    //       case '1':
+    //         that.link()
+    //       break;
+    //       case '3':
+    //         const w = window.open('about:blank');
+    //         w.location.href = 'https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g';
+    //       break;
+    //       case '4':
+    //         const s = window.open('about:blank');
+    //         s.location.href = 'https://mp.weixin.qq.com/s/0N65ro-bhrjiG4CgcDOSVQ';
+    //       break;
+    //     }
+    //   }
+    // });
+  }
+  componentDidMount () {
+    const that = this;
+    this.users();
+    
 
 
 
@@ -206,8 +213,13 @@ class IndexPage extends React.Component {
       dispatch(routerRedux.push('/login'))
     }
   }
+  handleImage = (item) => {
+    console.log(item)
+    const w = window.open('about:blank');
+    w.location.href = item.link;
+  }
   render () {
-    const { userList } = this.state
+    const { userList, picturesList } = this.state
     const { location, dispatch } = this.props
     return (
       <MainLayout location={location}>
@@ -219,24 +231,32 @@ class IndexPage extends React.Component {
               <div className={cx(l.bgs, l.lun3)}><a target="blank" href="https://mp.weixin.qq.com/s/P-CbTANh5IFCWd2soRoN3g">3</a></div>
             </Carousel>
           */}
+          {/*<div className={cx("swiper-slide", l.lun4)} id='4'></div>
+            <div className={cx("swiper-slide", l.lun1)} id='1'></div>
+            <div className={cx("swiper-slide", l.lun2)} id='2'></div>
+            <div className={cx("swiper-slide", l.lun3)} id='3'></div>*/}
             <div className={cx(l.newSlider)}>
-              <div className="swiper-container" ref="lun">
-
-                <div className="swiper-wrapper">
-                    <div className={cx("swiper-slide", l.lun4)} id='4'></div>
-                    <div className={cx("swiper-slide", l.lun1)} id='1'></div>
-                    <div className={cx("swiper-slide", l.lun2)} id='2'></div>
-                    <div className={cx("swiper-slide", l.lun3)} id='3'></div>
+             
+                <div className="swiper-container" ref="lun">
+                  { picturesList.length > 0 ? <div className="swiper-wrapper">
+                      {
+                        picturesList.map( (item, index) => {
+                          return <div key={index} className={cx("swiper-slide")} style={{backgroundImage: `url(${item.image})`}} id={`${index}`}>
+                            
+                            <div onClick={this.handleImage.bind(null, item)} className={cx(l.swiperShadow)}>
+                              <h2>{item.title}</h2>
+                              <p>{item.description}</p>
+                            </div>
+                          </div>
+                        })
+                      }
+                  </div> : null
+                  }
+                  { picturesList.length > 0 ? <div className="swiper-pagination"></div> : null }
+                  { picturesList.length > 0 ? <div className={cx("swiper-button-prev", 'myself-icon', l.prev)}>&#xe636;</div> : null }
+                  { picturesList.length > 0 ? <div className={cx("swiper-button-next", 'myself-icon', l.next)}>&#xe6dc;</div> : null }
                 </div>
-                <div className="swiper-pagination"></div>
-                <div className={cx("swiper-button-prev", 'myself-icon', l.prev)}>&#xe636;</div>
-                <div className={cx("swiper-button-next", 'myself-icon', l.next)}>&#xe6dc;</div>
-
-                {/*<div className="swiper-button-prev"></div>
-                <div className="swiper-button-next"></div>
-                <div className={cx("swiper-button-next", l.next)}></div>*/}
-
-            </div>
+               
             </div>
             <Row className={cx(l.hotBox)}>
               <Col span={12} className={cx(l.l_hot)}>热门作者</Col>
