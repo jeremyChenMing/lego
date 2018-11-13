@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "start": "PORT=7000 roadhog server",
+    "start": "PORT=7050 roadhog server",
     "build": "roadhog build",
     "autofix": "standard --fix",
     "check": "echo 'start checking codes place waiting.....' && standard"
