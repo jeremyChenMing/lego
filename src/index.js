@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import dva from 'dva'
 import createLoading from 'dva-loading'
 import { reducer as formReducer } from 'redux-form'
