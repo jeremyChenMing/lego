@@ -10,6 +10,7 @@
     "install-node": "6.11.1"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.0.0",
     "antd": "^2.13.6",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.9.2",
