@@ -120,40 +120,6 @@ class Header extends React.Component {
     )
     return (
       <div className={cx(l.headerBox)}>
-        <Row className={cx(l.header, 'main_container')} style={{display: 'none'}}>
-          <Col span={4} >
-            <a href='/' className={cx(l.left)}>
-              <span>brickFUN</span>
-              <span>筑乐 <i className={cx(l.dot)}>。</i></span>
-            </a>
-          </Col>
-          <Col span={17} className={cx(l.right)}>
-            {
-              nav.map((item, index) => {
-                return <a onClick={this.linkPath.bind(null, item)} className={cx(l.menuItems, l[ active === index ? 'active' : null])} key={index}>{item.name}</a>
-              })
-            }
-          </Col>
-          <Col span={3} className={cx(l.avatar)}>
-            <div className={cx(l.firDiv)}>
-              <a onClick={this.uploadLink} className={cx('myself-icon')}>&#xe61e;</a>
-            </div>
-            {
-              example.id
-              ? <div className={cx(l.secDiv)}>
-                <Dropdown overlay={menu} trigger={['hover']}>
-                  <Avatar src={example.avatar ? `${HOST}${example.avatar}` : '/img/touxiang.png'} style={{ backgroundColor: '#87d068', cursor: 'pointer' }} />
-                </Dropdown>
-              </div>
-              : <div className={cx(l.spans)}>
-                <a href='#/login'>登录</a>
-                <span className='ant-divider' style={{backgroundColor: '#000'}} />
-                <a href={`#/login?type=register`}>注册</a>
-              </div>
-            }
-          </Col>
-        </Row>
-
         <div className={cx(l.newH, 'main_container')}>
           <Link to="/">
             <img className={cx(l.logos)} src='/img/50.png' alt='也造LOGO' />
