@@ -1,12 +1,6 @@
 @import '../../less/index.less';
 .normal {
   display: flex;
-  display: -webkit-box; /* Chrome 4+, Safari 3.1, iOS Safari 3.2+ */
-  display: -moz-box; /* Firefox 17- */
-  display: -webkit-flex; /* Chrome 21+, Safari 6.1+, iOS Safari 7+, Opera 15/16 */
-  display: -moz-flex; /* Firefox 18+ */
-  display: -ms-flexbox; /* IE 10 */
-  
   flex-direction: column;
   min-height: 100vh;
 }
@@ -14,6 +8,7 @@
 .content {
   flex: 1;
   // height: 100%;
+  min-height: 100%;
   padding-top: 55px;
   background-color: @bg-color;
 }
