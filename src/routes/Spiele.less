@@ -35,6 +35,16 @@
 }
 .bottom{
   padding: 20px 20px 0 20px;
+  position: relative;
+  .time{
+    position: absolute;
+    right: 10px;
+    top: -30px;
+    font-size: 20px;
+    font-weight: bold;
+    z-index: 100;
+    color: #fff;
+  }
   & > p{
     line-height: 25px;
     margin-bottom: 15px;
@@ -63,8 +73,18 @@
     height: 330px;
   }
   .right{
-    padding: 20px;
+    padding: 20px 0;
     text-align: left;
+    position: relative;
+    .time{
+      position: absolute;
+      right: 10px;
+      top: -30px;
+      font-size: 20px;
+      font-weight: bold;
+      z-index: 100;
+      color: #fff;
+    }
     i > {
       font-style: normal;
       font-size: 16px;
@@ -74,13 +94,14 @@
       overflow: hidden;
       text-overflow:ellipsis;
       white-space: nowrap;
-      margin-bottom: 20px;
+      // margin-bottom: 10px;
     }
     & > div{
-      margin-top: 20px;
+      // margin-bottom: 10px;
     }
     .text{
       text-align: left;
+      margin-bottom: 10px;
     }
   }
 }
@@ -207,6 +228,11 @@
   .mar{
     margin-right: 16px;
   }
+}
+.imageBox{
+  height: 300px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 

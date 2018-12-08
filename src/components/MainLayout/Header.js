@@ -15,7 +15,7 @@ class Header extends React.Component {
       nav: [
         {name: '首页', path: '/main/hot'},
         {name: '作品', path: '/main/view'},
-        {name: '产品', path: '/product'},
+        // {name: '产品', path: '/product'},
         {name: '赛事', path: '/spiele'},
         {name: '商城', path: '/shop'},
         {name: '关于我们', path: '/us'}

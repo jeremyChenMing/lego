@@ -139,3 +139,15 @@ export const getAuthOfUV = (id, query = {}) => {
 export const pictures = (query = {}) => {
   return fetch.get(`/api/v1/carousels`, query)
 }
+
+
+// 获取活动赛事
+export const getActives = (query = {}) => {
+  return fetch.get(`/api/v1/activities`, query)
+}
+// 获取活动赛事下的作品
+export const getActivesOfProducts = (id, query = {}) => {
+  return fetch.get(`/api/v1/activities/${id}/products`, query)
+}
+
+
