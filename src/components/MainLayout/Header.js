@@ -30,14 +30,16 @@ class Header extends React.Component {
       num = 0
     } else if (pathname.indexOf('main/view') !== -1) {
       num = 1
-    } else if (pathname.indexOf('product') !== -1) {
+    } 
+    // else if (pathname.indexOf('product') !== -1) {
+    //   num = 2
+    // } 
+    else if (pathname.indexOf('spiele') !== -1) {
       num = 2
-    } else if (pathname.indexOf('spiele') !== -1) {
-      num = 3
     } else if (pathname.indexOf('shop') !== -1) {
-      num = 4
+      num = 3
     } else if (pathname.indexOf('us') !== -1) {
-      num = 5
+      num = 4
     }
     this.setState({
       active: num
